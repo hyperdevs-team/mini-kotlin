@@ -37,7 +37,7 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId "com.minivac.mini"
+        applicationId "com.bq.mini"
         minSdkVersion 21
         targetSdkVersion target_sdk_version
         versionCode 1
