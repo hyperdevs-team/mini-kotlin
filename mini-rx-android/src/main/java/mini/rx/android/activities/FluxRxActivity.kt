@@ -1,4 +1,4 @@
-package mini.rx.android
+package mini.rx.android.activities
 
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
