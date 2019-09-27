@@ -37,6 +37,10 @@ dependencies {
     compileOnly "io.reactivex.rxjava2:rxjava:$rx"
     testCompileOnly "io.reactivex.rxjava2:rxjava:$rx"
 
+    def lifecycle_version = "2.1.0"
+    api "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
