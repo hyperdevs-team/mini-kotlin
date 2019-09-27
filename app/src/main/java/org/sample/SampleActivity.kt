@@ -5,10 +5,7 @@ import com.mini.android.FluxActivity
 import com.minikorp.grove.ConsoleLogTree
 import com.minikorp.grove.Grove
 import kotlinx.android.synthetic.main.home_activity.*
-import mini.Action
-import mini.LoggerInterceptor
-import mini.MiniGen
-import mini.Store
+import mini.*
 
 class SampleActivity : FluxActivity() {
 
@@ -45,4 +42,9 @@ interface ActionInterface {
 class ActionTwo(override val text: String) : ActionInterface
 
 data class DummyState(val text: String = "dummy")
-class DummyStore : Store<DummyState>()
+class DummyStore : Store<DummyState>() {
+    @Reducer
+    fun onActionTwo(action: ActionTwo) {
+        newState = state.copy(text = action.text)
+    }
+}
