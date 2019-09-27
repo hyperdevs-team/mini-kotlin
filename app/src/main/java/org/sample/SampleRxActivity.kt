@@ -1,14 +1,15 @@
 package org.sample
 
 import android.os.Bundle
-import com.mini.android.FluxActivity
 import com.minikorp.grove.ConsoleLogTree
 import com.minikorp.grove.Grove
 import kotlinx.android.synthetic.main.home_activity.*
 import mini.LoggerInterceptor
 import mini.MiniGen
+import mini.rx.android.FluxRxActivity
+import mini.rx.flowable
 
-class SampleActivity : FluxActivity() {
+class SampleRxActivity : FluxRxActivity() {
 
     private val dispatcher = MiniGen.newDispatcher()
     private val dummyStore = DummyStore()
@@ -18,12 +19,14 @@ class SampleActivity : FluxActivity() {
         setContentView(R.layout.home_activity)
 
         val stores = listOf(dummyStore)
-        MiniGen.subscribe(dispatcher, stores).track()
+        MiniGen.subscribe(dispatcher, stores)
         stores.forEach { it.initialize() }
 
-        dummyStore.subscribe {
-            demo_text.text = it.text
-        }
+        dummyStore.flowable()
+            .subscribe {
+                demo_text.text = it.text
+            }
+            .track()
 
         Grove.plant(ConsoleLogTree())
         dispatcher.addInterceptor(LoggerInterceptor(stores, { tag, msg ->
