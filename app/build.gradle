@@ -75,8 +75,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(":mini-android")
-    implementation project(":mini-rx")
-    implementation project(":mini-rx-android")
+    implementation project(':mini-rx2')
+    implementation project(':mini-rx2-android')
 
     kapt project(":mini-processor")
 

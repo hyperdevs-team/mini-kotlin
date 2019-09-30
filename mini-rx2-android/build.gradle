@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    api project(":mini-rx")
+    api project(':mini-rx2')
     api project(":mini-android")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

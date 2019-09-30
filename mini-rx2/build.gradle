@@ -8,8 +8,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     def rx = "2.2.6"
-    compileOnly "io.reactivex.rxjava2:rxjava:$rx"
-    testCompileOnly "io.reactivex.rxjava2:rxjava:$rx"
+    implementation "io.reactivex.rxjava2:rxjava:$rx"
 
     testCompileOnly 'junit:junit:4.12'
     testImplementation "org.amshove.kluent:kluent:1.44"
