@@ -8,5 +8,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     def kodein_version = "6.3.3"
-    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
+    api "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
+    api "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
 }
