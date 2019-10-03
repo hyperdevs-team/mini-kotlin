@@ -5,7 +5,7 @@ import mini.Store
 
 /**
  * Combine multiple store state flowables into a list of type R. If multiple stores
- * change at the same this will emit twice, one for each store.
+ * change at the same time this will emit multiple times, one for each store.
  *
  * ```
  * mergeStates<Task> {
@@ -39,7 +39,7 @@ class StateListMerger<T> {
     ) {
         storeAndMappers.add(store to {
             val list = store.state.mapper()
-            if (list.count() == 0) {
+            if (list.isEmpty()) {
                 listOf(default)
             } else {
                 list
@@ -56,7 +56,7 @@ inline fun <R> mergeStates(hotStart: Boolean = true, crossinline builder: StateM
 }
 
 /**
- * Builder function for [StateMerger].
+ * Builder function for [StatListMerger].
  */
 inline fun <T> mergeListStates(hotStart: Boolean = true, crossinline builder: StateListMerger<T>.() -> Unit): Flowable<List<T>> {
     return StateListMerger<T>().apply { builder() }.flowable(hotStart)

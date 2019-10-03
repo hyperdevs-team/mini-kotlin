@@ -9,9 +9,8 @@ dependencies {
     //for now we compile against them but let user package library
     compileOnly "com.google.android:android:4.1.1.4"
 
-    def coroutines = "1.3.0-RC"
-    compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
-    testCompileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    testCompileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 
     testCompileOnly 'junit:junit:4.12'
     testImplementation "org.amshove.kluent:kluent:1.44"

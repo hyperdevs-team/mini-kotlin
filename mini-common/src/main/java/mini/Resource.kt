@@ -125,7 +125,7 @@ fun <T> Iterable<Resource<T>>.anyLoading(): Boolean {
     return this.any { it.isLoading }
 }
 
-/** Any task empty */
+/** Any resource empty */
 fun <T> Iterable<Resource<T>>.anyEmpty(): Boolean = this.any { it.isEmpty }
 
 fun <T> Iterable<Resource<T>>.onAllSuccessful(fn: () -> Unit): Iterable<Resource<T>> {
