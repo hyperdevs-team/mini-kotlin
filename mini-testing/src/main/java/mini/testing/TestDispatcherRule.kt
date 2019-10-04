@@ -10,7 +10,7 @@ import org.junit.runners.model.Statement
  * intercept all the actions dispatched during a test and block them, getting them not reaching the store.
  */
 class TestDispatcherRule(val dispatcherFn: () -> Dispatcher) : TestRule {
-    val testInterceptor = TestDispatcherInterceptor()
+    private val testInterceptor = TestDispatcherInterceptor()
     val actions: List<Any> get() = testInterceptor.actions
 
     override fun apply(base: Statement, description: Description): Statement {

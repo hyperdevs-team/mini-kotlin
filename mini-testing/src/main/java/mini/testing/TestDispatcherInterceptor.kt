@@ -8,7 +8,7 @@ import java.util.*
 /**
  * [Interceptor] class for testing purposes which mute all the received actions.
  */
-class TestDispatcherInterceptor : Interceptor {
+internal class TestDispatcherInterceptor : Interceptor {
     override fun invoke(action: Any, chain: Chain): Any {
         mutedActions.add(action)
         return TestOnlyAction
@@ -22,4 +22,4 @@ class TestDispatcherInterceptor : Interceptor {
 /**
  * Action for testing purposes.
  */
-object TestOnlyAction : BaseAction()
+internal object TestOnlyAction : BaseAction()
