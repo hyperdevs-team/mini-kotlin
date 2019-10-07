@@ -10,6 +10,7 @@ import java.util.*
  */
 internal class TestDispatcherInterceptor : Interceptor {
     override fun invoke(action: Any, chain: Chain): Any {
+        println("Muted: $action")
         mutedActions.add(action)
         return TestOnlyAction
     }
