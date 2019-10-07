@@ -34,7 +34,6 @@ buildscript {
 androidGitVersion {
     codeFormat "MNNPP"
     baseCode 1
-    tagPattern(/^v[0-9]+.*/) // Tag names should follow the pattern vM.NN.PP
 }
 
 allprojects {
