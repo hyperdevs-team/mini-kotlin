@@ -110,17 +110,42 @@ inline fun <T, R> Resource<T>.map(crossinline transform: (data: T) -> R): Resour
     return Resource(value)
 }
 
-/** All tasks succeeded. */
+/** All resources succeeded. */
 fun <T> Iterable<Resource<T>>.allSuccesful(): Boolean {
     return this.all { it.isSuccess }
 }
 
-/** Any tasks failed. */
+/** Any resources failed. */
 fun <T> Iterable<Resource<T>>.anyFailure(): Boolean {
     return this.any { it.isFailure }
 }
 
-/** Any task is running. */
+/** Any resource is loading. */
 fun <T> Iterable<Resource<T>>.anyLoading(): Boolean {
     return this.any { it.isLoading }
 }
+
+/** Any resource empty */
+fun <T> Iterable<Resource<T>>.anyEmpty(): Boolean = this.any { it.isEmpty }
+
+fun <T> Iterable<Resource<T>>.onAllSuccessful(fn: () -> Unit): Iterable<Resource<T>> {
+    if (this.allSuccesful()) fn()
+    return this
+}
+
+fun <T> Iterable<Resource<T>>.onAnyFailure(fn: () -> Unit): Iterable<Resource<T>> {
+    if (this.anyFailure()) fn()
+    return this
+}
+
+fun <T> Iterable<Resource<T>>.onAnyLoading(fn: () -> Unit): Iterable<Resource<T>> {
+    if (this.anyLoading()) fn()
+    return this
+}
+
+fun <T> Iterable<Resource<T>>.onAnyEmpty(fn: () -> Unit): Iterable<Resource<T>> {
+    if (this.anyEmpty()) fn()
+    return this
+}
+
+fun Iterable<Task>.onAnyIdle(fn: () -> Unit): Iterable<Task> = onAnyEmpty(fn).map { it as Task }

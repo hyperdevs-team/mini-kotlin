@@ -1,13 +1,24 @@
+apply plugin: "com.github.ben-manes.versions"
+apply plugin: 'com.gladed.androidgitversion'
+
 buildscript {
     ext {
         kotlin_version = "1.3.50"
-        mini_version = "4.0.5"
+
+        android_compile_sdk = 29
+        android_target_sdk = 29
+        android_build_tools_version = "29.0.1"
+
+        lifecycle_version = "2.1.0"
+        rx_version = "2.2.6"
+        coroutines_version = "1.3.2"
     }
 
     repositories {
         jcenter()
         mavenCentral()
         google()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
 
     dependencies {
@@ -15,12 +26,28 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.junit.platform:junit-platform-gradle-plugin:1.0.0"
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
+        classpath "com.gladed.androidgitversion:gradle-android-git-version:0.4.10"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
     }
 }
 
+androidGitVersion {
+    codeFormat "MNNPP"
+    baseCode 1
+    tagPattern(/^v[0-9]+.*/) // Tag names should follow the pattern vM.NN.PP
+}
+
 allprojects {
+    ext {
+        mini_version = androidGitVersion.name()
+        android_version_name = androidGitVersion.name()
+        // The Android version is multiplied by a big number so it is placed in the leftmost part
+        // of the version code because we can't add it in androidGitVersion's codeFormat parameter
+        android_version_code = (android_compile_sdk * 100000) + androidGitVersion.code()
+    }
+
     version = mini_version
-    group = "com.mini"
+    group = "com.bq.mini"
 
     repositories {
         jcenter()
