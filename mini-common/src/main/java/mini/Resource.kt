@@ -14,6 +14,8 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
     val isFailure: Boolean get() = value is Failure
     val isLoading: Boolean get() = value is Loading<*>
 
+    val isTerminal: Boolean get() = isSuccess || isFailure
+
     internal class Empty {
         override fun toString(): String = "Empty()"
     }
