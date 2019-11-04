@@ -35,6 +35,7 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
      */
     fun getOrNull(): T? =
         when {
+            isLoading -> (value as Loading<T>).value
             isSuccess -> value as T?
             else -> null
         }
