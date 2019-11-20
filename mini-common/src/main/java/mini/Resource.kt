@@ -87,9 +87,6 @@ class Task(value: Any?) : Resource<Unit>(value) {
 
     override fun toString(): String {
         return when {
-            isSuccess -> "Success"
-            isFailure -> "Failure"
-            isLoading -> "Loading"
             isIdle -> "Idle"
             else -> value.toString()
         }
