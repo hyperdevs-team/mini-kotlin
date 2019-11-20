@@ -54,7 +54,7 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
     }
 
     override fun toString(): String {
-        return value.toString()
+        return if (isSuccess) "Success($value)" else value.toString()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -87,6 +87,7 @@ class Task(value: Any?) : Resource<Unit>(value) {
 
     override fun toString(): String {
         return when {
+            isSuccess -> "Success"
             isIdle -> "Idle"
             else -> value.toString()
         }
