@@ -16,7 +16,7 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
 
     val isTerminal: Boolean get() = isSuccess || isFailure
 
-    internal class Empty {
+    internal object Empty {
         override fun toString(): String = "Empty()"
     }
 
@@ -50,7 +50,7 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
         fun <T> success(value: T): Resource<T> = Resource(value)
         fun <T> failure(exception: Throwable? = null): Resource<T> = Resource(Failure(exception))
         fun <T> loading(value: T? = null): Resource<T> = Resource(Loading(value))
-        fun <T> empty(): Resource<T> = Resource(Empty())
+        fun <T> empty(): Resource<T> = Resource(Empty)
     }
 
     override fun toString(): String {
@@ -80,7 +80,7 @@ class Task(value: Any?) : Resource<Unit>(value) {
 
     companion object {
         fun success(): Task = Task(Unit)
-        fun idle(): Task = Task(Empty())
+        fun idle(): Task = Task(Empty)
         fun loading(): Task = Task(Loading<Unit>())
         fun failure(exception: Throwable? = null): Task = Task(Failure(exception))
     }
