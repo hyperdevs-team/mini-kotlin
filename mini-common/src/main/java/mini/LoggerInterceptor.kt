@@ -38,7 +38,7 @@ class LoggerInterceptor constructor(stores: Collection<Store<*>>,
 
         val logRunnable = Runnable {
             val sb = StringBuilder()
-            sb.append('\n')
+            sb.append(" \n")
             sb.append("┌────────────────────────────────────────────\n")
             sb.append(String.format("├─> %s %dms [+%dms][%d] - %s",
                 action.javaClass.simpleName, processTime, timeSinceLastAction, actionCounter % 10, action))
