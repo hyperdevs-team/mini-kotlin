@@ -62,10 +62,6 @@ data class LoginCompleteAction(val loginTask: Task, val user: User?)
 
 Actions will usually be triggered from Views or Controllers.
 
-### Generated code
-
-🚧WIP🚧
-
 ### View changes
 Each ``Store`` exposes a custom `StoreCallback` though the method `observe` or a `Flowable` if you want to make use of RxJava. Both of them emits changes produced on their states, allowing the view to listen reactive the state changes. Being able to update the UI according to the new `Store` state.
 
