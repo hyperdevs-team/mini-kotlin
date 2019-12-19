@@ -3,12 +3,12 @@
 
 Mini is a minimal Flux architecture written in Kotlin that also adds a mix of useful features to build UIs fast.
 
-### Purpose
+## Purpose
 You should use this library if you aim to develop a reactive application with good performance (no reflection using code-gen).
 Feature development using Mini is fast compared to traditional architectures (like CLEAN or MVP), low boilerplate and state based models make feature integration and bugfixing easy as well as removing several families of problems like concurrency or view consistency across screens.
 
-### How to Use
-## Dispatcher
+## How to Use
+### Dispatcher
 The *Dispatcher* is the  hub that manages all data flow in a Flux application. It is basically a holder of store callbacks:  each store registers itself and provides a callback for an action.
 
 One important thing is that the dispatching is always performed in the same thread to avoid possible side-effects.
@@ -23,7 +23,7 @@ dispatcher.dispatch(LoginAction(username = "user", password = "123"))
 dispatcher.dispatchAsync(LoginAction(username = "user", password = "123"))
 ```
 
-## Store
+### Store
 The *Stores* are holders for application state and state mutation logic. In order to do so they expose pure reducer functions that are later invoked by the dispatcher.
 
 The state is a plain object (usually a `data class`) that holds all information needed to display the view. States should always be inmutable. State classes should avoid using framework elements (View, Camera, Cursor...) in order to facilitate testing.
@@ -47,7 +47,7 @@ class SessionStore @Inject constructor(val controller: SessionController) : Stor
 }
 ```
 
-## Actions
+### Actions
 An *Action* is a simple class that usually represents a use case. It can also contain a payload that includes data to perform said action. When an action is triggered, it will be delivered via dispatcher to the stores that are going to do something with the action to change their state.
 
 For example, we may want to log in to a service. We would create an action like this one:
@@ -62,11 +62,11 @@ data class LoginCompleteAction(val loginTask: Task, val user: User?)
 
 Actions will usually be triggered from Views or Controllers.
 
-## Generated code
+### Generated code
 
 🚧WIP🚧
 
-## View changes
+### View changes
 Each ``Store`` exposes a custom `StoreCallback` though the method `observe` or a `Flowable` if you want to make use of RxJava. Both of them emits changes produced on their states, allowing the view to listen reactive the state changes. Being able to update the UI according to the new `Store` state.
 
 ```kotlin
@@ -83,7 +83,7 @@ Each ``Store`` exposes a custom `StoreCallback` though the method `observe` or a
 
 If you make use of the RxJava methods, you can make use of the `SubscriptionTracker` interface to keep track of the `Disposables` used on your activities and fragments.
 
-## Tasks
+### Tasks
 A Task is a basic object to represent an ongoing process. They should be used in the state of our `Store` to represent ongoing processes that must be represented in the UI.
 
 Given the example Stores and Actions explained before, the workflow will be:
@@ -102,7 +102,7 @@ Mini includes some utility extensions over RxJava 2.0 to make easier listen stat
 - `select`: Like `mapNotNull` but avoiding repeated values.
 - `onNextTerminalState`: Used to map a `Task` inside an state and listen the next terminal state(Success - Error). Executing a different closure depending of the result of the task.
 
-### Navigation
+## Navigation
 To avoid loops over when working with navigation based on a process result. You will need to make use of `onNextTerminalState` after dispatch and `Action` that starts a process which result could navigate to a different screen.
 For example:
 ```kotlin
