@@ -21,8 +21,8 @@ abstract class Store<S> : Closeable {
         }
     }
 
+    internal val listeners = Vector<(S) -> Unit>()
     private var _state: Any? = NO_STATE
-    private val listeners = Vector<(S) -> Unit>()
 
     /** Set new state, equivalent to [asNewState]*/
     protected fun setState(state: S) {

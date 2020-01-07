@@ -9,6 +9,7 @@ dependencies {
 
     implementation "io.reactivex.rxjava2:rxjava:$rx_version"
 
+    testApi files(project(":mini-common").sourceSets.test.runtimeClasspath) // Add mini-common test classes as dependency
     testCompileOnly 'junit:junit:4.12'
     testImplementation "org.amshove.kluent:kluent:1.44"
 }
