@@ -6,4 +6,6 @@ class SampleStore : Store<String>() {
     fun updateState(s: String) {
         newState = s
     }
+
+    val storeSubscriptions = listeners
 }
