@@ -1,6 +1,7 @@
 package mini.rx
 
 import io.reactivex.BackpressureStrategy
+import io.reactivex.BackpressureStrategy.BUFFER
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -69,6 +70,5 @@ fun <S> Store<S>.observable(hotStart: Boolean = true): Observable<S> {
 }
 
 fun <S> Store<S>.flowable(hotStart: Boolean = true,
-                          backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST): Flowable<S> {
-    return observable(hotStart).toFlowable(backpressureStrategy)
-}
+                          backpressureStrategy: BackpressureStrategy = BUFFER): Flowable<S> =
+    observable(hotStart).toFlowable(backpressureStrategy)
