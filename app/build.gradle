@@ -29,7 +29,7 @@ android {
     buildToolsVersion android_build_tools_version
 
     defaultConfig {
-        applicationId "com.bq.mini"
+        applicationId "com.masmovil.mini"
         minSdkVersion 21
         targetSdkVersion android_target_sdk
         versionCode android_version_code
