@@ -9,18 +9,25 @@ import androidx.lifecycle.ViewModelProviders
 import org.kodein.di.DKodein
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
+import org.kodein.di.bindings.BindingKodein
 import org.kodein.di.bindings.NoArgBindingKodein
 import org.kodein.di.direct
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.instanceOrNull
-import org.kodein.di.generic.provider
+import org.kodein.di.generic.*
 
 /**
  * Binds a ViewModel to a Kotlin module, assuming that it's a provided dependency.
  */
-inline fun <reified T : ViewModel> Kodein.Builder.bindViewModel(overrides: Boolean? = null, noinline creator: NoArgBindingKodein<*>.() -> T) {
-    bind<T>(T::class.java.simpleName, overrides) with provider(creator)
+inline fun <reified VM : ViewModel> Kodein.Builder.bindViewModel(overrides: Boolean? = null,
+                                                                 noinline creator: NoArgBindingKodein<*>.() -> VM) {
+    bind<VM>(VM::class.java.simpleName, overrides) with provider(creator)
+}
+
+/**
+ * Binds a ViewModel factory to a Kotlin module in order to create new ViewModels.
+ */
+inline fun <reified VM : ViewModel, reified F : ViewModelProvider.Factory> Kodein.Builder.bindViewModelFactory(overrides: Boolean? = null,
+                                                                                                               noinline creator: BindingKodein<*>.(Any) -> F) {
+    bind<F>(VM::class.java, overrides) with factory(creator = creator)
 }
 
 /**
@@ -31,10 +38,8 @@ inline fun <reified T : ViewModel> Kodein.Builder.bindViewModel(overrides: Boole
  * if you allow creating new instances of them via [Class.newInstance] with [allowNewInstance].
  * The default is true to mimic the default behaviour of [ViewModelProviders.of].
  */
-class KodeinViewModelFactory(
-    private val injector: DKodein,
-    private val allowNewInstance: Boolean = true
-) : ViewModelProvider.Factory {
+class KodeinViewModelFactory(private val injector: DKodein,
+                             private val allowNewInstance: Boolean = true) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return injector.instanceOrNull<ViewModel>(tag = modelClass.simpleName) as T?
@@ -65,3 +70,35 @@ inline fun <reified VM : ViewModel, T> T.viewModel(): Lazy<VM> where T : KodeinA
         ViewModelProviders.of(this, direct.instance()).get(VM::class.java)
     }
 }
+
+/**
+ * Injects a [ViewModel] into a [FragmentActivity] that implements [KodeinAware].
+ *
+ * Requires previous [ViewModelProvider.Factory] injection for the [ViewModel] via [bindViewModelFactory]
+ * to work and a [TypedViewModel] to be used.
+ */
+@MainThread
+inline fun <reified T, reified VM : TypedViewModel<T>, A> A.viewModel(params: T): Lazy<VM> where A : KodeinAware, A : FragmentActivity {
+    return lazy {
+        ViewModelProviders.of(this, direct.instance(VM::class.java, params)).get(VM::class.java)
+    }
+}
+
+/**
+ * Injects a [ViewModel] into a [Fragment] that implements [KodeinAware].
+ *
+ * Requires previous [ViewModelProvider.Factory] injection for the [ViewModel] via [bindViewModelFactory]
+ * to work and a [TypedViewModel] to be used.
+ */
+@MainThread
+inline fun <reified T, reified VM : TypedViewModel<T>, F> F.viewModel(params: T): Lazy<VM> where F : KodeinAware, F : Fragment {
+    return lazy {
+        ViewModelProviders.of(this, direct.instance(VM::class.java, params)).get(VM::class.java)
+    }
+}
+
+/**
+ * Generic [ViewModel] that adds support for adding a single [params] object to ease parameter
+ * injection.
+ */
+open class TypedViewModel<T>(private val params: T) : ViewModel()
