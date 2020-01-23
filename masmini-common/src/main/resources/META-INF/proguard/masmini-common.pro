@@ -1,0 +1,4 @@
+-keepnames class * extends masmini.Store { *; }
+-keepnames class * extends masmini.BaseAction { *; }
+-keep class masmini.BaseAction { *; }
+-keep class masmini.Task { *; }
