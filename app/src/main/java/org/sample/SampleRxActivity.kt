@@ -3,15 +3,15 @@ package org.sample
 import android.os.Bundle
 import com.minikorp.grove.ConsoleLogTree
 import com.minikorp.grove.Grove
-import mini.LoggerInterceptor
-import mini.MiniGen
-import mini.rx.android.activities.FluxRxActivity
-import mini.rx.flowable
+import masmini.LoggerInterceptor
+import masmini.MasMiniGen
+import masmini.rx.android.activities.FluxRxActivity
+import masmini.rx.flowable
 import org.sample.databinding.HomeActivityBinding
 
 class SampleRxActivity : FluxRxActivity() {
 
-    private val dispatcher = MiniGen.newDispatcher()
+    private val dispatcher = MasMiniGen.newDispatcher()
     private val dummyStore = DummyStore()
 
     private lateinit var binding: HomeActivityBinding
@@ -22,7 +22,7 @@ class SampleRxActivity : FluxRxActivity() {
         setContentView(binding.root)
 
         val stores = listOf(dummyStore)
-        MiniGen.subscribe(dispatcher, stores)
+        MasMiniGen.subscribe(dispatcher, stores)
         stores.forEach { it.initialize() }
 
         dummyStore.flowable()

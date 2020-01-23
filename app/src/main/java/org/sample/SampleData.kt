@@ -1,8 +1,8 @@
 package org.sample
 
-import mini.Action
-import mini.Reducer
-import mini.Store
+import masmini.Action
+import masmini.Reducer
+import masmini.Store
 
 @Action
 interface ActionInterface {

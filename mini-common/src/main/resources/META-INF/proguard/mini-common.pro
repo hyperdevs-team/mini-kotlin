@@ -1,4 +1,0 @@
--keepnames class * extends mini.Store { *; }
--keepnames class * extends mini.BaseAction { *; }
--keep class mini.BaseAction { *; }
--keep class mini.Task { *; }
