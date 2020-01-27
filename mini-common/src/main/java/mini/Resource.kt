@@ -124,7 +124,7 @@ inline fun <T> Resource<T>.onLoading(crossinline action: (data: T?) -> Unit): Re
     return this
 }
 
-inline fun Task.onIdle(crossinline action: () -> Unit): Task {
+inline fun <T> TypedTask<T>.onIdle(crossinline action: () -> Unit): TypedTask<T> {
     if (isEmpty) action()
     return this
 }
