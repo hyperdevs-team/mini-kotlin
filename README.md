@@ -80,11 +80,17 @@ Each ``Store`` exposes a custom `StoreCallback` though the method `observe` or a
 If you make use of the RxJava methods, you can make use of the `SubscriptionTracker` interface to keep track of the `Disposables` used on your activities and fragments.
 
 ### Tasks
-A Task is a basic object to represent an ongoing process. They should be used in the state of our `Store` to represent ongoing processes that must be represented in the UI.
+A `Task` is a basic object to represent an ongoing process. They should be used in the state of our `Store` to represent ongoing processes that must be represented in the UI.
 
+You can also use `TypedTask` to save metadata related the current task. 
+
+**IMPORTANT: Do not use TypedTask to hold values that must survive multiple task executions. Save them as a variable in the state instead.**
+
+
+### Example
 Given the example Stores and Actions explained before, the workflow will be:
 
-- View dispatch `LoginAction`.
+- View dispatches `LoginAction`.
 - Store changes his `LoginTask` status to running and call though his SessionController which will do all the async work to log in the given user.
 - View shows an Spinner when `LoginTask` is in running state.
 - The async call ends and `LoginCompleteAction` is dispatched on UI, sending a null `User` and an error state `Task` if the async work failed or a success `Task` and an `User`.
@@ -201,7 +207,7 @@ dependencies {
 You'll need to add the following snippet to your `Application`'s `onCreate` method. If you don't have it, then create it and reference it in your `AndroidManifest.xml` file:
 
 ```kotlin
-val stores = listOf<Store<*>>(...) // Here you'll set-up you store list, you can retrieve it using your preferred DI framework
+val stores = listOf<Store<*>>() // Here you'll set-up you store list, you can retrieve it using your preferred DI framework
 val dispatcher = MiniGen.newDispatcher() // Create a new dispatcher
 
 // Initialize Mini
@@ -211,9 +217,9 @@ stores.forEach { store ->
 }
 
 // Optional: add logging interceptor to log action events
-dispatcher.addInterceptor(LoggerInterceptor(stores, { tag, msg ->
+dispatcher.addInterceptor(LoggerInterceptor(stores)) { tag, msg ->
     Log.d(tag, msg)
-}))
+}
 ```
 
 ## License

@@ -72,17 +72,19 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
 }
 
 /**
- * An empty resource that just abstracts asynchronous operation but with idle
+ * A resource that abstracts asynchronous operation but with idle
  * state instead of empty.
+ *
+ * It accepts temporary metadata objects as value.
  */
-class Task(value: Any?) : Resource<Unit>(value) {
+open class TypedTask<T> @PublishedApi internal constructor(value: Any?) : Resource<T>(value) {
     val isIdle: Boolean get() = isEmpty
 
     companion object {
-        fun success(): Task = Task(Unit)
-        fun idle(): Task = Task(Empty)
-        fun loading(): Task = Task(Loading<Unit>())
-        fun failure(exception: Throwable? = null): Task = Task(Failure(exception))
+        fun <T> success(value: T): TypedTask<T> = TypedTask(value)
+        fun <T> idle(): TypedTask<T> = TypedTask(Empty)
+        fun <T> loading(value: T? = null): TypedTask<T> = TypedTask(Loading(value))
+        fun <T> failure(exception: Throwable? = null): TypedTask<T> = TypedTask(Failure(exception))
     }
 
     override fun toString(): String {
@@ -91,6 +93,19 @@ class Task(value: Any?) : Resource<Unit>(value) {
             isIdle -> "Idle"
             else -> value.toString()
         }
+    }
+}
+
+/**
+ * An empty resource that just abstracts asynchronous operation but with idle
+ * state instead of empty.
+ */
+class Task(value: Any?) : TypedTask<Unit>(value) {
+    companion object {
+        fun success(): Task = Task(Unit)
+        fun idle(): Task = Task(Empty)
+        fun loading(): Task = Task(Loading<Unit>())
+        fun failure(exception: Throwable? = null): Task = Task(Failure(exception))
     }
 }
 
@@ -109,7 +124,7 @@ inline fun <T> Resource<T>.onLoading(crossinline action: (data: T?) -> Unit): Re
     return this
 }
 
-inline fun Task.onIdle(crossinline action: () -> Unit): Task {
+inline fun <T> TypedTask<T>.onIdle(crossinline action: () -> Unit): TypedTask<T> {
     if (isEmpty) action()
     return this
 }
