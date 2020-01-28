@@ -50,11 +50,16 @@ notable changes.
 - Fix `getOrNull` not returning a value if said value is set-up in
 `Resource.loading`
 
-## [1.0.2] - 2019-10-23
+## [1.0.2] - 2019-10-28
+### Added
+- `Resource.isTerminal` method to check if a Resource is in a terminal
+state (`success` or `failure`)
+
+## [1.0.1] - 2019-10-23
 ### Added
 - `mini-testing` package adds testing utilities for the library.
 
-## [1.0.1] - 2019-10-07
+## [1.0.0] - 2019-10-07
 ### Added
 - Initial architecture release.
 
