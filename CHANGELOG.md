@@ -23,10 +23,6 @@ The default strategy is `BackpressureStrategy.BUFFER`.
 ### Fixed
 - Fix logger not rendering correctly in logcat. Thanks @danielceinos!
 
-### Fixed
-- Fix typos in recent README changes.
-- Update outdated unreleased diff link.
-
 ## [1.0.7] - 2019-12-04
 ### Changed
 - Make `Resource.empty` an object instead of a class.
