@@ -39,12 +39,6 @@ The default strategy is `BackpressureStrategy.BUFFER`.
 ### Added
 - Add `equals` and `hashCode` to `Resource` class to ease comparisons.
 
-### Removed
-- Remove empty sections from CHANGELOG, they occupy too much space and
-create too much noise in the file. People will have to assume that the
-missing sections were intentionally left out because they contained no
-notable changes.
-
 ## [1.0.3] - 2019-11-04
 ### Fixed
 - Fix `getOrNull` not returning a value if said value is set-up in
