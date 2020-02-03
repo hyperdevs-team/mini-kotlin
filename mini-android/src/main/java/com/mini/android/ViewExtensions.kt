@@ -46,63 +46,75 @@ fun View.toggleVisibility(@IntRange(from = View.INVISIBLE.toLong(), to = View.GO
 }
 
 /**
+ * Toggles the [View] ability status: enabled if disabled or disabled if enabled
+ */
+fun View.toggleAbility() {
+    isEnabled = !isEnabled
+}
+
+/**
  * Makes the [View] list visible.
  */
-fun List<View>.makeVisible() = this.forEach { it.makeVisible() }
+fun List<View>.makeVisible() = forEach { it.makeVisible() }
 
 /**
  * Makes the [View] list invisible.
  */
-fun List<View>.makeInvisible() = this.forEach { it.makeInvisible() }
+fun List<View>.makeInvisible() = forEach { it.makeInvisible() }
 
 /**
  * Makes the [View] list gone.
  */
-fun List<View>.makeGone() = this.forEach { it.makeGone() }
+fun List<View>.makeGone() = forEach { it.makeGone() }
 
 /**
  * Returns true if any [View] in the list is visible.
  */
-fun List<View>.anyVisible() = this.any { it.isVisible() }
+fun List<View>.anyVisible() = any { it.isVisible() }
 
 /**
  * Returns true if any [View] in the list is invisible.
  */
-fun List<View>.anyInvisible() = this.any { it.isInvisible() }
+fun List<View>.anyInvisible() = any { it.isInvisible() }
 
 /**
  * Returns true if any [View] in the list is gone.
  */
-fun List<View>.anyGone() = this.any { it.isGone() }
+fun List<View>.anyGone() = any { it.isGone() }
 
 /**
  * Returns true if any [View] in the list is gone or invisible.
  */
-fun List<View>.anyNotVisible() = this.any { it.isNotVisible() }
+fun List<View>.anyNotVisible() = any { it.isNotVisible() }
 
 /**
  * Returns true if all [View]s in the list are visible.
  */
-fun List<View>.allVisible() = this.all { it.isVisible() }
+fun List<View>.allVisible() = all { it.isVisible() }
 
 /**
  * Returns true if all [View]s in the list are invisible.
  */
-fun List<View>.allInvisible() = this.all { it.isInvisible() }
+fun List<View>.allInvisible() = all { it.isInvisible() }
 
 /**
  * Returns true if all [View]s in the list are gone.
  */
-fun List<View>.allGone() = this.all { it.isGone() }
+fun List<View>.allGone() = all { it.isGone() }
 
 /**
  * Returns true if all [View]s in the list are either gone or invisible.
  */
-fun List<View>.allNotVisible() = this.all { it.isNotVisible() }
+fun List<View>.allNotVisible() = all { it.isNotVisible() }
 
 /**
  * Toggles visibility of a [View] list between [View.VISIBLE] and the input [notVisibleState].
  */
 fun List<View>.toggleVisibility(@IntRange(from = View.INVISIBLE.toLong(), to = View.GONE.toLong()) notVisibleState: Int = View.GONE) {
-    this.forEach { it.visibility = if (it.isVisible()) notVisibleState else View.VISIBLE }
+    forEach { it.visibility = if (it.isVisible()) notVisibleState else View.VISIBLE }
 }
+
+/**
+ * Toggles the [View] ability status: enabled if disabled or disabled if enabled
+ */
+fun List<View>.toggleAbility() = forEach { it.toggleAbility() }

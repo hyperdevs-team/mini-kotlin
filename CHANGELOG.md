@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- No unreleased features, yet!
+### Added
+- Add new `View` extensions to change view and view lists visibility status and enabled/disabled status.
 
 ## [1.1.0] - 2020-01-28
 ### Added
