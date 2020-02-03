@@ -36,9 +36,5 @@ fun ViewGroup.inflateNoAttach(@LayoutRes layout: Int): View {
     return LayoutInflater.from(this.context).inflate(layout, this, false)
 }
 
-fun View.makeVisible() = run { visibility = View.VISIBLE }
-fun View.makeInvisible() = run { visibility = View.INVISIBLE }
-fun View.makeGone() = run { visibility = View.GONE }
-
 /** dp -> px */
 val Number.dp: Int get() = (this.toFloat() * Resources.getSystem().displayMetrics.density).roundToInt()
