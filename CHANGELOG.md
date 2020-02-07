@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - No unreleased changes, yet!
 
+## [1.1.2] - 2020-02-07
+### Added
+- Add new utilities in `KodeinAndroidUtils` to inject `ViewModelProvider.Factory` instances and retrieve `ViewModel`s with `by viewModel(params)`.
+
 ## [1.1.1] - 2020-02-03
 ### Added
 - Add new `View` extensions to change view and view lists visibility status and enabled/disabled status.
@@ -62,6 +66,7 @@ state (`success` or `failure`)
 - Initial architecture release.
 
 [Unreleased]: https://github.com/bq/mini-kotlin/compare/1.1.1...HEAD
+[1.1.2]: https://github.com/bq/mini-kotlin/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/bq/mini-kotlin/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/bq/mini-kotlin/compare/1.0.9...1.1.0
 [1.0.9]: https://github.com/bq/mini-kotlin/compare/1.0.8...1.0.9
