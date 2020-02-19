@@ -70,8 +70,7 @@ abstract class Store<S> : Closeable {
 
     @Suppress("UNCHECKED_CAST")
     open fun initialState(): S {
-        val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
-            as Class<S>
+        val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<S>
         try {
             val constructor = type.getDeclaredConstructor()
             constructor.isAccessible = true
@@ -85,7 +84,7 @@ abstract class Store<S> : Closeable {
         //State mutation should to happen on UI thread
         if (newState != _state) {
             _state = newState
-            listeners.forEach {
+            listeners.toList().forEach {
                 it(newState)
             }
         }
