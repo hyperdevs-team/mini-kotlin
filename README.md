@@ -184,7 +184,7 @@ Add the following dependencies to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    def mini_version = "1.1.2"
+    def mini_version = "1.2.0"
     // Minimum working dependencies
     implementation "com.github.bq.mini-kotlin:mini-android:$mini_version"
     kapt "com.github.bq.mini-kotlin:mini-processor:$mini_version"
@@ -202,7 +202,7 @@ dependencies {
 }
 ```
 
-### [Android] Setting up your App file
+### \[Android] Setting up your App file
 
 You'll need to add the following snippet to your `Application`'s `onCreate` method. If you don't have it, then create it and reference it in your `AndroidManifest.xml` file:
 

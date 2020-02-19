@@ -5,12 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- No new features yet
+
+## [1.2.0] - 2020-02-19
 ### Added
 - Add `sharedActivityViewModel` to Kodein extensions to support shared Activity view models.
 ### Fixed
 - Fix `ConcurrentModificationException`s in store subscriptions' iteration by adding safe iteration over them.
 ### Changed
 - Rename `toggleAbility` to `toggleEnabled` as the name was confusing.
+- Upgraded project dependencies.
+
+IMPORTANT: as a result of upgrading dependencies, you may need to target Java 8.
 
 ## [1.1.2] - 2020-02-07
 ### Added
@@ -70,7 +76,8 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.1.2...HEAD
+[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/bq/mini-kotlin/compare/1.1.2...1.2.0
 [1.1.2]: https://github.com/bq/mini-kotlin/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/bq/mini-kotlin/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/bq/mini-kotlin/compare/1.0.9...1.1.0
