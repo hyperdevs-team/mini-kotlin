@@ -55,7 +55,7 @@ class KodeinViewModelFactory(private val injector: DKodein,
  * Injects a [ViewModel] into a [FragmentActivity] that implements [KodeinAware].
  */
 @MainThread
-inline fun <reified VM : ViewModel, T> T.viewModel(): Lazy<VM> where T : KodeinAware, T : FragmentActivity {
+inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : KodeinAware, A : FragmentActivity {
     return lazy {
         ViewModelProviders.of(this, direct.instance()).get(VM::class.java)
     }
@@ -65,7 +65,7 @@ inline fun <reified VM : ViewModel, T> T.viewModel(): Lazy<VM> where T : KodeinA
  * Injects a [ViewModel] into a [Fragment] that implements [KodeinAware].
  */
 @MainThread
-inline fun <reified VM : ViewModel, T> T.viewModel(): Lazy<VM> where T : KodeinAware, T : Fragment {
+inline fun <reified VM : ViewModel, F> F.viewModel(): Lazy<VM> where F : KodeinAware, F : Fragment {
     return lazy {
         ViewModelProviders.of(this, direct.instance()).get(VM::class.java)
     }
@@ -94,6 +94,31 @@ inline fun <reified T, reified VM : TypedViewModel<T>, A> A.viewModel(params: T)
 inline fun <reified T, reified VM : TypedViewModel<T>, F> F.viewModel(params: T): Lazy<VM> where F : KodeinAware, F : Fragment {
     return lazy {
         ViewModelProviders.of(this, direct.instance(VM::class.java, params)).get(VM::class.java)
+    }
+}
+
+/**
+ * Injects a [ViewModel] with an [Activity] context that implements [KodeinAware], in order to share it between
+ * different fragments hosted by that same [Activity].
+ */
+@MainThread
+inline fun <reified VM : ViewModel, F> F.sharedActivityViewModel(): Lazy<VM> where F : KodeinAware, F : Fragment {
+    return lazy {
+        ViewModelProviders.of(this.requireActivity(), direct.instance()).get(VM::class.java)
+    }
+}
+
+/**
+ * Injects a [ViewModel] with an [Activity] context that implements [KodeinAware], in order to share it between
+ * different fragments hosted by that same [Activity].
+ *
+ * Requires previous [ViewModelProvider.Factory] injection for the [ViewModel] via [bindViewModelFactory]
+ * to work and a [TypedViewModel] to be used.
+ */
+@MainThread
+inline fun <reified T, reified VM : TypedViewModel<T>, F> F.sharedActivityViewModel(params: T): Lazy<VM> where F : KodeinAware, F : Fragment {
+    return lazy {
+        ViewModelProviders.of(this.requireActivity(), direct.instance(VM::class.java, params)).get(VM::class.java)
     }
 }
 

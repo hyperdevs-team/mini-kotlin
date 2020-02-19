@@ -5,8 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Add `sharedActivityViewModel` to Kodein extensions to support shared Activity view models.
 ### Fixed
 - Fix `ConcurrentModificationException`s in store subscriptions' iteration by adding safe iteration over them.
+### Changed
 - Rename `toggleAbility` to `toggleEnabled` as the name was confusing.
 
 ## [1.1.2] - 2020-02-07
