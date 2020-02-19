@@ -46,9 +46,9 @@ fun View.toggleVisibility(@IntRange(from = View.INVISIBLE.toLong(), to = View.GO
 }
 
 /**
- * Toggles the [View] ability status: enabled if disabled or disabled if enabled
+ * Toggles the [View] enabled status: enabled if disabled or disabled if enabled.
  */
-fun View.toggleAbility() {
+fun View.toggleEnabled() {
     isEnabled = !isEnabled
 }
 
@@ -115,6 +115,6 @@ fun List<View>.toggleVisibility(@IntRange(from = View.INVISIBLE.toLong(), to = V
 }
 
 /**
- * Toggles the [View] ability status: enabled if disabled or disabled if enabled
+ * Toggles the [View] list enabled status: enabled if disabled or disabled if enabled.
  */
-fun List<View>.toggleAbility() = forEach { it.toggleAbility() }
+fun List<View>.toggleEnabled() = forEach { it.toggleEnabled() }
