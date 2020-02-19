@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import org.kodein.di.DKodein
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -36,7 +35,7 @@ inline fun <reified VM : ViewModel, reified F : ViewModelProvider.Factory> Kodei
  *
  * Optionally you can decide if you want all instances to be force-provided by module bindings or
  * if you allow creating new instances of them via [Class.newInstance] with [allowNewInstance].
- * The default is true to mimic the default behaviour of [ViewModelProviders.of].
+ * The default is true to mimic the default behaviour of [ViewModelProvider].
  */
 class KodeinViewModelFactory(private val injector: DKodein,
                              private val allowNewInstance: Boolean = true) : ViewModelProvider.Factory {
@@ -57,7 +56,7 @@ class KodeinViewModelFactory(private val injector: DKodein,
 @MainThread
 inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : KodeinAware, A : FragmentActivity {
     return lazy {
-        ViewModelProviders.of(this, direct.instance()).get(VM::class.java)
+        ViewModelProvider(this, direct.instance()).get(VM::class.java)
     }
 }
 
@@ -67,7 +66,7 @@ inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : KodeinA
 @MainThread
 inline fun <reified VM : ViewModel, F> F.viewModel(): Lazy<VM> where F : KodeinAware, F : Fragment {
     return lazy {
-        ViewModelProviders.of(this, direct.instance()).get(VM::class.java)
+        ViewModelProvider(this, direct.instance()).get(VM::class.java)
     }
 }
 
@@ -80,7 +79,7 @@ inline fun <reified VM : ViewModel, F> F.viewModel(): Lazy<VM> where F : KodeinA
 @MainThread
 inline fun <reified T, reified VM : TypedViewModel<T>, A> A.viewModel(params: T): Lazy<VM> where A : KodeinAware, A : FragmentActivity {
     return lazy {
-        ViewModelProviders.of(this, direct.instance(VM::class.java, params)).get(VM::class.java)
+        ViewModelProvider(this, direct.instance(VM::class.java, params)).get(VM::class.java)
     }
 }
 
@@ -93,7 +92,7 @@ inline fun <reified T, reified VM : TypedViewModel<T>, A> A.viewModel(params: T)
 @MainThread
 inline fun <reified T, reified VM : TypedViewModel<T>, F> F.viewModel(params: T): Lazy<VM> where F : KodeinAware, F : Fragment {
     return lazy {
-        ViewModelProviders.of(this, direct.instance(VM::class.java, params)).get(VM::class.java)
+        ViewModelProvider(this, direct.instance(VM::class.java, params)).get(VM::class.java)
     }
 }
 
@@ -104,7 +103,7 @@ inline fun <reified T, reified VM : TypedViewModel<T>, F> F.viewModel(params: T)
 @MainThread
 inline fun <reified VM : ViewModel, F> F.sharedActivityViewModel(): Lazy<VM> where F : KodeinAware, F : Fragment {
     return lazy {
-        ViewModelProviders.of(this.requireActivity(), direct.instance()).get(VM::class.java)
+        ViewModelProvider(this.requireActivity(), direct.instance()).get(VM::class.java)
     }
 }
 
@@ -118,7 +117,7 @@ inline fun <reified VM : ViewModel, F> F.sharedActivityViewModel(): Lazy<VM> whe
 @MainThread
 inline fun <reified T, reified VM : TypedViewModel<T>, F> F.sharedActivityViewModel(params: T): Lazy<VM> where F : KodeinAware, F : Fragment {
     return lazy {
-        ViewModelProviders.of(this.requireActivity(), direct.instance(VM::class.java, params)).get(VM::class.java)
+        ViewModelProvider(this.requireActivity(), direct.instance(VM::class.java, params)).get(VM::class.java)
     }
 }
 
