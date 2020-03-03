@@ -221,9 +221,9 @@ android {
 In order to speed up the compilation process, it is recommended to add the following settings in
 your `gradle.properties`:
 ```groovy
-// Improves kapt speed with parallel annotation processing tasks, may impact in memory usage
+## Improves kapt speed with parallel annotation processing tasks, may impact in memory usage
 kapt.use.worker.api=true
-// Enables Gradle build cache
+## Enables Gradle build cache
 org.gradle.caching=true
 ```
 
