@@ -184,7 +184,7 @@ Add the following dependencies to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    def mini_version = "1.2.0"
+    def mini_version = "1.3.0"
     // Minimum working dependencies
     implementation "com.github.bq.mini-kotlin:mini-android:$mini_version"
     kapt "com.github.bq.mini-kotlin:mini-processor:$mini_version"
