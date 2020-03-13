@@ -202,6 +202,31 @@ dependencies {
 }
 ```
 
+### Recommended settings
+#### JDK8 requirements
+Ensure that your project has compatibility with Java 8:
+```groovy
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+```
+#### Improve compilation speed
+In order to speed up the compilation process, it is recommended to add the following settings in
+your `gradle.properties`:
+```groovy
+## Improves kapt speed with parallel annotation processing tasks, may impact in memory usage
+kapt.use.worker.api=true
+## Enables Gradle build cache
+org.gradle.caching=true
+```
+
 ### \[Android] Setting up your App file
 
 You'll need to add the following snippet to your `Application`'s `onCreate` method. If you don't have it, then create it and reference it in your `AndroidManifest.xml` file:
