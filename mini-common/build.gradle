@@ -12,8 +12,8 @@ dependencies {
     compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     testCompileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 
-    testCompileOnly 'junit:junit:4.12'
-    testImplementation "org.amshove.kluent:kluent:1.44"
+    testCompileOnly 'junit:junit:4.13'
+    testImplementation "org.amshove.kluent:kluent:1.61"
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

@@ -14,7 +14,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    def kodein_version = "6.5.0"
+    def kodein_version = "6.5.5"
     api "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
     api "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
 }

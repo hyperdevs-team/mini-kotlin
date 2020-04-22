@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - No new features, yet!
 
+## [1.3.1] - 2020-04-22
+### Added
+- Upgrade Kotlin to 1.3.72 and Kodein to 6.5.5, apart from other Android dependencies.
+
 ## [1.3.0] - 2020-03-13
 ### Added
 - Add support for incremental annotation processing.
@@ -82,7 +86,8 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.3.1...HEAD
+[1.3.1]: https://github.com/bq/mini-kotlin/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/bq/mini-kotlin/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/bq/mini-kotlin/compare/1.1.2...1.2.0
 [1.1.2]: https://github.com/bq/mini-kotlin/compare/1.1.1...1.1.2
