@@ -12,7 +12,9 @@ android {
         versionCode android_version_code
         versionName android_version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "mini-kodein-android.pro"
     }
+
     buildTypes {
         release {
             minifyEnabled false
