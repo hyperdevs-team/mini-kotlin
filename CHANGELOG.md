@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Add proguard rules for most modules that need them.
+- No new features!
 ### Changed
 - No changed features!
 ### Deprecated
@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No fixed issues!
 ### Security
 - No security issues fixed!
+
+## [1.3.3] - 2020-08-13
+### Added
+- Add proguard rules for most modules that need them.
 
 ## [1.3.2] - 2020-05-27
 ### Added
@@ -101,7 +105,8 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.3.2...HEAD
+[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.3.3...HEAD
+[1.3.3]: https://github.com/bq/mini-kotlin/compare/1.3.1...1.3.2
 [1.3.2]: https://github.com/bq/mini-kotlin/compare/1.3.1...1.3.2
 [1.3.1]: https://github.com/bq/mini-kotlin/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/bq/mini-kotlin/compare/1.2.0...1.3.0
