@@ -14,7 +14,7 @@ android {
         versionName android_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
+        consumerProguardFiles "mini-rx2-android.pro"
     }
 
     buildTypes {

@@ -5,11 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- No new features, yet!
+### Added
+- Add proguard rules for most modules that need them.
+### Changed
+- No changed features!
+### Deprecated
+- No deprecated features!
+### Removed
+- No removed features!
+### Fixed
+- No fixed issues!
+### Security
+- No security issues fixed!
 
 ## [1.3.2] - 2020-05-27
 ### Added
-- Added `allTerminal`, `onAllTerminal` and `firstExceptionOrNull` functions to lists of `Resource`s
+- Add `allTerminal`, `onAllTerminal` and `firstExceptionOrNull` functions to lists of `Resource`s
 
 ## [1.3.1] - 2020-04-22
 ### Added
