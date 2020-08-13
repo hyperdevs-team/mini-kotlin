@@ -247,6 +247,10 @@ dispatcher.addInterceptor(LoggerInterceptor(stores)) { tag, msg ->
 }
 ```
 
+### \[Android] Proguard/R8
+Each of the libraries contain a sensible proguard file that your project can consume in order to run you app on Proguard or R8.
+No additional steps have to be done in order to use them apart from enabling minify in your project.
+
 ## License
 ```
    Copyright 2019 BQ
