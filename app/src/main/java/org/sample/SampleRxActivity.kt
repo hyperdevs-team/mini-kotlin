@@ -1,9 +1,9 @@
 package org.sample
 
 import android.os.Bundle
+import android.widget.TextView
 import com.minikorp.grove.ConsoleLogTree
 import com.minikorp.grove.Grove
-import kotlinx.android.synthetic.main.home_activity.*
 import mini.LoggerInterceptor
 import mini.MiniGen
 import mini.rx.android.activities.FluxRxActivity
@@ -24,7 +24,7 @@ class SampleRxActivity : FluxRxActivity() {
 
         dummyStore.flowable()
             .subscribe {
-                demo_text.text = it.text
+                findViewById<TextView>(R.id.demo_text).text = it.text
             }
             .track()
 

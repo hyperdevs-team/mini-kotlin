@@ -1,10 +1,10 @@
 package org.sample
 
 import android.os.Bundle
+import android.widget.TextView
 import com.mini.android.FluxActivity
 import com.minikorp.grove.ConsoleLogTree
 import com.minikorp.grove.Grove
-import kotlinx.android.synthetic.main.home_activity.*
 import mini.LoggerInterceptor
 import mini.MiniGen
 
@@ -22,7 +22,7 @@ class SampleActivity : FluxActivity() {
         stores.forEach { it.initialize() }
 
         dummyStore.subscribe {
-            demo_text.text = it.text
+            findViewById<TextView>(R.id.demo_text).text = it.text
         }
 
         Grove.plant(ConsoleLogTree())
