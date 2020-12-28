@@ -85,15 +85,12 @@ inline fun <reified T : Any, reified VM : TypedViewModel<T>, A> A.viewModel(para
  * Requires previous [ViewModelProvider.Factory] injection for the [ViewModel] via [bindViewModelFactory]
  * to work and a [TypedViewModel] to be used.
  */
-// FIXME: This is failing after the migration to Kodein 7.1.0. It seems not being properly aware that
-//        T is reified, so [params] doesn't need to be a [Typed<TypedValue(T)>] and that it can be
-//        directly of type T
-//@MainThread
-//inline fun <reified T, reified VM : TypedViewModel<T>, F> F.viewModel(params: T): Lazy<VM> where F : DIAware, F : Fragment {
-//    return lazy {
-//        ViewModelProvider(this, direct.instance(VM::class.java, params)).get(VM::class.java)
-//    }
-//}
+@MainThread
+inline fun <reified T : Any, reified VM : TypedViewModel<T>, F> F.viewModel(params: T): Lazy<VM> where F : DIAware, F : Fragment {
+    return lazy {
+        ViewModelProvider(this, direct.instance(VM::class.java, params)).get(VM::class.java)
+    }
+}
 
 /**
  * Injects a [ViewModel] with an [Activity] context that implements [DIAware
