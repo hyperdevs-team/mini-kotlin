@@ -1,28 +1,31 @@
 package org.sample
 
 import android.os.Bundle
-import android.widget.TextView
 import com.mini.android.FluxActivity
 import com.minikorp.grove.ConsoleLogTree
 import com.minikorp.grove.Grove
 import mini.LoggerInterceptor
 import mini.MiniGen
+import org.sample.databinding.HomeActivityBinding
 
 class SampleActivity : FluxActivity() {
 
     private val dispatcher = MiniGen.newDispatcher()
     private val dummyStore = DummyStore()
 
+    private lateinit var binding: HomeActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_activity)
+        binding = HomeActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val stores = listOf(dummyStore)
         MiniGen.subscribe(dispatcher, stores).track()
         stores.forEach { it.initialize() }
 
         dummyStore.subscribe {
-            findViewById<TextView>(R.id.demo_text).text = it.text
+            binding.demoText.text = it.text
         }
 
         Grove.plant(ConsoleLogTree())
