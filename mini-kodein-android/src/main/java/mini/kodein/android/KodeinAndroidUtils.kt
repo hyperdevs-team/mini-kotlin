@@ -117,15 +117,12 @@ inline fun <reified VM : ViewModel, F> F.sharedActivityViewModel(): Lazy<VM> whe
  * Requires previous [ViewModelProvider.Factory] injection for the [ViewModel] via [bindViewModelFactory]
  * to work and a [TypedViewModel] to be used.
  */
-// FIXME: This is failing after the migration to Kodein 7.1.0. It seems not being properly aware that
-//        T is reified, so [params] doesn't need to be a [Typed<TypedValue(T)>] and that it can be
-//        directly of type T
-//@MainThread
-//inline fun <reified T, reified VM : TypedViewModel<T>, F> F.sharedActivityViewModel(params: T): Lazy<VM> where F : DIAware, F : Fragment {
-//    return lazy {
-//        ViewModelProvider(this.requireActivity(), direct.instance(VM::class.java, params)).get(VM::class.java)
-//    }
-//}
+@MainThread
+inline fun <reified T: Any, reified VM : TypedViewModel<T>, F> F.sharedActivityViewModel(params: T): Lazy<VM> where F : DIAware, F : Fragment {
+    return lazy {
+        ViewModelProvider(this.requireActivity(), direct.instance(VM::class.java, params)).get(VM::class.java)
+    }
+}
 
 /**
  * Generic [ViewModel] that adds support for adding a single [params] object to ease parameter
