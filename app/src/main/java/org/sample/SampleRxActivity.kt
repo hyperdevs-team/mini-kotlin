@@ -3,20 +3,23 @@ package org.sample
 import android.os.Bundle
 import com.minikorp.grove.ConsoleLogTree
 import com.minikorp.grove.Grove
-import kotlinx.android.synthetic.main.home_activity.*
 import mini.LoggerInterceptor
 import mini.MiniGen
 import mini.rx.android.activities.FluxRxActivity
 import mini.rx.flowable
+import org.sample.databinding.HomeActivityBinding
 
 class SampleRxActivity : FluxRxActivity() {
 
     private val dispatcher = MiniGen.newDispatcher()
     private val dummyStore = DummyStore()
 
+    private lateinit var binding: HomeActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_activity)
+        binding = HomeActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val stores = listOf(dummyStore)
         MiniGen.subscribe(dispatcher, stores)
@@ -24,7 +27,7 @@ class SampleRxActivity : FluxRxActivity() {
 
         dummyStore.flowable()
             .subscribe {
-                demo_text.text = it.text
+                binding.demoText.text = it.text
             }
             .track()
 

@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [1.4.0] - 2020-12-15
+### Added
+- Upgrade Kotlin to 1.4.21 and Kodein to 7.1.0, apart from other Android dependencies.
+
 ## [1.3.3] - 2020-08-13
 ### Added
 - Add proguard rules for most modules that need them.
@@ -105,8 +109,9 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.3.3...HEAD
-[1.3.3]: https://github.com/bq/mini-kotlin/compare/1.3.1...1.3.2
+[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.4.0...HEAD
+[1.4.0]: https://github.com/bq/mini-kotlin/compare/1.3.3...1.4.0
+[1.3.3]: https://github.com/bq/mini-kotlin/compare/1.3.2...1.3.3
 [1.3.2]: https://github.com/bq/mini-kotlin/compare/1.3.1...1.3.2
 [1.3.1]: https://github.com/bq/mini-kotlin/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/bq/mini-kotlin/compare/1.2.0...1.3.0
