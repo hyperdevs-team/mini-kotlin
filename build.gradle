@@ -3,31 +3,34 @@ apply plugin: 'com.gladed.androidgitversion'
 
 buildscript {
     ext {
-        kotlin_version = "1.4.21"
+        kotlin_version = "1.4.31"
 
         android_compile_sdk = 30
         android_target_sdk = 30
-        android_build_tools_version = "30.0.2"
+        android_build_tools_version = "30.0.3"
 
-        lifecycle_version = "2.2.0"
-        rx_version = "2.2.6"
-        coroutines_version = "1.4.2"
+        lifecycle_version = "2.3.0"
+        rx_version = "2.2.21"
+        coroutines_version = "1.4.3"
+        junit_version = "4.13.2"
+        kluent_version = "1.65"
+
+        kodein_version = "7.4.0"
     }
 
     repositories {
-        jcenter()
         mavenCentral()
         google()
         maven { url "https://plugins.gradle.org/m2/" }
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.1"
+        classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.junit.platform:junit-platform-gradle-plugin:1.2.0"
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
-        classpath "com.gladed.androidgitversion:gradle-android-git-version:0.4.13"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.28.0"
+        classpath "com.gladed.androidgitversion:gradle-android-git-version:0.4.14"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.38.0"
     }
 }
 
@@ -49,10 +52,10 @@ allprojects {
     group = "com.masmovil.masmini"
 
     repositories {
-        jcenter()
         mavenCentral()
-        maven { url "https://jitpack.io" }
         google()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://jitpack.io" }
     }
 }
 
