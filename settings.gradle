@@ -1,1 +1,1 @@
-include ':app', ':masmini-processor', ':masmini-common', ':masmini-android', ':masmini-rx2', ':masmini-rx2-android', ':masmini-kodein', ':masmini-kodein-android', ':masmini-testing'
+include ':masmini-processor', ':masmini-common', ':masmini-android', ':masmini-processor-test', 'masmini-kodein', 'masmini-kodein-android'
