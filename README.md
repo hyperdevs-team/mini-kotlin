@@ -184,7 +184,7 @@ Add the following dependencies to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    def mini_version = "1.4.0"
+    def mini_version = "1.5.0"
     // Minimum working dependencies
     implementation "com.github.masmovil.masmini-kotlin:masmini-android:$mini_version"
     kapt "com.github.masmovil.masmini-kotlin:masmini-processor:$mini_version"
