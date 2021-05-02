@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [2.0.0] - 2021-05-01
+### Changed
+- Changed repo ownership to [hyperdevs-team](https://github.com/hyperdevs-team). Thanks [bq](https://github.com/bq) for all the work!
+- Changed package names from `com.bq.*` to `com.hyperdevs.*`
+
 ## [1.4.0] - 2020-12-15
 ### Added
 - Upgrade Kotlin to 1.4.21 and Kodein to 7.1.0, apart from other Android dependencies.
@@ -109,23 +114,24 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/bq/mini-kotlin/compare/1.4.0...HEAD
-[1.4.0]: https://github.com/bq/mini-kotlin/compare/1.3.3...1.4.0
-[1.3.3]: https://github.com/bq/mini-kotlin/compare/1.3.2...1.3.3
-[1.3.2]: https://github.com/bq/mini-kotlin/compare/1.3.1...1.3.2
-[1.3.1]: https://github.com/bq/mini-kotlin/compare/1.3.0...1.3.1
-[1.3.0]: https://github.com/bq/mini-kotlin/compare/1.2.0...1.3.0
-[1.2.0]: https://github.com/bq/mini-kotlin/compare/1.1.2...1.2.0
-[1.1.2]: https://github.com/bq/mini-kotlin/compare/1.1.1...1.1.2
-[1.1.1]: https://github.com/bq/mini-kotlin/compare/1.1.0...1.1.1
-[1.1.0]: https://github.com/bq/mini-kotlin/compare/1.0.9...1.1.0
-[1.0.9]: https://github.com/bq/mini-kotlin/compare/1.0.8...1.0.9
-[1.0.8]: https://github.com/bq/mini-kotlin/compare/1.0.7...1.0.8
-[1.0.7]: https://github.com/bq/mini-kotlin/compare/1.0.6...1.0.7
-[1.0.6]: https://github.com/bq/mini-kotlin/compare/1.0.5...1.0.6
-[1.0.5]: https://github.com/bq/mini-kotlin/compare/1.0.4...1.0.5
-[1.0.4]: https://github.com/bq/mini-kotlin/compare/1.0.3...1.0.4
-[1.0.3]: https://github.com/bq/mini-kotlin/compare/1.0.2...1.0.3
-[1.0.2]: https://github.com/bq/mini-kotlin/compare/1.0.1...1.0.2
-[1.0.1]: https://github.com/bq/mini-kotlin/compare/1.0.0...1.0.1
-[1.0.0]: https://github.com/bq/mini-kotlin/releases/tag/1.0.0
+[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.4.0...2.0.0
+[1.4.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.3.3...1.4.0
+[1.3.3]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.3.2...1.3.3
+[1.3.2]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.3.1...1.3.2
+[1.3.1]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.3.0...1.3.1
+[1.3.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.2.0...1.3.0
+[1.2.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.1.2...1.2.0
+[1.1.2]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.1.1...1.1.2
+[1.1.1]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.1.0...1.1.1
+[1.1.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.9...1.1.0
+[1.0.9]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.8...1.0.9
+[1.0.8]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.7...1.0.8
+[1.0.7]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.6...1.0.7
+[1.0.6]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.5...1.0.6
+[1.0.5]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.4...1.0.5
+[1.0.4]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.3...1.0.4
+[1.0.3]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.2...1.0.3
+[1.0.2]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.1...1.0.2
+[1.0.1]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.0.0...1.0.1
+[1.0.0]: https://github.com/hyperdevs-team/mini-kotlin/releases/tag/1.0.0
