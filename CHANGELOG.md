@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [2.0.0] - 2021-05-18
+### Added
+- BREAKING CHANGE: Remove RX packages, moved API to full coroutines
+
 ## [1.5.0] - 2021-03-15
 ### Added
 - Upgrade Kotlin to 1.4.31 and Kodein to 7.4.0, apart from other Android dependencies.
@@ -113,7 +117,8 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/masmovil/masmini-kotlin/compare/1.5.0...HEAD
+[Unreleased]: https://github.com/masmovil/masmini-kotlin/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/masmovil/masmini-kotlin/compare/1.5.0...2.0.0
 [1.5.0]: https://github.com/masmovil/masmini-kotlin/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/masmovil/masmini-kotlin/compare/1.3.3...1.4.0
 [1.3.3]: https://github.com/masmovil/masmini-kotlin/compare/1.3.2...1.3.3
