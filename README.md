@@ -1,6 +1,8 @@
 # Mini
 [![Release](https://jitpack.io/v/masmovil/masmini-kotlin.svg)](https://jitpack.io/#masmovil/masmini-kotlin)
 
+## ⚠️ DOCS HAVE TO BE UPDATED FOR VERSION 2.0.0
+
 Mini is a minimal Flux architecture written in Kotlin that also adds a mix of useful features to build UIs fast.
 
 ## Purpose
@@ -184,7 +186,7 @@ Add the following dependencies to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    def mini_version = "1.5.0"
+    def mini_version = "2.0.0"
     // Minimum working dependencies
     implementation "com.github.masmovil.masmini-kotlin:masmini-android:$mini_version"
     kapt "com.github.masmovil.masmini-kotlin:masmini-processor:$mini_version"
