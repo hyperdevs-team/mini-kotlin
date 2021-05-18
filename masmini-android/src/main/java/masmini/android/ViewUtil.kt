@@ -15,26 +15,33 @@ import kotlin.math.roundToInt
  */
 fun toggleViewsVisibility(
     resource: Resource<*>,
-    contentView: View,
-    loadingView: View,
-    errorView: View,
+    contentView: View? = null,
+    loadingView: View? = null,
+    errorView: View? = null,
+    idleView: View? = null,
     invisibilityType: Int = View.INVISIBLE
 ) {
-    val (content, loading, error) =
+    val newVisibilities = arrayOf(invisibilityType, invisibilityType, invisibilityType, invisibilityType)
+    val indexToMakeVisible =
         when {
-            resource.isSuccess -> Triple(View.VISIBLE, invisibilityType, invisibilityType)
-            resource.isLoading -> Triple(invisibilityType, View.VISIBLE, invisibilityType)
-            resource.isEmpty -> Triple(invisibilityType, invisibilityType, View.VISIBLE)
-            else -> return
+            resource.isSuccess -> 0
+            resource.isLoading -> 1
+            resource.isFailure -> 2
+            resource.isEmpty -> 3
+            else -> throw UnsupportedOperationException()
         }
-    contentView.visibility = content
-    loadingView.visibility = loading
-    errorView.visibility = error
+    newVisibilities[indexToMakeVisible] = View.VISIBLE
+    contentView?.visibility = newVisibilities[0]
+    loadingView?.visibility = newVisibilities[1]
+    errorView?.visibility = newVisibilities[2]
+    idleView?.visibility = newVisibilities[3]
 }
 
 fun ViewGroup.inflateNoAttach(@LayoutRes layout: Int): View {
     return LayoutInflater.from(this.context).inflate(layout, this, false)
 }
 
-/** dp -> px */
+/**
+ * 8.dp -> 8dp in value in pixels
+ */
 val Number.dp: Int get() = (this.toFloat() * Resources.getSystem().displayMetrics.density).roundToInt()

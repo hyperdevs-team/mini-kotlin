@@ -3,8 +3,10 @@ package masmini
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.jvmErasure
 
-fun TestDispatcher(): Dispatcher {
-    return Dispatcher(newReflectiveMap())
+fun newTestDispatcher(): Dispatcher {
+    return Dispatcher().apply {
+        actionTypeMap = newReflectiveMap()
+    }
 }
 
 private fun reflectActionTypes(type: KClass<*>, depth: Int = 0): List<ReflectedType> {
@@ -30,7 +32,7 @@ private fun newReflectiveMap(): Map<KClass<*>, List<KClass<*>>> {
         override fun containsKey(key: KClass<*>): Boolean = map.containsKey(key)
         override fun containsValue(value: List<KClass<*>>): Boolean = map.containsValue(value)
         override fun isEmpty(): Boolean = map.isEmpty()
-        override fun get(key: KClass<*>): List<KClass<*>>? {
+        override fun get(key: KClass<*>): List<KClass<*>> {
             return map.getOrPut(key) {
                 reflectActionTypes(key)
                     .asSequence()

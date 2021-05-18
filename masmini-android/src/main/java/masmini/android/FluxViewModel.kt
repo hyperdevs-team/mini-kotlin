@@ -11,6 +11,6 @@ abstract class FluxViewModel : ViewModel(),
     @CallSuper
     override fun onCleared() {
         super.onCleared()
-        clearCloseables()
+        close()
     }
 }

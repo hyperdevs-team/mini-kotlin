@@ -34,15 +34,15 @@ inline fun <reified VM : ViewModel, reified F : ViewModelProvider.Factory> DI.Bu
  * The default is true to mimic the default behaviour of [ViewModelProvider].
  */
 class DIViewModelFactory(private val injector: DirectDI,
-                             private val allowNewInstance: Boolean = true) : ViewModelProvider.Factory {
+                         private val allowNewInstance: Boolean = true) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return injector.instanceOrNull<ViewModel>(tag = modelClass.simpleName) as T?
-            ?: if (allowNewInstance) {
-                modelClass.newInstance()
-            } else {
-                throw RuntimeException("The class ${modelClass.name} cannot be provided as no Kodein bindings could be found")
-            }
+               ?: if (allowNewInstance) {
+                   modelClass.newInstance()
+               } else {
+                   throw RuntimeException("The class ${modelClass.name} cannot be provided as no Kodein bindings could be found")
+               }
     }
 }
 
@@ -112,7 +112,7 @@ inline fun <reified VM : ViewModel, F> F.sharedActivityViewModel(): Lazy<VM> whe
  * to work and a [TypedViewModel] to be used.
  */
 @MainThread
-inline fun <reified T: Any, reified VM : TypedViewModel<T>, F> F.sharedActivityViewModel(params: T): Lazy<VM> where F : DIAware, F : Fragment {
+inline fun <reified T : Any, reified VM : TypedViewModel<T>, F> F.sharedActivityViewModel(params: T): Lazy<VM> where F : DIAware, F : Fragment {
     return lazy {
         ViewModelProvider(this.requireActivity(), direct.instance(VM::class.java, params)).get(VM::class.java)
     }
