@@ -10,3 +10,9 @@ internal val isAndroid by lazy {
         false
     }
 }
+
+fun requireAndroid() {
+    if (!isAndroid) {
+        throw UnsupportedOperationException("This method can only be called from android environment")
+    }
+}

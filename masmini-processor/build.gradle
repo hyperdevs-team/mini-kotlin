@@ -4,8 +4,11 @@ apply from: "../jitpack.gradle"
 
 dependencies {
     api project(":masmini-common")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.squareup:kotlinpoet:1.7.2"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    def kotlinPoet_version = "1.7.2"
+    implementation "com.squareup:kotlinpoet:$kotlinPoet_version"
+    def googleAuto_version = "0.11"
+    implementation "com.google.auto:auto-common:$googleAuto_version"
 
     // Lib to add incremental annotation processing
     def incap_version = "0.3"
@@ -13,5 +16,6 @@ dependencies {
     kapt "net.ltgt.gradle.incap:incap-processor:$incap_version"
 
     testImplementation "junit:junit:$junit_version"
-    testImplementation "com.google.testing.compile:compile-testing:0.19"
+    def googleTesting_version = "0.19"
+    testImplementation "com.google.testing.compile:compile-testing:$googleTesting_version"
 }

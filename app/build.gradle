@@ -8,13 +8,12 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
 
-//Android
 android {
     compileSdkVersion android_target_sdk
     buildToolsVersion android_build_tools_version
 
     defaultConfig {
-        applicationId "com.masmovil.mini"
+        applicationId "com.masmovil.minisample"
         minSdkVersion 21
         targetSdkVersion android_target_sdk
         versionCode android_version_code
@@ -30,13 +29,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
 
     compileOptions {
-        sourceCompatibility "1.8"
-        targetCompatibility "1.8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -51,41 +50,41 @@ android {
         //This is library is included with two different versions
         resolutionStrategy.force "com.google.code.findbugs:jsr305:3.0.1"
     }
-
-    packagingOptions {
-        exclude "META-INF/rxjava.properties"
-    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation project(":masmini-android")
-    implementation project(":masmini-rx2")
-    implementation project(":masmini-rx2-android")
     implementation project(":masmini-kodein-android")
 
     kapt project(":masmini-processor")
 
-    //Misc
-    implementation "com.github.minikorp:grove:1.0.3"
-
-    //Reactive
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "io.reactivex.rxjava2:rxjava:$rx_version"
-
-    //Support
-    implementation "androidx.core:core:1.3.2"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
-
-    //Kotlin
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+
+    // Support
+    implementation "androidx.core:core-ktx:1.3.2"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+
+    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "com.google.android.material:material:1.3.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "androidx.activity:activity-ktx:1.2.1"
+    implementation "androidx.fragment:fragment-ktx:1.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    // Misc
+    implementation "com.github.minikorp:grove:1.0.3"
+
+    // Test
     testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test:runner:1.3.0"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
+    androidTestImplementation "androidx.test:runner:$test_runner_version"
+    androidTestImplementation "androidx.test.ext:junit:1.1.2"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "com.agoda.kakao:kakao:2.4.0"
 }
-
-
