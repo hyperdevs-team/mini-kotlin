@@ -18,9 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [2.0.1] - 2021-05-19
+### Added
+- Add proper Proguard/R8 rules in masmini-common.
+### Fixed
+- Fix proguard issues with `Mini_Generated` class.
+
 ## [2.0.0] - 2021-05-18
 ### Added
-- BREAKING CHANGE: Remove RX packages, moved API to full coroutines
+- BREAKING CHANGE: Remove RX packages, moved API to full coroutines.
 
 ## [1.5.0] - 2021-03-15
 ### Added
@@ -36,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.2] - 2020-05-27
 ### Added
-- Add `allTerminal`, `onAllTerminal` and `firstExceptionOrNull` functions to lists of `Resource`s
+- Add `allTerminal`, `onAllTerminal` and `firstExceptionOrNull` functions to lists of `Resource`s.
 
 ## [1.3.1] - 2020-04-22
 ### Added
