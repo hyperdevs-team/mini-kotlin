@@ -1,4 +1,8 @@
+-keep class masmini.codegen.** { *; }
+
 -keepnames class * extends masmini.Store { *; }
--keepnames class * extends masmini.BaseAction { *; }
--keep class masmini.BaseAction { *; }
--keep class masmini.Task { *; }
+
+-keep class masmini.Action
+-keep @masmini.Action class * { *; }
+
+-keep class masmini.Resource { *; }
