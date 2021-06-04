@@ -13,7 +13,7 @@ android {
     buildToolsVersion android_build_tools_version
 
     defaultConfig {
-        applicationId "com.masmovil.minisample"
+        applicationId "com.hyperdevs.minisample"
         minSdkVersion 21
         targetSdkVersion android_target_sdk
         versionCode android_version_code
@@ -55,10 +55,10 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation project(":masmini-android")
-    implementation project(":masmini-kodein-android")
+    implementation project(':mini-android')
+    implementation project(':mini-kodein-android')
 
-    kapt project(":masmini-processor")
+    kapt project(':mini-processor')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

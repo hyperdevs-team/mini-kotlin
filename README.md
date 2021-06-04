@@ -1,5 +1,5 @@
 # Mini
-[![Release](https://jitpack.io/v/masmovil/masmini-kotlin.svg)](https://jitpack.io/#masmovil/masmini-kotlin)
+[![Release](https://jitpack.io/v/masmovil/mini-kotlin.svg)](https://jitpack.io/#masmovil/mini-kotlin)
 
 ## ⚠️ DOCS HAVE TO BE UPDATED FOR VERSION 2.x.y
 
@@ -186,21 +186,21 @@ Add the following dependencies to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    def mini_version = "2.0.1"
+    def mini_version = "2.0.0"
     // Minimum working dependencies
-    implementation "com.github.masmovil.masmini-kotlin:masmini-android:$mini_version"
-    kapt "com.github.masmovil.masmini-kotlin:masmini-processor:$mini_version"
+    implementation "com.github.hyperdevs-team.mini-kotlin:mini-android:$mini_version"
+    kapt "com.github.hyperdevs-team.mini-kotlin:mini-processor:$mini_version"
 
     // RxJava 2 helper libraries
-    implementation "com.github.masmovil.masmini-kotlin:masmini-rx2:$mini_version"
-    implementation "com.github.masmovil.masmini-kotlin:masmini-rx2-android:$mini_version"
+    implementation "com.github.hyperdevs-team.mini-kotlin:mini-rx2:$mini_version"
+    implementation "com.github.hyperdevs-team.mini-kotlin:mini-rx2-android:$mini_version"
 
     // Kodein helper libraries
-    implementation "com.github.masmovil.masmini-kotlin:masmini-kodein:$mini_version"
-    implementation "com.github.masmovil.masmini-kotlin:masmini-kodein-android:$mini_version"
+    implementation "com.github.hyperdevs-team.mini-kotlin:mini-kodein:$mini_version"
+    implementation "com.github.hyperdevs-team.mini-kotlin:mini-kodein-android:$mini_version"
 
     // Testing helper libraries
-    androidTestImplementation "com.github.masmovil.masmini-kotlin:masmini-testing:$mini_version"
+    androidTestImplementation "com.github.hyperdevs-team.mini-kotlin:mini-testing:$mini_version"
 }
 ```
 

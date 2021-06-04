@@ -53,7 +53,7 @@ allprojects {
     }
 
     version = mini_version
-    group = "com.masmovil.masmini"
+    group = "com.hyperdevs.mini"
 
     repositories {
         mavenCentral()

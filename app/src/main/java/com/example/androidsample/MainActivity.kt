@@ -8,9 +8,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.*
-import masmini.*
-import masmini.android.FluxActivity
-import masmini.android.FluxStoreViewModel
+import mini.*
+import mini.android.FluxActivity
+import mini.android.FluxStoreViewModel
 import kotlinx.coroutines.flow.onEach
 import java.io.Serializable
 
