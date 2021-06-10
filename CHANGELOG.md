@@ -23,10 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed repo ownership to [hyperdevs-team](https://github.com/hyperdevs-team). Thanks [bq](https://github.com/bq) for all the work!
 - Changed package names from `com.bq.*` to `com.hyperdevs.*`
 
-## [1.5.0] - 2021-03-15
-### Added
-- Upgrade Kotlin to 1.4.31 and Kodein to 7.4.0, apart from other Android dependencies.
-
 ## [1.4.0] - 2020-12-15
 ### Added
 - Upgrade Kotlin to 1.4.21 and Kodein to 7.1.0, apart from other Android dependencies.

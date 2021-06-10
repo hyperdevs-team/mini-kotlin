@@ -1,8 +1,6 @@
 /*
  * Copyright 2021 HyperDevs
  *
- * Copyright 2020 BQ
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,16 +18,17 @@ package com.example.androidsample
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.onEach
 import mini.*
 import mini.android.FluxActivity
 import mini.android.FluxStoreViewModel
-import kotlinx.coroutines.flow.onEach
 import java.io.Serializable
 
 val dispatcher = Dispatcher()
@@ -139,15 +138,17 @@ class MainStoreViewModel(savedStateHandle: SavedStateHandle) : FluxStoreViewMode
 class MainActivity : FluxActivity() {
 
     lateinit var textView: TextView
+    lateinit var button: Button
     lateinit var progressBar: ProgressBar
     private val vm: MainStoreViewModel by viewModels()
 
     override suspend fun whenCreated(savedInstanceState: Bundle?) {
         setContentView(R.layout.main_activity)
         textView = findViewById(R.id.textView)
+        button = findViewById(R.id.button)
         progressBar = findViewById(R.id.progressBar)
 
-        textView.setOnClickListener {
+        button.setOnClickListener {
             launch {
                 dispatcher.dispatch(LongUseCaseAction("Pablo"))
                 // Decide on the state after usecase is done
