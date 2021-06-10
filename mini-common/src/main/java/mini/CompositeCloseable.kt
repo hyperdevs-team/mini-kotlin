@@ -33,9 +33,10 @@ class CompositeCloseable : Closeable {
         }
     }
 
-    fun add(closeable: Closeable) {
+    fun <T : Closeable> add(closeable: T): T {
         synchronized(this) {
             items.add(closeable)
         }
+        return closeable
     }
 }

@@ -1,4 +1,8 @@
+-keep class mini.codegen.** { *; }
+
 -keepnames class * extends mini.Store { *; }
--keepnames class * extends mini.BaseAction { *; }
--keep class mini.BaseAction { *; }
--keep class mini.Task { *; }
+
+-keep class mini.Action
+-keep @mini.Action class * { *; }
+
+-keep class mini.Resource { *; }

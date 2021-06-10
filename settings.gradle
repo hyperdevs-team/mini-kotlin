@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 
-include ':app', ':mini-processor', ':mini-common', ':mini-android', ':mini-rx2', ':mini-rx2-android', ':mini-kodein', ':mini-kodein-android', ':mini-testing'
+include ':app', ':mini-processor', ':mini-common', ':mini-android', ':mini-processor-test', 'mini-kodein', 'mini-kodein-android', 'mini-testing'

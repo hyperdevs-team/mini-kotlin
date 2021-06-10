@@ -26,7 +26,7 @@ class StoreTest {
     @Test
     fun `state is updated`() {
         val store = SampleStore()
-        store.updateState("abc")
+        store.setState("abc")
         store.state `should be equal to` "abc"
     }
 
@@ -37,7 +37,7 @@ class StoreTest {
         store.subscribe {
             state = it
         }
-        store.updateState("abc")
+        store.setState("abc")
         state `should be equal to` "abc"
     }
 
@@ -59,7 +59,7 @@ class StoreTest {
             state = it
         }
         closeable.close()
-        store.updateState("abc")
+        store.setState("abc")
         state `should be equal to` ""
     }
 }

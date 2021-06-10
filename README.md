@@ -1,6 +1,8 @@
 # Mini
 [![Release](https://jitpack.io/v/hyperdevs-team/mini-kotlin.svg)](https://jitpack.io/#hyperdevs-team/mini-kotlin)
 
+## ⚠️ DOCS HAVE TO BE UPDATED FOR VERSION 2.x.y
+
 Mini is a minimal Flux architecture written in Kotlin that also adds a mix of useful features to build UIs fast.
 
 ## Purpose

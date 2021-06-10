@@ -19,11 +19,10 @@
 package mini
 
 class SampleStore : Store<String>() {
-    override fun initialState(): String = "initial"
 
-    fun updateState(s: String) {
-        newState = s
+    companion object {
+        const val INITIAL_STATE = "initial"
     }
 
-    val storeSubscriptions = listeners
+    override fun initialState(): String = INITIAL_STATE
 }

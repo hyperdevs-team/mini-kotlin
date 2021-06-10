@@ -20,6 +20,7 @@ package mini.processor
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import mini.Mini
 import javax.lang.model.element.Element
 import javax.lang.model.element.Modifier
 import javax.lang.model.type.TypeMirror
@@ -38,64 +39,63 @@ object ActionTypesGenerator {
                 .asClassName()
                 .parameterizedBy(anyClassTypeName, listTypeName)
 
-            val prop = PropertySpec.builder("actionTypes", mapType)
-                .addModifiers(KModifier.PRIVATE)
+            val prop = PropertySpec.builder(Mini::actionTypes.name, mapType)
+                .addModifiers(KModifier.OVERRIDE)
                 .initializer(CodeBlock.builder()
-                    .addStatement("mapOf(")
-                    .indent()
+                    .add("mapOf(\n⇥")
                     .apply {
                         actionModels.forEach { actionModel ->
                             val comma = if (actionModel != actionModels.last()) "," else ""
-                            add("«") // Starts statement
+                            add("«")
                             add("%T::class to ", actionModel.typeName)
                             add(actionModel.listOfSupertypesCodeBlock())
                             add(comma)
-                            add("\n")
-                            add("»") // Ends statement
+                            add("\n»")
                         }
                     }
-                    .unindent()
-                    .add(")")
+                    .add("⇤)")
                     .build())
             addProperty(prop.build())
         }.build()
     }
 }
 
-private class ActionModel(element: Element) {
+class ActionModel(element: Element) {
     private val type = element.asType()
+    private val javaObject = ClassName.bestGuess("java.lang.Object")
+
+    val typeName = type.asTypeName()
     private val superTypes = collectTypes(type)
         .sortedBy { it.depth }
-        // Ignore base types
-        .filter { it.mirror.qualifiedName() !in listOf("java.lang.Object", "mini.BaseAction") }
-    val typeName = type.asTypeName()
-
+        .filter { it.typeName != javaObject }
+        .map { it.typeName }
+        .plus(ANY)
 
     fun listOfSupertypesCodeBlock(): CodeBlock {
         val format = superTypes.joinToString(",\n") { "%T::class" }
-        val args = superTypes.map { it.mirror.asTypeName() }.toTypedArray()
+        val args = superTypes.toTypedArray()
         return CodeBlock.of("listOf($format)", *args)
     }
 
     private fun collectTypes(mirror: TypeMirror, depth: Int = 0): Set<ActionSuperType> {
-        // We want to add by depth
+        //We want to add by depth
         val superTypes = typeUtils.directSupertypes(mirror).toSet()
             .map { collectTypes(it, depth + 1) }
             .flatten()
-        return setOf(ActionSuperType(mirror, depth)) + superTypes
+        return setOf(ActionSuperType(mirror.asTypeName(), depth)) + superTypes
     }
 
-    class ActionSuperType(val mirror: TypeMirror, val depth: Int) {
-        val qualifiedName = mirror.asElement().qualifiedName()
-
+    class ActionSuperType(val typeName: TypeName, val depth: Int) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
             other as ActionSuperType
-            if (qualifiedName != other.qualifiedName) return false
+            if (typeName != other.typeName) return false
             return true
         }
 
-        override fun hashCode(): Int = qualifiedName.hashCode()
+        override fun hashCode(): Int {
+            return typeName.hashCode()
+        }
     }
 }

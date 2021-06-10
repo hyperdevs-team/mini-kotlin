@@ -2,6 +2,11 @@
 # Each line is a file pattern followed by one or more owners.
 
 # Current code owners
-# @adriangl -> Adrián García
+# - @nicolasmertanen -> Nicolás Mertanen
+# - @finxo -> Alejandro Lopez
+# - @FrangSierra -> Francisco García
+# - @adriangl -> Adrián García
+# - @yamidragut -> Estefanía Sarasola
+# - @Babelia13 -> Sara Lucía Pérez
 
-*   @adriangl
+*   @nicolasmertanen @finxo @FrangSierra @adriangl @yamidragut @Babelia13
