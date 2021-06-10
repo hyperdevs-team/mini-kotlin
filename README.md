@@ -1,5 +1,5 @@
 # Mini
-[![Release](https://jitpack.io/v/masmovil/mini-kotlin.svg)](https://jitpack.io/#masmovil/mini-kotlin)
+[![Release](https://jitpack.io/v/hyperdevs-team/mini-kotlin.svg)](https://jitpack.io/#hyperdevs-team/mini-kotlin)
 
 ## ⚠️ DOCS HAVE TO BE UPDATED FOR VERSION 2.x.y
 

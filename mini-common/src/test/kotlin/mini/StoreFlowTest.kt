@@ -69,7 +69,7 @@ class StoreFlowTest {
         job1.join()
         job2.join()
 
-        //Called two times, on for initial state, one for updated stated
+        //Called two times, one for initial state, one for updated stated
         called.`should equal`(intArrayOf(2, 2))
         Unit
     }

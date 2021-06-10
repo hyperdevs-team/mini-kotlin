@@ -21,7 +21,7 @@ apply from: "../jitpack.gradle"
 
 dependencies {
     api project(':mini-common')
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     api "junit:junit:$junit_version"

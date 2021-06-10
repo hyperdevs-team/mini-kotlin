@@ -60,21 +60,21 @@ fun <T> Flow<T>.onEachChange(filter: (prev: T, next: T) -> Boolean, fn: (T) -> U
 }
 
 /**
- * Emit a value when the value goes `from` from to `to`.
+ * Emit a value when the value goes from `from` to `to`.
  */
 fun <T> Flow<T>.onEachChange(from: T, to: T, fn: (T) -> Unit): Flow<T> {
     return onEachChange({ prev, next -> prev == from && next == to }, fn)
 }
 
 /**
- * Emit when the value goes `true` from to `false` (it disables).
+ * Emit when the value goes from `true` to `false` (it disables).
  */
 fun Flow<Boolean>.onEachDisable(fn: (Boolean) -> Unit): Flow<Boolean> {
     return onEachChange(from = true, to = false, fn)
 }
 
 /**
- * Emit when the value goes `false` from to `true` (it enables).
+ * Emit when the value goes from `false` to `true` (it enables).
  */
 fun Flow<Boolean>.onEachEnable(fn: (Boolean) -> Unit): Flow<Boolean> {
     return onEachChange(from = false, to = true, fn)

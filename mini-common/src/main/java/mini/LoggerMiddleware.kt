@@ -54,7 +54,9 @@ class LoggerMiddleware(stores: Collection<StateContainer<*>>,
         val afterStates: Array<Any?> = Array(stores.size) { }
         val actionName = extractClassName(action.javaClass)
 
-        stores.forEachIndexed { idx, store -> beforeStates[idx] = store.state }
+        if (!isSuspending) {
+            stores.forEachIndexed { idx, store -> beforeStates[idx] = store.state }
+        }
 
         val (upCorner, downCorner) = if (isSuspending) {
             "╔═════ " to "╚════> "
@@ -72,9 +74,9 @@ class LoggerMiddleware(stores: Collection<StateContainer<*>>,
         val outAction = chain.proceed(action)
         val processTime = (System.nanoTime() - start) / 1000000
 
-        stores.forEachIndexed { idx, store -> afterStates[idx] = store.state }
-
         if (!isSuspending) {
+            stores.forEachIndexed { idx, store -> afterStates[idx] = store.state }
+
             for (i in beforeStates.indices) {
                 val oldState = beforeStates[i]
                 val newState = afterStates[i]

@@ -180,7 +180,7 @@ class ContainerModel(element: Element) {
     init {
         compilePrecondition(
             check = element.kind == ElementKind.CLASS,
-            message = "Reducers must be declared inside StoreContainer classes",
+            message = "Reducers must be declared inside StateContainer classes",
             element = element
         )
 

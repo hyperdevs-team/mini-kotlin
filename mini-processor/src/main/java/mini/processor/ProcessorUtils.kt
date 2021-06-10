@@ -60,8 +60,8 @@ fun TypeMirror.getSupertypes(): MutableList<out TypeMirror> = typeUtils.directSu
 fun TypeMirror.getAllSuperTypes(depth: Int = 0): Set<TypeMirror> {
     //We want to add by depth
     val superTypes = typeUtils.directSupertypes(this).toSet()
-        .map { it.getAllSuperTypes(depth + 1) }
-        .flatten()
+            .map { it.getAllSuperTypes(depth + 1) }
+            .flatten()
     return setOf(this) + superTypes
 }
 
@@ -94,7 +94,7 @@ infix fun TypeMirror.isSameType(other: TypeMirror?): Boolean {
 
 fun Element.getSuperClass() = asTypeElement().superclass.asElement()
 fun Element.getSuperClassTypeParameter(position: Int) = asTypeElement()
-    .superclass.asDeclaredType().typeArguments[position].asElement()
+        .superclass.asDeclaredType().typeArguments[position].asElement()
 
 class ProcessorException : IllegalStateException()
 
@@ -123,7 +123,7 @@ fun logMessage(kind: Diagnostic.Kind, message: String, element: Element? = null)
 
 fun FileSpec.writeToFile(vararg sourceElements: Element) {
     val kotlinFileObject = env.filer
-        .createResource(StandardLocation.SOURCE_OUTPUT, packageName, "$name.kt", *sourceElements)
+            .createResource(StandardLocation.SOURCE_OUTPUT, packageName, "$name.kt", *sourceElements)
     val openWriter = kotlinFileObject.openWriter()
     writeTo(openWriter)
     openWriter.close()
@@ -132,10 +132,9 @@ fun FileSpec.writeToFile(vararg sourceElements: Element) {
 /**
  * Map [java.lang.Object] to [Any]
  */
-fun TypeName.safeAnyTypeName(): TypeName {
-    return if (this is ClassName && this == ClassName("java.lang", "Object")) {
-        Any::class.asTypeName()
-    } else {
-        this
-    }
-}
+fun TypeName.safeAnyTypeName(): TypeName =
+        if (this is ClassName && this == ClassName("java.lang", "Object")) {
+            Any::class.asTypeName()
+        } else {
+            this
+        }

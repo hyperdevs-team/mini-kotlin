@@ -141,7 +141,6 @@ fun <T> Iterable<Resource<T>>.anyLoading(): Boolean {
     return this.any { it.isLoading }
 }
 
-
 /** All resources completed, whether they're in success or failure state. */
 fun <T> Iterable<Resource<T>>.allTerminal(): Boolean {
     return this.all { it.isTerminal }

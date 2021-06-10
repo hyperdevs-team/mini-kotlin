@@ -18,7 +18,6 @@
 
 package mini
 
-fun Any?.toQuotedString(): String {
-    return if (this is String) return "\"$this\""
+fun Any?.toQuotedString(): String =
+    if (this is String) "\"$this\""
     else this.toString()
-}
