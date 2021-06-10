@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [3.0.0] - 2021-06-10
+### Changed
+- BREAKING CHANGE: Remove RX packages, moved API to full coroutines.
+
 ## [2.0.0] - 2021-05-01
 ### Changed
 - Changed repo ownership to [hyperdevs-team](https://github.com/hyperdevs-team). Thanks [bq](https://github.com/bq) for all the work!
