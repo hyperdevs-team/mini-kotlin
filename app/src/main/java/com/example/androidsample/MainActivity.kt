@@ -108,7 +108,7 @@ class MainViewModelReducer : NestedStateContainer<State>() {
 }
 
 class MainStoreViewModel(savedStateHandle: SavedStateHandle) : FluxStoreViewModel<State>(savedStateHandle) {
-    private val reducerSlice = MainViewModelReducer().apply { parent = this }
+    private val reducerSlice = MainViewModelReducer().apply { parent = this@MainStoreViewModel }
 
     init {
         Mini.link(dispatcher, listOf(this, reducerSlice)).track()
