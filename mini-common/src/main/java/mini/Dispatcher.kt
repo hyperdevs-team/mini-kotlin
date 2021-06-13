@@ -82,7 +82,7 @@ class Dispatcher(private val strictMode: Boolean = false) {
         }
     }
 
-    fun removeInterceptor(middleware: Middleware) {
+    fun removeMiddleware(middleware: Middleware) {
         synchronized(this) {
             middlewares -= middleware
             middlewareChain = buildChain()

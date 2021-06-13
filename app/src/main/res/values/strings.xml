@@ -17,14 +17,7 @@
   -->
 
 <resources>
-    <string name="app_name">Mini Sample Login</string>
-
-    <!--General-->
-    <string name="log_in">Log in</string>
-    <string name="sign_in">Sign in</string>
-    <string name="username">Username</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-
-    <string name="login_log_in_with_email_text">Log in with email</string>
+    <string name="app_name">Mini Sample</string>
+    <string name="store_sample_label">Store Sample</string>
+    <string name="view_model_sample_label">View Model Sample</string>
 </resources>

@@ -37,7 +37,7 @@ class TestDispatcherRule(val dispatcherFn: () -> Dispatcher) : TestRule {
                 val dispatcher = dispatcherFn()
                 dispatcher.addMiddleware(testMiddleware)
                 base.evaluate() //Execute the test
-                dispatcher.removeInterceptor(testMiddleware)
+                dispatcher.removeMiddleware(testMiddleware)
             }
         }
     }

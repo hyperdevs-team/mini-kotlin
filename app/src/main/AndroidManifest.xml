@@ -34,6 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StoreSampleActivity"
+            android:label="@string/store_sample_label" />
+        <activity
+            android:name=".ViewModelSampleActivity"
+            android:label="@string/view_model_sample_label" />
     </application>
 
 </manifest>
