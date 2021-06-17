@@ -75,10 +75,10 @@ class MainStoreViewModel(savedStateHandle: SavedStateHandle) : FluxStoreViewMode
 
 class ViewModelSampleActivity : FluxActivity() {
 
-    lateinit var mainContent: View
-    lateinit var resultTextView: TextView
-    lateinit var startSampleButton: Button
-    lateinit var progressBar: ProgressBar
+    private lateinit var mainContent: View
+    private lateinit var resultTextView: TextView
+    private lateinit var startSampleButton: Button
+    private lateinit var progressBar: ProgressBar
     private val viewModel: MainStoreViewModel by viewModels()
 
     override suspend fun whenCreated(savedInstanceState: Bundle?) {

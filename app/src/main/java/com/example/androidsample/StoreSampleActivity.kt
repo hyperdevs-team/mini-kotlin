@@ -69,9 +69,9 @@ class MainStore : Store<State>() {
 
 class StoreSampleActivity : FluxActivity() {
 
-    lateinit var resultTextView: TextView
-    lateinit var startSampleButton: Button
-    lateinit var progressBar: ProgressBar
+    private lateinit var resultTextView: TextView
+    private lateinit var startSampleButton: Button
+    private lateinit var progressBar: ProgressBar
 
     private val mainStore: MainStore by lazy {
         MainStore()
