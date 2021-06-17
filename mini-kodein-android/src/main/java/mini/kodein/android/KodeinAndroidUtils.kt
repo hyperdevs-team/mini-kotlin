@@ -18,6 +18,7 @@
 
 package mini.kodein.android
 
+import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -65,10 +66,10 @@ class DIViewModelFactory(private val injector: DirectDI,
 }
 
 /**
- * Injects a [ViewModel] into a [FragmentActivity] that implements [DIAware].
+ * Injects a [ViewModel] into a [ComponentActivity] that implements [DIAware].
  */
 @MainThread
-inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : DIAware, A : FragmentActivity {
+inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : DIAware, A : ComponentActivity {
     return lazy {
         ViewModelProvider(this, direct.instance()).get(VM::class.java)
     }
