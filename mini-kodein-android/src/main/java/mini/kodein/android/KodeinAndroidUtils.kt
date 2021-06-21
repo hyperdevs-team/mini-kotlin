@@ -18,7 +18,7 @@
 
 package mini.kodein.android
 
-import androidx.activity.ComponentActivity
+import android.app.Application
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider
 import org.kodein.di.*
 import org.kodein.di.bindings.BindingDI
 import org.kodein.di.bindings.NoArgBindingDI
+import kotlin.reflect.KClass
 
 /**
  * Binds a ViewModel to a Kotlin module, assuming that it's a provided dependency.
@@ -66,10 +67,10 @@ class DIViewModelFactory(private val injector: DirectDI,
 }
 
 /**
- * Injects a [ViewModel] into a [ComponentActivity] that implements [DIAware].
+ * Injects a [ViewModel] into a [FragmentActivity] that implements [DIAware].
  */
 @MainThread
-inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : DIAware, A : ComponentActivity {
+inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : DIAware, A : FragmentActivity {
     return lazy {
         ViewModelProvider(this, direct.instance()).get(VM::class.java)
     }
@@ -138,7 +139,22 @@ inline fun <reified T : Any, reified VM : TypedViewModel<T>, F> F.sharedActivity
 }
 
 /**
- * Generic [ViewModel] that adds support for adding a single [params] object to ease parameter
- * injection.
+ * Utility class so we don't need to create a [ViewModelProvider.Factory] for each [TypedViewModel]
+ * in order to use [bindViewModelFactory].
+ *
+ * For injecting the factory of a specific view model, follow this scheme for each of your [TypedViewModel]]s:
+ *
+ * bindViewModelFactory<MyTypedViewModel, ViewModelProvider.Factory> { param ->
+ * TypedViewModelFactory(MyTypedViewModel::class, instance(App.KODEIN_APP_TAG), param as T) }
+ *
+ * being T the type of the param of [MyTypedViewModel].
  */
-open class TypedViewModel<T>(private val params: T) : ViewModel()
+class TypedViewModelFactory<T : TypedViewModel<*>>(
+    private val typedViewModelKlass: KClass<T>,
+    private val app: Application,
+    private val params: Any
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <VM : ViewModel> create(modelClass: Class<VM>): VM =
+        typedViewModelKlass.constructors.first().call(app, params) as VM
+}
