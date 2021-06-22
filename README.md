@@ -192,10 +192,6 @@ dependencies {
     implementation "com.github.hyperdevs-team.mini-kotlin:mini-android:$mini_version"
     kapt "com.github.hyperdevs-team.mini-kotlin:mini-processor:$mini_version"
 
-    // RxJava 2 helper libraries
-    implementation "com.github.hyperdevs-team.mini-kotlin:mini-rx2:$mini_version"
-    implementation "com.github.hyperdevs-team.mini-kotlin:mini-rx2-android:$mini_version"
-
     // Kodein helper libraries
     implementation "com.github.hyperdevs-team.mini-kotlin:mini-kodein:$mini_version"
     implementation "com.github.hyperdevs-team.mini-kotlin:mini-kodein-android:$mini_version"

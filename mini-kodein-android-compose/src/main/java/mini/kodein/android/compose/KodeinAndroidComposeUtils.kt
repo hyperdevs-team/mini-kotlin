@@ -14,28 +14,18 @@
  * limitations under the License.
  */
 
-package mini.kodein.android
+package mini.kodein.android.compose
 
-import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import mini.kodein.android.TypedViewModel
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.direct
 import org.kodein.di.instance
-
-/**
- * Injects a [ViewModel] into a [ComponentActivity] that implements [DIAware].
- */
-@MainThread
-inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : DIAware, A : ComponentActivity {
-    return lazy {
-        ViewModelProvider(this, direct.instance()).get(VM::class.java)
-    }
-}
 
 /**
  * Injects a [ViewModel] scoped to the lifecycle of the [NavBackStackEntry].

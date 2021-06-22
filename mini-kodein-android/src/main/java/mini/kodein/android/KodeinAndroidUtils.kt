@@ -19,9 +19,9 @@
 package mini.kodein.android
 
 import android.app.Application
+import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.kodein.di.*
@@ -67,10 +67,10 @@ class DIViewModelFactory(private val injector: DirectDI,
 }
 
 /**
- * Injects a [ViewModel] into a [FragmentActivity] that implements [DIAware].
+ * Injects a [ViewModel] into a [ComponentActivity] that implements [DIAware].
  */
 @MainThread
-inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : DIAware, A : FragmentActivity {
+inline fun <reified VM : ViewModel, A> A.viewModel(): Lazy<VM> where A : DIAware, A : ComponentActivity {
     return lazy {
         ViewModelProvider(this, direct.instance()).get(VM::class.java)
     }
@@ -87,13 +87,13 @@ inline fun <reified VM : ViewModel, F> F.viewModel(): Lazy<VM> where F : DIAware
 }
 
 /**
- * Injects a [ViewModel] into a [FragmentActivity] that implements [DIAware].
+ * Injects a [ViewModel] into a [ComponentActivity] that implements [DIAware].
  *
  * Requires previous [ViewModelProvider.Factory] injection for the [ViewModel] via [bindViewModelFactory]
  * to work and a [TypedViewModel] to be used.
  */
 @MainThread
-inline fun <reified T : Any, reified VM : TypedViewModel<T>, A> A.viewModel(params: T): Lazy<VM> where A : DIAware, A : FragmentActivity {
+inline fun <reified T : Any, reified VM : TypedViewModel<T>, A> A.viewModel(params: T): Lazy<VM> where A : DIAware, A : ComponentActivity {
     return lazy {
         ViewModelProvider(this, direct.instance(VM::class.java, params)).get(VM::class.java)
     }
