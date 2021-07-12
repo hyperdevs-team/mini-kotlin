@@ -86,7 +86,9 @@ inline fun <reified VM : ViewModel> NavController.sharedViewModelFromRoute(di: D
  * to work and a TypedViewModel to be used.
  */
 @MainThread
-inline fun <reified T : Any, reified VM : TypedViewModel<T>> NavController.sharedViewModelFromRoute(di: DI, navigationRoute: String, params: T): Lazy<VM> {
+inline fun <reified T : Any, reified VM : TypedViewModel<T>> NavController.sharedViewModelFromRoute(di: DI,
+                                                                                                    navigationRoute: String,
+                                                                                                    params: T): Lazy<VM> {
     return lazy {
         val parentBackStackEntry = getBackStackEntry(navigationRoute)
         ViewModelProvider(parentBackStackEntry, di.direct.instance(VM::class.java, params)).get(VM::class.java)

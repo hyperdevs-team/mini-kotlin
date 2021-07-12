@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.0.0] - 2021-06-10
 ### Changed
 - BREAKING CHANGE: Remove RX packages, moved API to full coroutines.
+### Changed
+- Add support for injecting view models scoped to the navigation component's graph in Jetpack Compose.
 
 ## [2.0.0] - 2021-05-01
 ### Changed
@@ -118,7 +120,7 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.0.0...HEAD
 [3.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.4.0...2.0.0
 [1.4.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.3.3...1.4.0

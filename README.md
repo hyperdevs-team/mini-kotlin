@@ -195,6 +195,8 @@ dependencies {
     // Kodein helper libraries
     implementation "com.github.hyperdevs-team.mini-kotlin:mini-kodein:$mini_version"
     implementation "com.github.hyperdevs-team.mini-kotlin:mini-kodein-android:$mini_version"
+    // Kodein helper library for view models scoped to the Navigation component's graph in Jetpack Compose
+    implementation "com.github.hyperdevs-team.mini-kotlin:mini-kodein-android-compose:$mini_version"
 
     // Testing helper libraries
     androidTestImplementation "com.github.hyperdevs-team.mini-kotlin:mini-testing:$mini_version"
@@ -244,6 +246,49 @@ stores.forEach { store ->
 dispatcher.addMiddleware(LoggerMiddleware(stores)) { tag, msg ->
     Log.d(tag, msg)
 }
+```
+
+### \[Android] Kodein Android utils
+`mini-kodein-android` has some utils methods in order to inject an Android's `ViewModel` in a `DIAware` `Activity` or `Fragment`.
+To use it, bind with kodein the Android's `ViewModelProvider.Factory` instance:
+```kotlin
+// Use any tag to differ between the injected `Context` or `Application` if you are binding also `Context` with Kodein
+bind<Application>("appTag") with singleton { app }
+bind<ViewModelProvider.Factory>() with singleton { DIViewModelFactory(di.direct) }
+```
+To inject a view model without parameters, bind it as follows in this example:
+```kotlin
+bindViewModel { MainViewModel(instance("appTag") }
+```
+And in your `DIAware` `Activity` or `Fragment`:
+```kotlin
+private val mainViewModel: MainViewModel by viewModel()
+```
+
+`mini-kodein-android-compose` has some utils methods in order to inject an Android's `ViewModel` in the scope of a Navigation component
+graph. This is useful as in Jetpack Compose is common to have only one or few `Activities` and none `Fragment` so, in order to scope
+the lifecycle of the `ViewModel` not for all the life of the `Activity`, we can scope it to any route existing in the `NavBackStackEntry`.
+For use it, do the same as above, but instead of injecting the view model scoped to a route of the Navigation, the `NavHost` composable
+must be inside an `DIAware Activity`, and then do as follows:
+```kotlin
+composable(route = "home") { navBackStackEntry ->
+    val homeViewModel: HomeViewModel by navBackStackEntry.viewModel(contextDI())
+    HomeScreen(homeViewModel, ...)
+}
+```
+
+In case you want to pass an argument to a view model, you need to bind the factory of that kind of Android's ViewModel.
+You can do this in both `mini-kodein-android`, and `mini-kodein-android-compose`.
+For example given a view model that you want to pass a `String` param, it would be:
+```kotlin
+bindViewModelFactory<HomeViewModelWithParameter, ViewModelProvider.Factory> { param ->
+    TypedViewModelFactory(HomeViewModelWithParameter::class, instance("appTag"), param as String)
+}
+```
+And for retrieve it with the given param in its constructor:
+```kotlin
+val param = "Hello World!"
+val homeViewModelWithParameter: HomeViewModelWithParameter by navBackStackEntry.viewModel(contextDI(), param)
 ```
 
 ### \[Android] Proguard/R8

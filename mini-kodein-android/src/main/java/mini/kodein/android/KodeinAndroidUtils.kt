@@ -145,15 +145,14 @@ inline fun <reified T : Any, reified VM : TypedViewModel<T>, F> F.sharedActivity
  * For injecting the factory of a specific view model, follow this scheme for each of your [TypedViewModel]]s:
  *
  * bindViewModelFactory<MyTypedViewModel, ViewModelProvider.Factory> { param ->
- * TypedViewModelFactory(MyTypedViewModel::class, instance(App.KODEIN_APP_TAG), param as T) }
+ *      TypedViewModelFactory(MyTypedViewModel::class, instance(App.KODEIN_APP_TAG), param as T)
+ * }
  *
  * being T the type of the param of [MyTypedViewModel].
  */
-class TypedViewModelFactory<T : TypedViewModel<*>>(
-    private val typedViewModelKlass: KClass<T>,
-    private val app: Application,
-    private val params: Any
-) : ViewModelProvider.Factory {
+class TypedViewModelFactory<T : TypedViewModel<*>>(private val typedViewModelKlass: KClass<T>,
+                                                   private val app: Application,
+                                                   private val params: Any) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <VM : ViewModel> create(modelClass: Class<VM>): VM =
         typedViewModelKlass.constructors.first().call(app, params) as VM
