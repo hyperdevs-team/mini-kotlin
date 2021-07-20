@@ -285,7 +285,7 @@ bindViewModelFactory<HomeViewModelWithParameter, ViewModelProvider.Factory> { pa
     TypedViewModelFactory(HomeViewModelWithParameter::class, instance("appTag"), param as String)
 }
 ```
-And for retrieve it with the given param in its constructor:
+And to retrieve it with the given param in its constructor:
 ```kotlin
 val param = "Hello World!"
 val homeViewModelWithParameter: HomeViewModelWithParameter by navBackStackEntry.viewModel(contextDI(), param)
