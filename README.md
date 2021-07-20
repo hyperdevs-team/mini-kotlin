@@ -256,7 +256,7 @@ In order to use them, bind the Android's `ViewModelProvider.Factory` instance wi
 bind<Application>("appTag") with singleton { app }
 bind<ViewModelProvider.Factory>() with singleton { DIViewModelFactory(di.direct) }
 ```
-To inject a view model without parameters, bind it as follows in this example:
+To inject a ViewModel without parameters, bind it as follows:
 ```kotlin
 bindViewModel { MainViewModel(instance("appTag") }
 ```
