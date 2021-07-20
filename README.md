@@ -279,7 +279,7 @@ composable(route = "home") { navBackStackEntry ->
 
 In case you want to pass an argument to a ViewModel, you need to bind the factory of that kind of Android's ViewModel.
 You can do this in both `mini-kodein-android`, and `mini-kodein-android-compose`.
-For example given a view model that you want to pass a `String` param, it would be:
+For example, given a `ViewModel` that you want to pass a `String` param, it would be:
 ```kotlin
 bindViewModelFactory<HomeViewModelWithParameter, ViewModelProvider.Factory> { param ->
     TypedViewModelFactory(HomeViewModelWithParameter::class, instance("appTag"), param as String)
