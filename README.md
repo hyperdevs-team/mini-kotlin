@@ -268,7 +268,7 @@ private val mainViewModel: MainViewModel by viewModel()
 `mini-kodein-android-compose` has some utility methods in order to inject an Android's `ViewModel` in the scope of a Navigation component
 graph. This is useful as in Jetpack Compose it is common to have only one or few `Activities` and no `Fragment`s so, in order to scope
 the lifecycle of the `ViewModel` not for all the life of the `Activity`, we can scope it to any route existing in the `NavBackStackEntry`.
-For use it, do the same as above, but instead of injecting the view model scoped to a route of the Navigation, the `NavHost` composable
+In order to use it, do the same as above, but instead of injecting the ViewModel scoped to a route of the Navigation, the `NavHost` composable
 must be inside an `DIAware Activity`, and then do as follows:
 ```kotlin
 composable(route = "home") { navBackStackEntry ->
