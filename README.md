@@ -249,7 +249,7 @@ dispatcher.addMiddleware(LoggerMiddleware(stores)) { tag, msg ->
 ```
 
 ### \[Android] Kodein Android utils
-`mini-kodein-android` has some utils methods in order to inject an Android's `ViewModel` in a `DIAware` `Activity` or `Fragment`.
+`mini-kodein-android` has some utility methods in order to inject an Android's `ViewModel` in a `DIAware` `Activity` or `Fragment`.
 To use it, bind with kodein the Android's `ViewModelProvider.Factory` instance:
 ```kotlin
 // Use any tag to differ between the injected `Context` or `Application` if you are binding also `Context` with Kodein
