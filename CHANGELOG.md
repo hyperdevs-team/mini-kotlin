@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [3.0.0] - 2021-06-10
+### Changed
+- BREAKING CHANGE: Remove RX packages, moved API to full coroutines.
+### Changed
+- Add support for injecting view models scoped to the navigation component's graph in Jetpack Compose.
+
 ## [2.0.0] - 2021-05-01
 ### Changed
 - Changed repo ownership to [hyperdevs-team](https://github.com/hyperdevs-team). Thanks [bq](https://github.com/bq) for all the work!
@@ -33,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.2] - 2020-05-27
 ### Added
-- Add `allTerminal`, `onAllTerminal` and `firstExceptionOrNull` functions to lists of `Resource`s
+- Add `allTerminal`, `onAllTerminal` and `firstExceptionOrNull` functions to lists of `Resource`s.
 
 ## [1.3.1] - 2020-04-22
 ### Added
@@ -114,7 +120,8 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.4.0...2.0.0
 [1.4.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.3.3...1.4.0
 [1.3.3]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.3.2...1.3.3

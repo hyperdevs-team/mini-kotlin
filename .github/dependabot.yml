@@ -1,0 +1,8 @@
+version: 2
+updates:
+# Updates for Gradle dependencies used in the app      
+  - package-ecosystem: gradle
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 10
