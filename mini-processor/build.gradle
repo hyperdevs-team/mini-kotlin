@@ -23,7 +23,7 @@ apply from: "../jitpack.gradle"
 dependencies {
     api project(':mini-common')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    def kotlinPoet_version = "1.7.2"
+    def kotlinPoet_version = "1.9.0"
     implementation "com.squareup:kotlinpoet:$kotlinPoet_version"
     def googleAuto_version = "0.11"
     implementation "com.google.auto:auto-common:$googleAuto_version"
