@@ -53,7 +53,7 @@ dependencies {
     api project(':mini-common')
 
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    api "androidx.appcompat:appcompat:1.2.0"
+    api "androidx.appcompat:appcompat:1.4.1"
     api "androidx.activity:activity-ktx:$activity_version"
     api "androidx.fragment:fragment-ktx:$fragment_version"
 
