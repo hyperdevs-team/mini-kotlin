@@ -21,23 +21,25 @@ apply plugin: "com.gladed.androidgitversion"
 
 buildscript {
     ext {
-        kotlin_version = "1.5.10"
+        kotlin_version = "1.7.10"
 
-        android_compile_sdk = 30
-        android_target_sdk = 30
+        android_compile_sdk = 33
+        android_target_sdk = 33
         android_build_tools_version = "30.0.3"
 
-        activity_version = "1.2.1"
-        fragment_version = "1.3.3"
-        lifecycle_version = "2.3.1"
-        coroutines_version = "1.4.3"
+        activity_version = "1.5.0"
+        fragment_version = "1.5.0"
+        lifecycle_version = "2.5.0"
+        coroutines_version = "1.6.3"
 
-        kodein_version = "7.6.0"
+        kodein_version = "7.13.0"
 
         junit_version = "4.13.2"
         test_runner_version = "1.3.0"
-        espresso_version = "3.3.0"
-        kluent_version = "1.65"
+        espresso_version = "3.4.0"
+        kluent_version = "1.68"
+
+        ksp_version = "1.7.10-1.0.6"
     }
 
     repositories {
@@ -47,12 +49,12 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.3"
+        classpath "com.android.tools.build:gradle:7.2.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.junit.platform:junit-platform-gradle-plugin:1.2.0"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
         classpath "com.gladed.androidgitversion:gradle-android-git-version:0.4.14"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.38.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.42.0"
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$ksp_version"
     }
 }
 

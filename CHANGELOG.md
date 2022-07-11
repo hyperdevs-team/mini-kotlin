@@ -18,6 +18,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [3.1.0] - 2022-07-11
+### Added
+- Add support for Kotlin Symbol Processing (KSP). You can use KAPT as usual or use KSP by doing the following:
+<details open><summary>Groovy</summary>
+
+Add this to your main `build.gradle`:
+```groovy
+buildscript {
+    ext {
+        ksp_version = "1.7.10-1.0.6"
+    }
+
+    dependencies {
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$ksp_version"
+    }
+}
+```
+
+And this to your module's `build.gradle`
+```groovy
+apply plugin: "com.google.devtools.ksp"
+
+ksp "com.github.hyperdevs-team.mini-kotlin:mini-processor:$mini_version"
+```
+
+</details>
+
+<details><summary>Kotlin</summary>
+
+Add this to your main `build.gradle.kts`:
+```kotlin
+buildscript {
+    dependencies {
+        val kspVersion = "1.7.10-1.0.6"
+        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${kspVersion}")
+    }
+}
+```
+And this to your module's `build.gradle.kts`
+```groovy
+plugins {
+    id "com.google.devtools.ksp"
+}
+
+ksp("com.github.hyperdevs-team.mini-kotlin:mini-processor:${miniVersion}")
+```
+
+</details>
+
+### Changed
+- Update all project dependencies.
+
 ## [3.0.0] - 2021-06-10
 ### Changed
 - BREAKING CHANGE: Remove RX packages, moved API to full coroutines.

@@ -16,4 +16,4 @@
 # limitations under the License.
 #
 
-mini.processor.kapt.MiniAnnotationProcessor
+mini.processor.ksp.MiniSymbolProcessorProvider

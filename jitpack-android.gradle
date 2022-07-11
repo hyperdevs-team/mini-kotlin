@@ -16,24 +16,99 @@
  * limitations under the License.
  */
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
+apply plugin: 'maven-publish'
+apply from: "../gradle/scripts/pom.gradle"
+
+android {
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
-task javadoc(type: Javadoc) {
-    options.charSet = 'UTF-8'
-    failOnError  false
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                artifactId = project.name
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+                pom {
+                    setPomMetadata(project.name)
+                }
 
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+                /*
+                pom {
+                    name = "Mini (${project.name})"
+                    description = "Mini is a minimal Flux architecture written in Kotlin that also adds a mix of useful features to build UIs fast."
+                    url = "https://github.com/hyperdevs-team/mini-kotlin/releases/tag/${mini_version}"
+                    version = mini_version
+                    inceptionYear = "2017"
+
+                    licenses {
+                        license {
+                            name = "The Apache License, Version 2.0"
+                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+
+                    organization {
+                        name = "HyperDevs"
+                        url = "https://github.com/hyperdevs-team"
+                    }
+
+                    issueManagement {
+                        system = "GitHub Issues"
+                        url = "https://github.com/hyperdevs-team/mini-kotlin/issues"
+                    }
+
+                    scm {
+                        connection = "git@github.com:hyperdevs-team/mini-kotlin.git"
+                        url = "https://github.com/hyperdevs-team/mini-kotlin.git"
+                    }
+
+                    developers {
+                        developer {
+                            name = "Estefanía Sarasola Elvira"
+                            id = "yamidragut"
+                            url = "https://github.com/yamidragut"
+                            roles = ["Maintainer"]
+                        }
+
+                        developer {
+                            name = "Sara Lucía Pérez"
+                            id = "Babelia13"
+                            url = "https://github.com/Babelia13"
+                            roles = ["Maintainer"]
+                        }
+
+                        developer {
+                            name = "Adrián García"
+                            id = "adriangl"
+                            url = "https://github.com/adriangl"
+                            roles = ["Maintainer"]
+                        }
+
+                        developer {
+                            name = "Francisco García Sierra"
+                            id = "FrangSierra"
+                            url = "https://github.com/FrangSierra"
+                            roles = ["Maintainer", "Initial Work"]
+                        }
+
+                        developer {
+                            name = "Pablo Orgaz"
+                            id = "pabloogc"
+                            url = "https://github.com/pabloogc"
+                            roles = ["Initial Work"]
+                        }
+                    }
+                }
+                */
+            }
+        }
+    }
 }

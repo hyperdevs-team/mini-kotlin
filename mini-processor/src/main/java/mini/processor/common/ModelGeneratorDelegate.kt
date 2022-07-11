@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2022 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +14,8 @@
  * limitations under the License.
  */
 
-apply plugin: "java"
-apply plugin: "maven-publish"
+package mini.processor.common
 
-apply from: "../gradle/scripts/pom.gradle"
-
-version = mini_version
-
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifactId = project.name
-
-            pom {
-                setPomMetadata(project.name)
-            }
-        }
-    }
+interface ModelGeneratorDelegate<T> {
+    fun provideModels(): List<T>
 }

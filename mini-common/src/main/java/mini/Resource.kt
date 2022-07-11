@@ -174,7 +174,7 @@ fun <T> Iterable<Resource<T>>.onAnyEmpty(fn: () -> Unit): Iterable<Resource<T>> 
     return this
 }
 
-fun Iterable<Task>.onAnyIdle(fn: () -> Unit): Iterable<Task> = onAnyEmpty(fn).map { it as Task }
+fun Iterable<Task>.onAnyIdle(fn: () -> Unit): Iterable<Task> = onAnyEmpty(fn).map { it }
 
 /** Returns the first exception that can be found in a list of resources, null if it can't find any */
 fun <T> Iterable<Resource<T>>.firstExceptionOrNull() : Throwable? =

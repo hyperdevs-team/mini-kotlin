@@ -187,7 +187,7 @@ Add the following dependencies to your app's `build.gradle`:
 
 ```groovy
 dependencies {
-    def mini_version = "3.0.0"
+    def mini_version = "3.1.0"
     // Minimum working dependencies
     implementation "com.github.hyperdevs-team.mini-kotlin:mini-android:$mini_version"
     kapt "com.github.hyperdevs-team.mini-kotlin:mini-processor:$mini_version"
@@ -202,6 +202,55 @@ dependencies {
     androidTestImplementation "com.github.hyperdevs-team.mini-kotlin:mini-testing:$mini_version"
 }
 ```
+
+If you want, you can also use *Kotlin Symbol Processing (KSP)* instead of KAPT like this:
+
+<details open><summary>Groovy</summary>
+
+Add this to your main `build.gradle`:
+
+```groovy
+buildscript {
+    ext {
+        ksp_version = "1.7.10-1.0.6"
+    }
+
+    dependencies {
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$ksp_version"
+    }
+}
+```
+
+And this to your module's `build.gradle`
+```groovy
+apply plugin: "com.google.devtools.ksp"
+
+ksp "com.github.hyperdevs-team.mini-kotlin:mini-processor:$mini_version"
+```
+
+</details>
+
+<details><summary>Kotlin</summary>
+
+Add this to your main `build.gradle.kts`:
+```kotlin
+buildscript {
+    dependencies {
+        val kspVersion = "1.7.10-1.0.6"
+        classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${kspVersion}")
+    }
+}
+```
+And this to your module's `build.gradle.kts`
+```groovy
+plugins {
+    id "com.google.devtools.ksp"
+}
+
+ksp("com.github.hyperdevs-team.mini-kotlin:mini-processor:${miniVersion}")
+```
+
+</details>
 
 ### Recommended settings
 #### JDK8 requirements

@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2022 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +14,27 @@
  * limitations under the License.
  */
 
-apply plugin: "java"
-apply plugin: "maven-publish"
+package mini.processor.common.reducers
 
-apply from: "../gradle/scripts/pom.gradle"
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.TypeName
 
-version = mini_version
+interface ReducerModel {
+    val isPure: Boolean
+    val isSuspending: Boolean
 
-java {
-    withSourcesJar()
-    withJavadocJar()
+    val container: ContainerModel
+    val priority: Int
+
+    val actionTypeName: TypeName
+    val returnTypeName: TypeName
+
+    fun generateCallBlock(containerParam: String, actionParam: String): CodeBlock
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifactId = project.name
 
-            pom {
-                setPomMetadata(project.name)
-            }
-        }
-    }
+interface ContainerModel {
+    val typeName: TypeName
+    val stateTypeName: TypeName
+    val isStatic: Boolean
 }

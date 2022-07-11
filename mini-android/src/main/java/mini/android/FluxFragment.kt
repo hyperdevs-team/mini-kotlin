@@ -34,8 +34,8 @@ abstract class FluxFragment : Fragment(),
     override val coroutineContext: CoroutineContext
         get() = lifecycleScope.coroutineContext
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         lifecycleScope.launch { whenCreated(savedInstanceState) }
     }
 
