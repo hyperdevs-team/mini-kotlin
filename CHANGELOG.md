@@ -69,6 +69,7 @@ ksp("com.github.hyperdevs-team.mini-kotlin:mini-processor:${miniVersion}")
 
 ### Changed
 - Update all project dependencies.
+- Update documentation.
 
 ## [3.0.0] - 2021-06-10
 ### Changed
