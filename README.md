@@ -90,7 +90,8 @@ dependencies {
 
 </details>
 
-If you want, you can also use *Kotlin Symbol Processing (KSP)* instead of KAPT like this:
+If you want, you can also use *Kotlin Symbol Processing (KSP)* instead of KAPT. Keep in mind that
+[KSP has some gotchas that can be worked around](#ksp-gotchas), so double check before using this.
 
 <details><summary>KSP extra dependencies</summary>
 
@@ -436,13 +437,56 @@ val homeViewModelWithParameter: HomeViewModelWithParameter by navBackStackEntry.
 
 ## Tips and tricks
 ### Improve compilation speed
-In order to speed up the compilation process, it is recommended to add the following settings in
+In order to speed up the compilation process for `kapt`, it is recommended to add the following settings in
 your `gradle.properties`:
 ```groovy
 ## Improves kapt speed with parallel annotation processing tasks, may impact in memory usage
 kapt.use.worker.api=true
 ## Enables Gradle build cache
 org.gradle.caching=true
+```
+
+## Known issues
+### KSP gotchas
+#### KSP code is not recognized by the IntelliJ IDEs
+You may find that KSP generated sources are not indexed by IntelliJ IDEs. You can solve this by
+declaring the proper source sets in your build.gradle:
+
+For Android apps:
+```groovy
+applicationVariants.all { variant ->
+    kotlin.sourceSets {
+        def flavors = variant.productFlavors.indexed().collect { index, item ->
+            def flavorName = item.name
+            if (index > 0) return flavorName.capitalize() else flavorName
+        }.join("")
+
+        debug {
+            getByName(flavors) {
+                kotlin.srcDirs += "build/generated/ksp/${flavors}Debug/kotlin"
+            }
+        }
+
+        release {
+            getByName(flavors) {
+                kotlin.srcDirs += "build/generated/ksp/${flavors}Release/kotlin"
+            }
+        }
+    }
+}
+```
+
+#### KSP code generates code for test source sets
+You may encounter that KSP also runs over test source sets, so if you set any code related to Mini
+in test sources, it will generate code that may override your main source set generated code.
+
+A workaround to avoid this is to disable any KSP task for test source sets:
+```groovy
+afterEvaluate {
+    tasks.matching {
+        it.name.startsWith("ksp") && it.name.endsWith("TestKotlin")
+    }.configureEach { it.enabled = false }
+}
 ```
 
 ## Acknowledgements

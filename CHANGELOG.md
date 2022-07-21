@@ -20,7 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.1.0] - 2022-07-11
 ### Added
-- Add support for Kotlin Symbol Processing (KSP). You can use KAPT as usual or use KSP by doing the following:
+- Add support for Kotlin Symbol Processing (KSP). Be mindful of [the gotchas](README.md#ksp-gotchas). 
+ You can use KAPT as usual or use KSP by doing the following:
 <details open><summary>Groovy</summary>
 
 Add this to your main `build.gradle`:
@@ -79,8 +80,8 @@ ksp("com.github.hyperdevs-team.mini-kotlin:mini-processor:${miniVersion}")
 
 ## [2.0.0] - 2021-05-01
 ### Changed
-- Changed repo ownership to [hyperdevs-team](https://github.com/hyperdevs-team). Thanks [bq](https://github.com/bq) for all the work!
-- Changed package names from `com.bq.*` to `com.hyperdevs.*`
+- Change repo ownership to [hyperdevs-team](https://github.com/hyperdevs-team). Thanks [bq](https://github.com/bq) for all the work!
+- Change package names from `com.bq.*` to `com.hyperdevs.*`
 
 ## [1.4.0] - 2020-12-15
 ### Added
