@@ -27,7 +27,7 @@ Add this to your main `build.gradle`:
 ```groovy
 buildscript {
     ext {
-        ksp_version = "1.7.10-1.0.6"
+        ksp_version = "1.7.0-1.0.6"
     }
 
     dependencies {
@@ -51,7 +51,7 @@ Add this to your main `build.gradle.kts`:
 ```kotlin
 buildscript {
     dependencies {
-        val kspVersion = "1.7.10-1.0.6"
+        val kspVersion = "1.7.0-1.0.6"
         classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${kspVersion}")
     }
 }
