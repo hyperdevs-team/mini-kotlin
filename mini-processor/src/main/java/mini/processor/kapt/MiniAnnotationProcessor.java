@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package mini.processor;
+package mini.processor.kapt;
 
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor;
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType;
@@ -33,28 +33,28 @@ import javax.lang.model.element.TypeElement;
  */
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.AGGREGATING)
 @SupportedOptions("kapt.kotlin.generated")
-public class MiniProcessor extends AbstractProcessor {
+public class MiniAnnotationProcessor extends AbstractProcessor {
 
-   private final Processor processor = new Processor();
+    private final Processor processor = new Processor();
 
-   @Override
-   public synchronized void init(ProcessingEnvironment processingEnvironment) {
-      super.init(processingEnvironment);
-      processor.init(processingEnvironment);
-   }
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnvironment) {
+        super.init(processingEnvironment);
+        processor.init(processingEnvironment);
+    }
 
-   @Override
-   public Set<String> getSupportedAnnotationTypes() {
-      return processor.getSupportedAnnotationTypes();
-   }
+    @Override
+    public Set<String> getSupportedAnnotationTypes() {
+        return processor.getSupportedAnnotationTypes();
+    }
 
-   @Override
-   public SourceVersion getSupportedSourceVersion() {
-      return processor.getSupportedSourceVersion();
-   }
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return processor.getSupportedSourceVersion();
+    }
 
-   @Override
-   public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-      return processor.process(roundEnvironment);
-   }
+    @Override
+    public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+        return processor.process(roundEnvironment);
+    }
 }

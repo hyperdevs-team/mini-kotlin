@@ -87,7 +87,7 @@ fun <S : Any> StateContainer<S>.channel(hotStart: Boolean = true,
                                         capacity: Int = Channel.BUFFERED): Channel<S> {
     val channel = Channel<S>(capacity)
     val subscription = subscribe(hotStart) {
-        channel.offer(it)
+        channel.trySend(it)
     }
     @Suppress("EXPERIMENTAL_API_USAGE")
     channel.invokeOnClose {

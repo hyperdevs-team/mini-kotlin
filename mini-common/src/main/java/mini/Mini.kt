@@ -32,7 +32,7 @@ abstract class Mini {
                 Class.forName(DISPATCHER_FACTORY_CLASS_NAME).getField("INSTANCE").get(null) as Mini
             } catch (ex: Throwable) {
                 throw ClassNotFoundException("Failed to load generated class $DISPATCHER_FACTORY_CLASS_NAME, " +
-                                             "most likely kapt did not run, add it as dependency to the project", ex)
+                                             "most likely the annotation processor did not run, add it as dependency to the project", ex)
             }
         }
 

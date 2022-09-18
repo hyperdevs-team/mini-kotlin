@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2022 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +14,15 @@
  * limitations under the License.
  */
 
-apply plugin: "java"
-apply plugin: "maven-publish"
+package mini.processor.kapt.actions
 
-apply from: "../gradle/scripts/pom.gradle"
+import mini.processor.common.actions.ActionTypesGeneratorDelegate
+import javax.lang.model.element.Element
+import javax.lang.model.element.Modifier
 
-version = mini_version
-
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifactId = project.name
-
-            pom {
-                setPomMetadata(project.name)
-            }
-        }
-    }
+class KaptActionTypesGeneratorDelegate(private val elements: Set<Element>) :
+    ActionTypesGeneratorDelegate {
+    override fun provideModels() = elements
+        .filter { Modifier.ABSTRACT !in it.modifiers }
+        .map { KaptActionModel(it) }
 }

@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package mini.processor
+package mini.processor.kapt
 
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.TypeSpec
 import mini.Action
-import mini.DISPATCHER_FACTORY_CLASS_NAME
-import mini.Mini
 import mini.Reducer
+import mini.processor.common.ProcessorException
+import mini.processor.common.actions.ActionTypesGenerator
+import mini.processor.common.getContainerBuilders
+import mini.processor.common.reducers.ReducersGenerator
+import mini.processor.kapt.actions.KaptActionTypesGeneratorDelegate
+import mini.processor.kapt.reducers.KaptReducersGeneratorDelegate
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
@@ -32,7 +33,8 @@ import javax.lang.model.SourceVersion
 class Processor {
 
     val supportedAnnotationTypes: MutableSet<String> = mutableSetOf(
-        Reducer::class.java, Action::class.java)
+        Reducer::class.java, Action::class.java
+    )
         .map { it.canonicalName }.toMutableSet()
     val supportedSourceVersion: SourceVersion = SourceVersion.RELEASE_8
 
@@ -49,27 +51,24 @@ class Processor {
 
         if (roundActions.isEmpty()) return false
 
-        val className = ClassName.bestGuess(DISPATCHER_FACTORY_CLASS_NAME)
-        val file = FileSpec.builder(className.packageName, className.simpleName)
-        val container = TypeSpec.objectBuilder(className)
-            .addKdoc("Automatically generated, do not edit.\n")
-            .superclass(Mini::class)
+        val (containerFile, container) = getContainerBuilders()
 
-        //Get non-abstract actions
         try {
-            ActionTypesGenerator.generate(container, roundActions)
-            ReducersGenerator.generate(container, roundReducers)
+            ActionTypesGenerator(KaptActionTypesGeneratorDelegate(roundActions)).generate(container)
+            ReducersGenerator(KaptReducersGeneratorDelegate(roundReducers)).generate(container)
         } catch (e: Throwable) {
             if (e !is ProcessorException) {
-                logError(
+                kaptLogError(
                     "Compiler crashed, open an issue please!\n" +
-                    " ${e.stackTraceString()}"
+                            " ${e.stackTraceString()}"
                 )
             }
         }
 
-        file.addType(container.build())
-        file.build().writeToFile(sourceElements = ((roundActions + roundReducers).toTypedArray()))
+        containerFile
+            .addType(container.build())
+            .build()
+            .writeToFile(sourceElements = ((roundActions + roundReducers).toTypedArray()))
 
         return true
     }

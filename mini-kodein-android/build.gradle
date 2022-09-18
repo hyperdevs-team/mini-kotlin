@@ -18,17 +18,16 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: "com.github.dcendents.android-maven"
 
 android {
     compileSdkVersion android_compile_sdk
     buildToolsVersion android_build_tools_version
 
+    namespace "mini.kodein.android"
+
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion android_target_sdk
-        versionCode android_version_code
-        versionName android_version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "mini-kodein-android.pro"
     }

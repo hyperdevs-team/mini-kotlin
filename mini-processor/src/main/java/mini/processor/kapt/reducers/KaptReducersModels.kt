@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2022 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,86 +14,42 @@
  * limitations under the License.
  */
 
-package mini.processor
+package mini.processor.kapt.reducers
 
 import com.squareup.kotlinpoet.*
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import mini.CompositeCloseable
-import mini.Dispatcher
 import mini.Reducer
 import mini.StateContainer
-import java.io.Closeable
+import mini.processor.common.reducers.ContainerModel
+import mini.processor.common.reducers.ReducerModel
+import mini.processor.kapt.getAllSuperTypes
+import mini.processor.kapt.isSuspending
+import mini.processor.kapt.kaptCompilePrecondition
+import mini.processor.kapt.safeAnyTypeName
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.Modifier
 import javax.lang.model.type.DeclaredType
 
-object ReducersGenerator {
+class KaptReducerModel(private val function: ExecutableElement) : ReducerModel {
+    override val isPure: Boolean
+    override val isSuspending: Boolean
 
-    fun generate(container: TypeSpec.Builder, elements: Set<Element>) {
-        val reducers = elements.map { ReducerModel(it) }
-            .groupBy { it.container.typeName }
+    override val container: KaptContainerModel
+    override val priority = function.getAnnotation(Reducer::class.java).priority
 
-        val whenBlock = CodeBlock.builder()
-            .addStatement("val c = %T()", CompositeCloseable::class)
-            .addStatement("when (container) {").indent()
-            .apply {
-                reducers.forEach { (containerName, reducerFunctions) ->
-                    addStatement("is %T -> {", containerName).indent()
-                    reducerFunctions.forEach { function ->
-                        add("c.add(dispatcher.subscribe<%T>(priority=%L) { action -> ",
-                            function.actionTypeName,
-                            function.priority
-                        )
-                        add(function.generateCallBlock("container", "action"))
-                        addStatement("})")
-                    }
-                    unindent().addStatement("}")
-                }
-            }
-            .unindent()
-            .addStatement("}") //Close when
-            .addStatement("return c")
-            .build()
-
-        val typeParam = TypeVariableName("T")
-        val oneParam = StateContainer::class.asTypeName().parameterizedBy(typeParam)
-
-        val registerOneFn = FunSpec.builder("subscribe")
-            .addModifiers(KModifier.OVERRIDE)
-            .addTypeVariable(typeParam)
-            .addParameter("dispatcher", Dispatcher::class)
-            .addParameter("container", oneParam)
-            .returns(Closeable::class)
-            .addCode(whenBlock)
-            .build()
-
-        container.addFunction(registerOneFn)
-    }
-}
-
-class ReducerModel(element: Element) {
-    private val function = element as ExecutableElement
-
-    private val isPure: Boolean
-    private val isSuspending: Boolean
-
-    val container: ContainerModel
-    val priority = element.getAnnotation(Reducer::class.java).priority
-
-    val actionTypeName: TypeName
-    val returnTypeName: TypeName
+    override val actionTypeName: TypeName
+    override val returnTypeName: TypeName
 
     init {
-        compilePrecondition(
+        kaptCompilePrecondition(
             check = function.modifiers.contains(Modifier.PUBLIC),
             message = "Reducer functions must be public.",
-            element = element
+            element = function
         )
 
         isSuspending = function.isSuspending()
-        container = ContainerModel(element.enclosingElement)
+        container = KaptContainerModel(function.enclosingElement)
         val parameters: List<TypeName>
 
         if (isSuspending) {
@@ -112,37 +66,37 @@ class ReducerModel(element: Element) {
         if (returnTypeName == UNIT) {
             isPure = false
             actionTypeName = function.parameters[0].asType().asTypeName().safeAnyTypeName()
-            compilePrecondition(
+            kaptCompilePrecondition(
                 check = parameters.size == 1,
                 message = "Expected exactly one action parameter",
-                element = element
+                element = function
             )
         } else {
             isPure = true
-            compilePrecondition(
+            kaptCompilePrecondition(
                 check = parameters.size == 2,
                 message = "Expected exactly two parameters, ${container.stateTypeName} and action",
-                element = element
+                element = function
             )
             val stateTypeName = parameters[0]
             actionTypeName = parameters[1].safeAnyTypeName()
 
-            compilePrecondition(
+            kaptCompilePrecondition(
                 check = stateTypeName == container.stateTypeName,
                 message = "Expected ${container.stateTypeName} as first state parameter",
-                element = element
+                element = function
             )
 
-            compilePrecondition(
+            kaptCompilePrecondition(
                 check = returnTypeName == container.stateTypeName,
                 message = "Expected ${container.stateTypeName} as return value",
-                element = element
+                element = function
             )
         }
 
     }
 
-    fun generateCallBlock(containerParam: String, actionParam: String): CodeBlock {
+    override fun generateCallBlock(containerParam: String, actionParam: String): CodeBlock {
 
         val receiver = if (container.isStatic) {
             CodeBlock.of("%T.${function.simpleName}", container.typeName)
@@ -172,13 +126,13 @@ class ReducerModel(element: Element) {
     }
 }
 
-class ContainerModel(element: Element) {
-    val typeName: TypeName
-    val stateTypeName: TypeName
-    val isStatic: Boolean
+class KaptContainerModel(element: Element) : ContainerModel {
+    override val typeName: TypeName
+    override val stateTypeName: TypeName
+    override val isStatic: Boolean
 
     init {
-        compilePrecondition(
+        kaptCompilePrecondition(
             check = element.kind == ElementKind.CLASS,
             message = "Reducers must be declared inside StateContainer classes",
             element = element
@@ -200,7 +154,7 @@ class ContainerModel(element: Element) {
         val superTypes = realContainer.asType().getAllSuperTypes().map { it.asTypeName() }
         val stateContainerType = superTypes
             .find { it is ParameterizedTypeName && it.rawType == StateContainer::class.asTypeName() }
-        compilePrecondition(
+        kaptCompilePrecondition(
             check = stateContainerType != null,
             message = "Reducers must be declared in a StateContainer<T>",
             element = element
