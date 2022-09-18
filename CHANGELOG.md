@@ -18,9 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
-## [3.1.0] - 2022-07-11
+## [3.1.0] - 2022-09-18
 ### Added
-- Add support for Kotlin Symbol Processing (KSP). Be mindful of [the gotchas](README.md#ksp-gotchas). 
+- Add **EXPERIMENTAL** support for Kotlin Symbol Processing (KSP). Be mindful of [the gotchas](README.md#ksp-gotchas). 
  You can use KAPT as usual or use KSP by doing the following:
 <details open><summary>Groovy</summary>
 

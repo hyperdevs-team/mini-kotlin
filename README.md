@@ -91,7 +91,9 @@ dependencies {
 </details>
 
 If you want, you can also use *Kotlin Symbol Processing (KSP)* instead of KAPT. Keep in mind that
-[KSP has some gotchas that can be worked around](#ksp-gotchas), so double check before using this.
+support for it is **EXPERIMENTAL** and that 
+[KSP has some gotchas that can be worked around](#ksp-gotchas), so double check before using this
+and report any issue that you find while working with KSP.
 
 <details><summary>KSP extra dependencies</summary>
 
