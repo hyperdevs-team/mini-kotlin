@@ -53,7 +53,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.junit.platform:junit-platform-gradle-plugin:1.2.0"
         classpath "com.gladed.androidgitversion:gradle-android-git-version:0.4.14"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.42.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.43.0"
         classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$ksp_version"
     }
 }
