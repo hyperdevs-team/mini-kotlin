@@ -37,7 +37,7 @@ buildscript {
         junit_version = "4.13.2"
         test_runner_version = "1.4.0"
         espresso_version = "3.4.0"
-        kluent_version = "1.68"
+        kluent_version = "1.72"
 
         ksp_version = "${kotlin_version}-1.0.6"
     }
