@@ -24,12 +24,14 @@ import java.util.concurrent.CopyOnWriteArrayList
 /**
  * Basic state holder.
  */
-abstract class Store<S> : Closeable,
+abstract class Store<S : State> : Closeable,
     StateContainer<S>,
     CloseableTracker by DefaultCloseableTracker() {
 
-    class StoreSubscription internal constructor(private val store: Store<*>,
-                                                 private val fn: Any) : Closeable {
+    class StoreSubscription<S : State> internal constructor(
+        private val store: Store<S>,
+        private val fn: Any
+    ) : Closeable {
         override fun close() {
             store.listeners.remove(fn)
         }

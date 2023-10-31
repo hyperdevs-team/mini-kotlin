@@ -30,19 +30,19 @@ import mini.android.FluxActivity
 
 private val dispatcher = Dispatcher()
 
-class MainStore : Store<State>() {
+class MainStore : Store<MainState>() {
 
     init {
         Mini.link(dispatcher, this).track()
     }
 
     @Reducer
-    fun handleLoading(state: State, action: SetLoadingAction): State {
+    fun handleLoading(state: MainState, action: SetLoadingAction): MainState {
         return state.copy(loading = action.loading)
     }
 
     @Reducer
-    fun handleSetTextAction(state: State, action: SetTextAction): State {
+    fun handleSetTextAction(state: MainState, action: SetTextAction): MainState {
         return state.copy(text = action.text)
     }
 

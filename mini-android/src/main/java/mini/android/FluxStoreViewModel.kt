@@ -20,12 +20,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import mini.CloseableTracker
 import mini.DefaultCloseableTracker
+import mini.State
 import mini.StateContainer
 import mini.assertOnUiThread
 import java.io.Closeable
 import java.util.concurrent.CopyOnWriteArrayList
 
-abstract class FluxStoreViewModel<S : Any>(
+abstract class FluxStoreViewModel<S : State>(
     val savedStateHandle: SavedStateHandle) :
     ViewModel(),
     StateContainer<S>,

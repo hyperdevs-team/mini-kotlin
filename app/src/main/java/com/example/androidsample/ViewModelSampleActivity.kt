@@ -32,33 +32,33 @@ import mini.android.FluxStoreViewModel
 
 private val dispatcher = Dispatcher()
 
-class MainViewModelReducer : NestedStateContainer<State>() {
+class MainViewModelReducer : NestedStateContainer<MainState>() {
 
     @Reducer
-    fun handleLoading(state: State, action: SetLoadingAction): State {
+    fun handleLoading(state: MainState, action: SetLoadingAction): MainState {
         return state.copy(loading = action.loading)
     }
 
     @Reducer
-    fun handleSetTextAction(state: State, action: SetTextAction): State {
+    fun handleSetTextAction(state: MainState, action: SetTextAction): MainState {
         return state.copy(text = action.text)
     }
 }
 
-class MainStoreViewModel(savedStateHandle: SavedStateHandle) : FluxStoreViewModel<State>(savedStateHandle) {
+class MainStoreViewModel(savedStateHandle: SavedStateHandle) : FluxStoreViewModel<MainState>(savedStateHandle) {
     private val reducerSlice = MainViewModelReducer().apply { parent = this@MainStoreViewModel }
 
     init {
         Mini.link(dispatcher, listOf(this, reducerSlice)).track()
     }
 
-    override fun saveState(state: State, handle: SavedStateHandle) {
+    override fun saveState(state: MainState, handle: SavedStateHandle) {
         println("State saved")
         handle.set("state", state)
     }
 
-    override fun restoreState(handle: SavedStateHandle): State? {
-        val restored = handle.get<State>("state")
+    override fun restoreState(handle: SavedStateHandle): MainState? {
+        val restored = handle.get<MainState>("state")
         println("State restored $restored")
         return restored
     }

@@ -70,7 +70,8 @@ abstract class Mini {
     /**
      * Link all [Reducer] functions present in the store to the dispatcher.
      */
-    protected abstract fun <S> subscribe(dispatcher: Dispatcher, container: StateContainer<S>): Closeable
+    protected abstract fun <S: State> subscribe(dispatcher: Dispatcher,
+                                                container: StateContainer<S>): Closeable
 
     /**
      * Link all [Reducer] functions present in the store to the dispatcher.

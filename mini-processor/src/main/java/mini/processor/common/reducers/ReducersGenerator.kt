@@ -50,7 +50,7 @@ class ReducersGenerator(private val delegate: ReducersGeneratorDelegate) {
             .addStatement("return c")
             .build()
 
-        val typeParam = TypeVariableName("T")
+        val typeParam = TypeVariableName("T", ClassName("mini", "State"))
         val oneParam = StateContainer::class.asTypeName().parameterizedBy(typeParam)
 
         val registerOneFn = FunSpec.builder("subscribe")

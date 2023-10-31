@@ -21,10 +21,10 @@ import mini.Reducer
 import mini.SuspendingAction
 import java.io.Serializable
 
-data class State(
+data class MainState(
         val text: String = "0",
         val loading: Boolean = false
-) : Serializable
+) : Serializable, mini.State
 
 @Action
 data class SetLoadingAction(val loading: Boolean)

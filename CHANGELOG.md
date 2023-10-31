@@ -18,6 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [4.0.0] - 2023-10-31
+## 🎃🎃 Happy Halloween! 🎃🎃
+### Changed
+- BREAKING CHANGE: Mini has been updated to use Java 17 instead of Java 8.
+- BREAKING CHANGE: Mini states must now implement `mini.State`.
+- Update all project dependencies.
+- Update documentation.
+
 ## [3.1.0] - 2022-09-18
 ### Added
 - Add **EXPERIMENTAL** support for Kotlin Symbol Processing (KSP). Be mindful of [the gotchas](README.md#ksp-gotchas). 
@@ -174,7 +182,8 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.1.0...HEAD
+[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/4.0.0...HEAD
+[4.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.1.0...4.0.0
 [3.1.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.0.0...3.1.0
 [3.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/1.4.0...2.0.0
