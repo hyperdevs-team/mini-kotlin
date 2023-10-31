@@ -16,4 +16,6 @@
 
 package mini.test
 
-data class BasicState(val value: String = "initial")
+import mini.State
+
+data class BasicState(val value: String = "initial") : State
