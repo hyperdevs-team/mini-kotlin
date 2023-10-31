@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright 2021 HyperDevs
  *
@@ -16,12 +18,11 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
 apply plugin: "kotlin"
 apply from: "../jitpack.gradle"
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     // Optional Rx and Android bindings, one day these should be modules,
@@ -35,12 +36,20 @@ dependencies {
     testImplementation "org.amshove.kluent:kluent:$kluent_version"
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions.freeCompilerArgs += [
-            "-opt-in=kotlin.Experimental",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-    ]
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+
+        freeCompilerArgs += [
+                "-opt-in=kotlin.Experimental",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.coroutines.FlowPreview"]
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 apply plugin: "idea"

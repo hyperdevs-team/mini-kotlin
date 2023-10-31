@@ -42,7 +42,9 @@ import java.io.Closeable
  * }
  * ```
  */
-abstract class NestedStateContainer<S : Any>(var parent: StateContainer<S>? = null) : StateContainer<S> {
+abstract class NestedStateContainer<S : State>(
+    var parent: StateContainer<S>? = null
+) : StateContainer<S> {
     override val state: S
         get() = parent!!.state
 

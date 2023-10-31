@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
+ * Copyright 2023 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package mini.test
+package mini
 
-import mini.State
-
-data class BasicState(val value: String = "initial") : State
+/**
+ * Class that represents a state in the app.
+ *
+ * All state objects need to implement this interface.
+ */
+interface State {
+}

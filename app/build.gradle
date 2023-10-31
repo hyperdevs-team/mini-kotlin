@@ -28,8 +28,8 @@ apply plugin: "kotlin-kapt"
 apply plugin: "com.google.devtools.ksp"
 
 android {
-    compileSdkVersion android_target_sdk
-    buildToolsVersion android_build_tools_version
+    compileSdk = android_target_sdk
+    buildToolsVersion = android_build_tools_version
     
     namespace "com.example.androidsample"
 
@@ -55,19 +55,19 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     lint {
         abortOnError false
     }
 
-    configurations.all {
-        //This is library is included with two different versions
+    configurations.configureEach {
+        //This library is included with two different versions
         resolutionStrategy.force "com.google.code.findbugs:jsr305:3.0.1"
     }
 }

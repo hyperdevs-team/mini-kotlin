@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright 2021 HyperDevs
  *
@@ -20,8 +22,8 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
 android {
-    compileSdkVersion android_compile_sdk
-    buildToolsVersion android_build_tools_version
+    compileSdk = android_compile_sdk
+    buildToolsVersion = android_build_tools_version
 
     namespace "mini.android"
 
@@ -39,8 +41,16 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+
         freeCompilerArgs += [
                 "-opt-in=kotlin.Experimental",
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
@@ -52,7 +62,7 @@ dependencies {
     api project(':mini-common')
 
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    api "androidx.appcompat:appcompat:1.4.2"
+    api "androidx.appcompat:appcompat:1.6.1"
     api "androidx.activity:activity-ktx:$activity_version"
     api "androidx.fragment:fragment-ktx:$fragment_version"
 

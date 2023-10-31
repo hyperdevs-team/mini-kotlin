@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright 2021 HyperDevs
  *
@@ -21,15 +23,15 @@ apply plugin: "kotlin-kapt"
 apply from: "../jitpack.gradle"
 
 ext {
-    kotlinpoet_version = "1.12.0"
-    auto_version = "1.2.1"
-    incap_version = "0.3"
-    google_testing_version = "0.19"
+    kotlinpoet_version = "1.14.2"
+    auto_version = "1.2.2"
+    incap_version = "1.0.0"
+    google_testing_version = "0.21.0"
 }
 
 dependencies {
     api project(':mini-common')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.squareup:kotlinpoet:$kotlinpoet_version"
     implementation "com.squareup:kotlinpoet-ksp:$kotlinpoet_version"
 
@@ -43,4 +45,15 @@ dependencies {
     testImplementation "com.google.testing.compile:compile-testing:$google_testing_version"
 
     implementation "com.google.devtools.ksp:symbol-processing-api:$ksp_version"
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }

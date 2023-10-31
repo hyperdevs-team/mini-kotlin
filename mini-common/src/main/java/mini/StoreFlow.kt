@@ -83,7 +83,7 @@ fun Flow<Boolean>.onEachEnable(fn: (Boolean) -> Unit): Flow<Boolean> {
  *
  * @param hotStart emit current state when starting.
  */
-fun <S : Any> StateContainer<S>.channel(hotStart: Boolean = true,
+fun <S : State> StateContainer<S>.channel(hotStart: Boolean = true,
                                         capacity: Int = Channel.BUFFERED): Channel<S> {
     val channel = Channel<S>(capacity)
     val subscription = subscribe(hotStart) {
@@ -101,7 +101,8 @@ fun <S : Any> StateContainer<S>.channel(hotStart: Boolean = true,
  *
  * @param hotStart emit current state when starting.
  */
-fun <S : Any> StateContainer<S>.flow(hotStart: Boolean = true, capacity: Int = Channel.BUFFERED): Flow<S> {
+fun <S : State> StateContainer<S>.flow(hotStart: Boolean = true,
+                                       capacity: Int = Channel.BUFFERED): Flow<S> {
     return channel(hotStart = hotStart, capacity = capacity).receiveAsFlow()
 }
 
@@ -118,12 +119,14 @@ class StateMerger<T> {
     val containersAndMappers = ArrayList<Pair<StateContainer<*>, () -> T>>()
 
     /** Add a new store + mapper to the flowable. */
-    inline fun <S : StateContainer<U>, U : Any> merge(stateContainer: S, crossinline mapper: (U.() -> T)) {
+    inline fun <S : StateContainer<U>, U : State> merge(stateContainer: S,
+                                                        crossinline mapper: (U.() -> T)) {
         containersAndMappers.add(stateContainer to { stateContainer.state.mapper() })
     }
 }
 
-inline fun <T> mergeStates(hotStart: Boolean = true, crossinline builder: StateMerger<T>.() -> Unit): Flow<List<T>> {
+inline fun <T> mergeStates(hotStart: Boolean = true,
+                           crossinline builder: StateMerger<T>.() -> Unit): Flow<List<T>> {
     return StateMerger<T>().apply { builder() }.flow(hotStart)
 }
 
@@ -131,7 +134,9 @@ inline fun <T> mergeStates(hotStart: Boolean = true, crossinline builder: StateM
 @Suppress("UNCHECKED_CAST")
 fun <T> StateMerger<T>.flow(hotStart: Boolean = true) : Flow<List<T>> {
     return containersAndMappers
-        .map { (stateContainer, fn) -> (stateContainer as StateContainer<Any>).flow(hotStart).select { fn() } }
+        .map { (stateContainer, fn) ->
+            (stateContainer as StateContainer<State>).flow(hotStart).select { fn() }
+        }
         .reduce { acc, flow -> merge(acc, flow) }
         .map { containersAndMappers.map { (_, fn) -> fn() }.toList() }
 }

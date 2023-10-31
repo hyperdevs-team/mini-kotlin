@@ -23,13 +23,13 @@ import java.lang.reflect.ParameterizedType
 /**
  * Common interface for state containers.
  */
-interface StateContainer<S> {
+interface StateContainer<S : State> {
 
     companion object {
         /**
          * Token to mark a state as not initialized.
          */
-        object NoState
+        object NoState : State
     }
 
     val state: S
@@ -51,7 +51,7 @@ interface StateContainer<S> {
     @Suppress("UNCHECKED_CAST")
     fun initialState(): S {
         val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
-            as Class<S>
+                as Class<S>
         try {
             val constructor = type.getDeclaredConstructor()
             constructor.isAccessible = true
