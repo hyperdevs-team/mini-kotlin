@@ -23,7 +23,7 @@ apply plugin: "kotlin-kapt"
 apply from: "../jitpack.gradle"
 
 ext {
-    kotlinpoet_version = "1.14.2"
+    kotlinpoet_version = "1.15.2"
     auto_version = "1.2.2"
     incap_version = "1.0.0"
     google_testing_version = "0.21.0"
