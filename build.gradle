@@ -27,7 +27,7 @@ buildscript {
         android_target_sdk = 34
         android_build_tools_version = "34.0.0"
 
-        activity_version = "1.8.0"
+        activity_version = "1.8.2"
         fragment_version = "1.6.1"
         lifecycle_version = "2.6.2"
         coroutines_version = "1.7.3"
