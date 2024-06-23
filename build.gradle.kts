@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2024 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +14,24 @@
  * limitations under the License.
  */
 
-package mini
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
 
-data class SampleState(val value: String): State
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.kotlin.ksp) apply false
 
-class SampleStore : Store<SampleState>() {
+    alias(libs.plugins.versions)
+}
 
-    companion object {
-        const val INITIAL_STATE = "initial"
+allprojects {
+    group = "com.hyperdevs.mini"
+}
+
+tasks {
+    val clean by registering(Delete::class) {
+        delete(rootProject.layout.buildDirectory.asFile.get())
     }
-
-    override fun initialState(): SampleState = SampleState(INITIAL_STATE)
 }

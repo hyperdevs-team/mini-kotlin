@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2024 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +14,19 @@
  * limitations under the License.
  */
 
-package mini
+package mini.android.plugins
 
-data class SampleState(val value: String): State
+import mini.android.plugins.extensions.applyAndroidAppVersioning
+import mini.android.plugins.extensions.applyAndroidLibPublishing
+import mini.android.plugins.extensions.applyVersioning
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-class SampleStore : Store<SampleState>() {
-
-    companion object {
-        const val INITIAL_STATE = "initial"
+class AndroidAppConventionPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            val (versionName, versionCode) = applyVersioning()
+            applyAndroidAppVersioning(versionName, versionCode)
+        }
     }
-
-    override fun initialState(): SampleState = SampleState(INITIAL_STATE)
 }

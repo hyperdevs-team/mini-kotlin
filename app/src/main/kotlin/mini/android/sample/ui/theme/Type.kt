@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2024 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +14,8 @@
  * limitations under the License.
  */
 
-package mini
+package mini.android.sample.ui.theme
 
-data class SampleState(val value: String): State
+import androidx.compose.material3.Typography
 
-class SampleStore : Store<SampleState>() {
-
-    companion object {
-        const val INITIAL_STATE = "initial"
-    }
-
-    override fun initialState(): SampleState = SampleState(INITIAL_STATE)
-}
+val AppTypography = Typography()

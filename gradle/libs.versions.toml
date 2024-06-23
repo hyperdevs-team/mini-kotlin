@@ -1,0 +1,128 @@
+[versions]
+java-sdk = "17"
+
+android-compileSdk = "34"
+android-minSdk = "21"
+android-targetSdk = "34"
+android-buildTools = "34.0.0"
+
+# TODO Change KSP version and check compose-compiler version compatibility when we upgrade Kotlin version
+kotlin = "1.9.23"
+ksp = "1.9.23-1.0.20"
+kotlinx-coroutines = "1.8.1"
+
+kodein = "7.21.2"
+
+android-library = "4.1.1.4"
+androidx-activity = "1.9.0"
+androidx-fragment = "1.8.0"
+androidx-appcompat = "1.7.0"
+androidx-lifecycle = "2.8.2"
+
+compose-compiler = "1.5.11"
+compose-foundation = "1.6.8"
+compose-material = "1.6.8"
+compose-runtime = "1.6.8"
+compose-ui = "1.6.8"
+
+kotlinpoet = "1.15.3"
+incap = "1.0.0"
+
+espresso = "3.5.1"
+mockito = "5.12.0"
+kluent = "1.68"
+
+androidGradlePlugin = "8.2.2"
+
+[libraries]
+android-library = { group = "com.google.android", name = "android", version.ref = "android-library" }
+android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-appcompat-resources = { group = "androidx.appcompat", name = "appcompat-resources", version.ref = "androidx-appcompat" }
+androidx-core = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-savedstate = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version = "1.8.0" }
+androidx-webkit = { group = "androidx.webkit", name = "webkit", version = "1.11.0" }
+androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidx-fragment" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
+androidx-browser = { group = "androidx.browser", name = "browser", version = "1.8.0" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version = "1.5.2" }
+androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version = "2.2.0" }
+androidx-preference = { group = "androidx.preference", name = "preference", version = "1.2.1" }
+
+kodein-jvm = { group = "org.kodein.di", name = "kodein-di-jvm", version.ref = "kodein" }
+kodein-conf-jvm = { group = "org.kodein.di", name = "kodein-di-conf-jvm", version.ref = "kodein" }
+kodein-framework-androidx = { group = "org.kodein.di", name = "kodein-di-framework-android-x", version.ref = "kodein" }
+kodein-framework-compose = { group = "org.kodein.di", name = "kodein-di-framework-android-x-compose", version.ref = "kodein" }
+
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose-runtime" }
+compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "compose-runtime" }
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose-ui" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose-ui" }
+compose-ui-util = { group = "androidx.compose.ui", name = "ui-util", version.ref = "compose-ui" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-foundation" }
+compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-material" }
+compose-materialicons = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "compose-material" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version = "2.7.7" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.2.1" }
+compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose-ui" }
+compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "compose-ui" }
+
+androidgitversion = { group = "com.gladed.androidgitversion", name = "gradle-android-git-version", version = "0.4.14" }
+
+kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlinpoet" }
+kotlinpoet-ksp = { group = "com.squareup", name = "kotlinpoet-ksp", version.ref = "kotlinpoet" }
+
+incap = { group = "net.ltgt.gradle.incap", name = "incap", version.ref = "incap" }
+incap-processor = { group = "net.ltgt.gradle.incap", name = "incap-processor", version.ref = "incap" }
+
+google-auto = { group = "com.google.auto", name = "auto-common", version = "1.2.2" }
+google-testing-compile = { group = "com.google.testing.compile", name = "compile-testing", version = "0.21.0" }
+google-ksp-symbolprocessing = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp" }
+
+espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espresso" }
+espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espresso" }
+espresso-web = { group = "androidx.test.espresso", name = "espresso-web", version.ref = "espresso" }
+
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockito" }
+mockito-kotlin = { group = "com.nhaarman.mockitokotlin2", name = "mockito-kotlin", version = "2.2.0" }
+
+junit = { group = "junit", name = "junit", version = "4.13.2" }
+kluent = { group = "org.amshove.kluent", name = "kluent", version.ref = "kluent" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+convention-androidApp = { id = "mini.android.plugins.androidApp", version = "1.0.0" }
+convention-androidLib = { id = "mini.android.plugins.androidLib", version = "1.0.0" }
+convention-javaLib = { id = "mini.android.plugins.javaLib", version = "1.0.0" }
+
+versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+
+[bundles]
+androidx-lifecycle = ["androidx-lifecycle-runtime", "androidx-lifecycle-viewmodel", "androidx-lifecycle-livedata", "androidx-lifecycle-viewmodel-savedstate"]
+kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
+
+androidx = ["androidx-appcompat", "androidx-appcompat-resources", "androidx-core", "androidx-core-splashscreen", "androidx-lifecycle-runtime", "androidx-lifecycle-viewmodel", "androidx-lifecycle-livedata", "androidx-lifecycle-runtime-compose", "androidx-annotation", "androidx-webkit", "androidx-activity", "androidx-activity-compose", "androidx-preference"]
+compose = ["compose-runtime", "compose-runtime-livedata", "compose-ui", "compose-ui-tooling", "compose-ui-util", "compose-foundation", "compose-material", "compose-materialicons", "compose-navigation", "compose-material3"]

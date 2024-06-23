@@ -26,7 +26,7 @@ class LoggerMiddlewareTest {
         val store = SampleStore()
         val dispatcher = newTestDispatcher()
         dispatcher.subscribe<TestAction> {
-            store.setState("Action sent")
+            store.setState(SampleState("Action sent"))
         }
 
         val out = StringBuilder()

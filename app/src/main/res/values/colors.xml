@@ -18,10 +18,10 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#393838</color>
-    <color name="colorPrimaryDark">#393838</color>
-    <color name="colorAccent">#8BC34A</color>
-    <color name="colorPrimaryText">@color/white</color>
+    <color name="primary">#393838</color>
+    <color name="primaryDark">#393838</color>
+    <color name="accent">#8BC34A</color>
+    <color name="primaryText">@color/white</color>
 
     <color name="white">#ffffff</color>
     <color name="grey">#7dffffff</color>

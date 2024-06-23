@@ -74,6 +74,9 @@
 .idea/assetWizardSettings.xml
 .idea/navEditor.xml
 .idea/.name
+.idea/deploymentTargetSelector.xml
+.idea/migrations.xml
+.idea/other.xml
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

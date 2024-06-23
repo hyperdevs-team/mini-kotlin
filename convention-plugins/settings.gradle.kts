@@ -1,7 +1,5 @@
 /*
- * Copyright 2021 HyperDevs
- *
- * Copyright 2020 BQ
+ * Copyright 2024 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +14,20 @@
  * limitations under the License.
  */
 
-package mini
+@file:Suppress("UnstableApiUsage")
 
-data class SampleState(val value: String): State
-
-class SampleStore : Store<SampleState>() {
-
-    companion object {
-        const val INITIAL_STATE = "initial"
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 
-    override fun initialState(): SampleState = SampleState(INITIAL_STATE)
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
 }
+
+rootProject.name = "convention-plugins"

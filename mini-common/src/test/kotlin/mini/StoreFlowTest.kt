@@ -20,6 +20,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
+import mini.SampleStore.Companion.INITIAL_STATE
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should equal`
 import org.junit.Test
@@ -33,17 +34,17 @@ class StoreFlowTest {
     @Test(timeout = 1000)
     fun `flow sends initial state on collection`(): Unit = runBlocking {
         val store = SampleStore()
-        var observedState = SampleStore.INITIAL_STATE
+        var observedState = SampleState(INITIAL_STATE)
 
         val job = store.flow(hotStart = false)
             .onEach { observedState = it }
             .take(1)
             .launchIn(testScope)
 
-        store.setState("abc") //Set before collect
+        store.setState(SampleState("abc")) //Set before collect
 
         job.join()
-        observedState `should be equal to` "abc"
+        observedState `should be equal to` SampleState("abc")
         Unit
     }
 
@@ -62,27 +63,27 @@ class StoreFlowTest {
             .take(2)
             .launchIn(testScope)
 
-        store.setState("abc")
+        store.setState(SampleState("abc"))
 
         job1.join()
         job2.join()
 
         //Called two times, one for initial state, one for updated stated
-        called.`should equal`(intArrayOf(2, 2))
+        called.`should be equal to`(intArrayOf(2, 2))
         Unit
     }
 
     @Test(timeout = 1000)
     fun `channel sends updates`(): Unit = runBlocking {
         val store = SampleStore()
-        var observedState = ""
+        var observedState = SampleState("")
         val scope = CoroutineScope(Executors.newSingleThreadExecutor().asCoroutineDispatcher())
         val job = scope.launch {
             observedState = store.channel().receive()
         }
-        store.setState("abc")
+        store.setState(SampleState("abc"))
         job.join()
-        observedState `should be equal to` "abc"
+        observedState `should be equal to` SampleState("abc")
         Unit
     }
 
@@ -99,9 +100,9 @@ class StoreFlowTest {
             .launchIn(scope)
 
         scope.cancel() //Cancel the scope
-        store.setState("abc")
+        store.setState(SampleState("abc"))
 
-        observedState `should be equal to` SampleStore.INITIAL_STATE
+        observedState `should be equal to` SampleState(INITIAL_STATE)
         Unit
     }
 }
