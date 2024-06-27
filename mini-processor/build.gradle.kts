@@ -25,14 +25,11 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.bundles.kotlinpoet)
 
-    implementation(libs.google.auto)
-
     // Lib to add incremental annotation processing
     compileOnly(libs.incap)
     kapt(libs.incap.processor)
 
     testImplementation(libs.junit)
-    testImplementation(libs.google.testing.compile)
 
     implementation(libs.google.ksp.symbolprocessing)
 }

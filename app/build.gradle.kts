@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 HyperDevs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -26,7 +42,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     buildTypes {
@@ -48,11 +64,6 @@ android {
     lint {
         abortOnError = false
     }
-
-    configurations.configureEach {
-        // This library is included with two different versions
-        resolutionStrategy.force("com.google.code.findbugs:jsr305:3.0.1")
-    }
 }
 
 dependencies {
@@ -72,22 +83,12 @@ dependencies {
     // Support
     implementation(libs.bundles.androidx)
     implementation(libs.bundles.compose)
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-
-    implementation("com.google.android.material:material:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation(libs.androidx.activity)
-    implementation(libs.androidx.fragment)
-
     implementation(libs.bundles.androidx.lifecycle)
-
-    // Misc
-    implementation("com.github.minikorp:grove:1.0.3")
 
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.espresso)
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("com.agoda.kakao:kakao:2.4.0")
+    androidTestImplementation(libs.androidx.test.junit)
 }
