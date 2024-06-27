@@ -59,8 +59,8 @@ dependencies {
     implementation(project(":mini-android"))
     implementation(project(":mini-kodein-android"))
 
-    kapt(project(":mini-processor"))
-    //ksp(project(":mini-processor"))
+    //kapt(project(":mini-processor"))
+    ksp(project(":mini-processor"))
 
     // Kotlin
     implementation(libs.kotlin.stdlib)
