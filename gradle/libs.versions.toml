@@ -7,8 +7,8 @@ android-targetSdk = "34"
 android-buildTools = "34.0.0"
 
 # TODO Change KSP version and check compose-compiler version compatibility when we upgrade Kotlin version
-kotlin = "1.9.23"
-ksp = "1.9.23-1.0.20"
+kotlin = "1.9.24"
+ksp = "1.9.24-1.0.20"
 kotlinx-coroutines = "1.8.1"
 
 kodein = "7.21.2"
