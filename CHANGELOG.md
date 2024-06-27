@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- No new features!
+- KSP support is now stable and no longer experimental. You can now use KSP by following the instructions in the [README](README.md).
 ### Changed
 - Update the project to use KTS scripts, convention plugins, version catalogs and other modern Gradle and Android features.
 ### Deprecated

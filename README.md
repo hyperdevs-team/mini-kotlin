@@ -42,7 +42,7 @@ Then, add the following dependencies to your module's `build.gradle`:
 
 ```groovy
 dependencies {
-    def mini_version = "3.1.0"
+    def mini_version = "<latest_version>"
     // Minimum working dependencies
     implementation "com.github.hyperdevs-team.mini-kotlin:mini-android:$mini_version"
     // Use kapt as your annotation processor
@@ -68,7 +68,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    val miniVersion = "3.1.0"
+    val miniVersion = "<latest_version>"
     // Minimum working dependencies
     implementation("com.github.hyperdevs-team.mini-kotlin:mini-android:$miniVersion")
     // Use kapt as your annotation processor
@@ -90,9 +90,8 @@ dependencies {
 
 </details>
 
-If you want, you can also use *Kotlin Symbol Processing (KSP)* instead of KAPT. Keep in mind that
-support for it is **EXPERIMENTAL** and that 
-[KSP has some gotchas that can be worked around](#ksp-gotchas), so double check before using this
+If you want, you can also use *Kotlin Symbol Processing (KSP)* instead of KAPT. Keep in mind that 
+[KSP may have some gotchas that can be worked around](#ksp-gotchas), so double check before using this
 and report any issue that you find while working with KSP.
 
 <details><summary>KSP extra dependencies</summary>
@@ -104,7 +103,7 @@ Add this to your main `build.gradle`:
 ```groovy
 buildscript {
     ext {
-        ksp_version = <latest_ksp_version>
+        ksp_version = "<latest_ksp_version>"
     }
 
     dependencies {

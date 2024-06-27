@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    // alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.convention.androidApp)
 }
@@ -59,8 +59,8 @@ dependencies {
     implementation(project(":mini-android"))
     implementation(project(":mini-kodein-android"))
 
-    kapt(project(":mini-processor"))
-    //ksp(project(":mini-processor"))
+    // kapt(project(":mini-processor"))
+    ksp(project(":mini-processor"))
 
     // Kotlin
     implementation(libs.kotlin.stdlib)

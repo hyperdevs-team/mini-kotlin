@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.squareup.kotlinpoet.ksp.writeTo
 import mini.Action
 import mini.Reducer
@@ -23,17 +24,21 @@ class MiniSymbolProcessor(
         val actionSymbols = resolver.getSymbolsWithAnnotation(Action::class.java.canonicalName)
         val reducerSymbols = resolver.getSymbolsWithAnnotation(Reducer::class.java.canonicalName)
 
+        // Collect the files that contain the symbols, we will use this to set the originating files
+        // for the generated code and incremental processing.
+        val originatingKsFiles = (actionSymbols + reducerSymbols).
+            filterIsInstance<KSClassDeclaration>()
+            .mapNotNull { it.containingFile }
+            .distinct()
+            .toList()
+
         if (!actionSymbols.iterator().hasNext()) return emptyList()
 
         val (containerFile, container) = getContainerBuilders()
 
         try {
-            ActionTypesGenerator(KspActionTypesGeneratorDelegate(actionSymbols)).generate(
-                container
-            )
-            ReducersGenerator(KspReducersGeneratorDelegate(reducerSymbols)).generate(
-                container
-            )
+            ActionTypesGenerator(KspActionTypesGeneratorDelegate(actionSymbols)).generate(container)
+            ReducersGenerator(KspReducersGeneratorDelegate(reducerSymbols)).generate(container)
         } catch (e: Throwable) {
             if (e !is ProcessorException) {
                 kspLogError(
@@ -46,7 +51,11 @@ class MiniSymbolProcessor(
         containerFile
             .addType(container.build())
             .build()
-            .writeTo(codeGenerator, true)
+            .writeTo(
+                codeGenerator = codeGenerator,
+                aggregating = true,
+                originatingKSFiles = originatingKsFiles
+            )
 
         return emptyList()
     }
