@@ -11,7 +11,7 @@ kotlin = "1.9.24"
 ksp = "1.9.24-1.0.20"
 kotlinx-coroutines = "1.8.1"
 
-kodein = "7.21.2"
+kodein = "7.22.0"
 
 android-library = "4.1.1.4"
 androidx-activity = "1.9.0"
