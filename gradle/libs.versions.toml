@@ -33,7 +33,7 @@ incap = "1.0.0"
 espresso = "3.6.1"
 kluent = "1.72"
 
-androidGradlePlugin = "8.5.0"
+androidGradlePlugin = "8.5.1"
 
 [libraries]
 android-library = { group = "com.google.android", name = "android", version.ref = "android-library" }
