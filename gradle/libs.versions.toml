@@ -27,7 +27,7 @@ compose-ui = "1.6.8"
 compose-material3 = "1.2.1"
 compose-navigation = "2.7.7"
 
-kotlinpoet = "1.17.0"
+kotlinpoet = "1.18.1"
 incap = "1.0.0"
 
 espresso = "3.6.1"
