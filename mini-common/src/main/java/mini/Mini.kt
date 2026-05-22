@@ -19,21 +19,47 @@
 package mini
 
 import java.io.Closeable
+import java.util.ServiceLoader
 import kotlin.reflect.KClass
 
 const val DISPATCHER_FACTORY_CLASS_NAME = "mini.codegen.Mini_Generated"
 
-abstract class Mini {
+internal object MiniRuntime {
+    var loadRegistries: () -> List<MiniRegistry> = {
+        ServiceLoader.load(MiniRegistry::class.java, Mini::class.java.classLoader).iterator().asSequence().toList()
+    }
 
-    companion object {
+    var loadLegacyRegistry: () -> MiniRegistry = {
+        try {
+            Class.forName(DISPATCHER_FACTORY_CLASS_NAME).getField("INSTANCE").get(null) as MiniRegistry
+        } catch (ex: Throwable) {
+            throw ClassNotFoundException("Failed to load generated class $DISPATCHER_FACTORY_CLASS_NAME, " +
+                                         "most likely the annotation processor did not run, add it as dependency to the project", ex)
+        }
+    }
 
-        private val miniInstance: Mini by lazy {
+    fun reset() {
+        loadRegistries = {
+            ServiceLoader.load(MiniRegistry::class.java, Mini::class.java.classLoader).iterator().asSequence().toList()
+        }
+        loadLegacyRegistry = {
             try {
-                Class.forName(DISPATCHER_FACTORY_CLASS_NAME).getField("INSTANCE").get(null) as Mini
+                Class.forName(DISPATCHER_FACTORY_CLASS_NAME).getField("INSTANCE").get(null) as MiniRegistry
             } catch (ex: Throwable) {
                 throw ClassNotFoundException("Failed to load generated class $DISPATCHER_FACTORY_CLASS_NAME, " +
                                              "most likely the annotation processor did not run, add it as dependency to the project", ex)
             }
+        }
+    }
+}
+
+abstract class Mini : MiniRegistry {
+
+    companion object {
+
+        private fun registries(): List<MiniRegistry> {
+            val registries = MiniRuntime.loadRegistries()
+            return if (registries.isNotEmpty()) registries else listOf(MiniRuntime.loadLegacyRegistry())
         }
 
         /**
@@ -42,7 +68,12 @@ abstract class Mini {
          */
         fun link(dispatcher: Dispatcher, container: StateContainer<*>): Closeable {
             ensureDispatcherInitialized(dispatcher)
-            return miniInstance.subscribe(dispatcher, container)
+            val c = CompositeCloseable()
+            val registries = registries()
+            registries.forEach { registry ->
+                c.add(registry.subscribe(dispatcher, container))
+            }
+            return c
         }
 
         /**
@@ -51,35 +82,48 @@ abstract class Mini {
          */
         fun link(dispatcher: Dispatcher, containers: Iterable<StateContainer<*>>): Closeable {
             ensureDispatcherInitialized(dispatcher)
-            return miniInstance.subscribe(dispatcher, containers)
+            val c = CompositeCloseable()
+            val registries = registries()
+            containers.forEach { container ->
+                registries.forEach { registry ->
+                    c.add(registry.subscribe(dispatcher, container))
+                }
+            }
+            return c
         }
 
         private fun ensureDispatcherInitialized(dispatcher: Dispatcher) {
             if (dispatcher.actionTypeMap.isEmpty()) {
-                dispatcher.actionTypeMap = miniInstance.actionTypes
+                dispatcher.actionTypeMap = mergeActionTypes(registries())
             }
+        }
+
+        private fun mergeActionTypes(registries: List<MiniRegistry>): Map<KClass<*>, List<KClass<*>>> {
+            return registries
+                .asSequence()
+                .flatMap { it.actionTypes.asSequence() }
+                .groupBy({ it.key }, { it.value })
+                .mapValues { (_, values) -> values.flatten().distinct() }
         }
 
     }
 
     /**
-     * All the types an action can be subscribed as.
-     */
-    abstract val actionTypes: Map<KClass<*>, List<KClass<*>>>
-
-    /**
      * Link all [Reducer] functions present in the store to the dispatcher.
      */
-    protected abstract fun <S: State> subscribe(dispatcher: Dispatcher,
-                                                container: StateContainer<S>): Closeable
+    abstract override fun <S: State> subscribe(dispatcher: Dispatcher,
+                                               container: StateContainer<S>): Closeable
 
     /**
      * Link all [Reducer] functions present in the store to the dispatcher.
      */
     protected fun subscribe(dispatcher: Dispatcher, containers: Iterable<StateContainer<*>>): Closeable {
         val c = CompositeCloseable()
+        val registries = registries()
         containers.forEach { container ->
-            c.add(subscribe(dispatcher, container))
+            registries.forEach { registry ->
+                c.add(registry.subscribe(dispatcher, container))
+            }
         }
         return c
     }
