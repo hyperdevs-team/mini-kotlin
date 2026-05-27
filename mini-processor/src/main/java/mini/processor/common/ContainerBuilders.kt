@@ -19,20 +19,55 @@ package mini.processor.common
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeSpec
-import mini.DISPATCHER_FACTORY_CLASS_NAME
 import mini.Mini
+
+const val MINI_REGISTRY_NAME_OPTION = "mini.registryName"
+const val MINI_REGISTRY_PACKAGE_NAME = "mini.codegen"
+
+private const val GENERATED_REGISTRY_PREFIX = "Mini_Generated_"
 
 data class ContainerBuilders(
     val fileSpecBuilder: FileSpec.Builder,
-    val typeSpecBuilder: TypeSpec.Builder
+    val typeSpecBuilder: TypeSpec.Builder,
+    val className: ClassName
 )
 
-fun getContainerBuilders(): ContainerBuilders {
-    val containerClassName = ClassName.bestGuess(DISPATCHER_FACTORY_CLASS_NAME)
+fun getContainerBuilders(registryName: String?, packageNames: Iterable<String>): ContainerBuilders {
+    val containerClassName = generatedRegistryClassName(registryName, packageNames)
     val containerFile =
         FileSpec.builder(containerClassName.packageName, containerClassName.simpleName)
-    val container = TypeSpec.objectBuilder(containerClassName)
+    val container = TypeSpec.classBuilder(containerClassName)
         .addKdoc("Automatically generated, do not edit.\n")
         .superclass(Mini::class)
-    return ContainerBuilders(containerFile, container)
+    return ContainerBuilders(containerFile, container, containerClassName)
+}
+
+fun generatedRegistryClassName(registryName: String?, packageNames: Iterable<String>): ClassName {
+    val suffix = registryName
+        ?.trim()
+        ?.takeIf { it.isNotEmpty() }
+        ?.let(::sanitizeRegistryName)
+        ?: packageNames
+            .map(::sanitizePackageName)
+            .filter { it.isNotEmpty() }
+            .sorted()
+            .joinToString("_")
+            .takeIf { it.isNotEmpty() }
+            ?.let(::shortHash)
+            ?: "default"
+    return ClassName(MINI_REGISTRY_PACKAGE_NAME, "$GENERATED_REGISTRY_PREFIX$suffix")
+}
+
+private fun sanitizeRegistryName(name: String): String {
+    return name.replace(Regex("[^A-Za-z0-9_]"), "_")
+}
+
+private fun sanitizePackageName(packageName: String): String {
+    return packageName.replace('.', '_')
+}
+
+private fun shortHash(value: String): String {
+    return value.encodeToByteArray().fold(0x811c9dc5.toInt()) { acc, byte ->
+        (acc xor byte.toInt()) * 16777619
+    }.toUInt().toString(16)
 }

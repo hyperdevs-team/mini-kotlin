@@ -21,6 +21,7 @@ package mini.processor.kapt
 import mini.Action
 import mini.Reducer
 import mini.processor.common.ProcessorException
+import mini.processor.common.MINI_REGISTRY_NAME_OPTION
 import mini.processor.common.actions.ActionTypesGenerator
 import mini.processor.common.getContainerBuilders
 import mini.processor.common.reducers.ReducersGenerator
@@ -49,9 +50,14 @@ class Processor {
         val roundActions = roundEnv.getElementsAnnotatedWith(Action::class.java)
         val roundReducers = roundEnv.getElementsAnnotatedWith(Reducer::class.java)
 
-        if (roundActions.isEmpty()) return false
+        if (roundActions.isEmpty() && roundReducers.isEmpty()) return false
 
-        val (containerFile, container) = getContainerBuilders()
+        val registryName = env.options[MINI_REGISTRY_NAME_OPTION]
+        val packageNames = (roundActions + roundReducers)
+            .map { elementUtils.getPackageOf(it).qualifiedName.toString() }
+            .distinct()
+
+        val (containerFile, container, className) = getContainerBuilders(registryName, packageNames)
 
         try {
             ActionTypesGenerator(KaptActionTypesGeneratorDelegate(roundActions)).generate(container)
@@ -69,6 +75,7 @@ class Processor {
             .addType(container.build())
             .build()
             .writeToFile(sourceElements = ((roundActions + roundReducers).toTypedArray()))
+        writeRegistryServiceFile(className.canonicalName, *((roundActions + roundReducers).toTypedArray()))
 
         return true
     }

@@ -89,6 +89,18 @@ fun FileSpec.writeToFile(vararg sourceElements: Element) {
     openWriter.close()
 }
 
+fun writeRegistryServiceFile(registryClassName: String, vararg sourceElements: Element) {
+    val serviceFileObject = env.filer.createResource(
+        StandardLocation.CLASS_OUTPUT,
+        "",
+        "META-INF/services/mini.MiniRegistry",
+        *sourceElements
+    )
+    serviceFileObject.openWriter().use { writer ->
+        writer.write("$registryClassName\n")
+    }
+}
+
 /**
  * Map [java.lang.Object] to [Any]
  */
