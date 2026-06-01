@@ -257,9 +257,11 @@ Given the example `Store`s and `Action`s explained before, the workflow would be
 - The Store changes its state to the given values from `LoginCompletedAction`.
 - The view will react (for example, redirecting to another home view) if the task was success or shows an error if not.
 
-You can execute another sample in the `app` package. It contains two different samples executing two types of `StateContainer`s:
+You can execute the sample in the `app` package. It contains two different samples executing two types of `StateContainer`s:
 - `StoreSampleActivity` class uses a `Store` as a `StateContainer`.
 - `ViewModelSampleActivity` class uses a `ViewModel` as a `StateContainer`.
+
+For a reviewer-facing multi-registry example, see the JVM integration test module `mini-processor-multiregistry-test`, which loads generated registries from both KAPT and KSP modules on the same classpath.
 
 ## How to use
 ### Setting up Mini
@@ -267,21 +269,85 @@ You'll need to add the following snippet to the class that initializes your appl
 
 ```kotlin
 val stores = listOf<Store<*>>() // Here you'll set-up you store list, you can retrieve it using your preferred DI framework
-val dispatcher = MiniGen.newDispatcher() // Create a new dispatcher
+val dispatcher = Dispatcher() // Create a new dispatcher
 
 // Initialize Mini
-storeSubscriptions = MiniGen.subscribe(dispatcher, stores)
+storeSubscriptions = Mini.link(dispatcher, stores)
 stores.forEach { store ->
     store.initialize()
 }
 
 // Optional: add logging middleware to log action events
-dispatcher.addMiddleware(LoggerMiddleware(stores)) { tag, msg ->
-    Log.d(tag, msg)
-}
+dispatcher.addMiddleware(
+    LoggerMiddleware(stores, logger = { _, tag, msg ->
+        Log.d(tag, msg)
+    })
+)
 ```
 
 As soon as you do this, you'll have Mini up and running. You'll then need to declare your `Action`s, `Store`s and `State` as mentioned previously. The sample [app](app) contains examples regarding app configuration.
+
+### Multi-module registry model
+Mini now generates one registry per consumer module instead of relying on a single global generated class.
+
+- Modules with Mini reducers generate their own `MiniRegistry` implementation.
+- Registries are discovered automatically at runtime when you call `Mini.link(...)`.
+- Reducer-only modules still generate registries even when they do not declare local `@Action` classes.
+- If no new registries are found, Mini falls back to the legacy single generated registry for backward compatibility.
+
+This allows multiple consumer modules to coexist on the same classpath without generated class collisions.
+
+### Bootstrap patterns
+There are two valid ways to bootstrap Mini in an app that uses multiple modules:
+
+#### Host-global bootstrap
+Use this when a host app owns the shared `Dispatcher` and the set of stores.
+
+```kotlin
+val dispatcher = Dispatcher()
+val stores = listOf(featureStoreA, featureStoreB)
+
+val storeSubscriptions = Mini.link(dispatcher, stores)
+stores.forEach { it.initialize() }
+```
+
+This is the most common choice when all modules participate in one shared runtime.
+
+#### Module-local bootstrap
+Use this when a feature module is intentionally isolated and owns its own `Dispatcher`, stores, and DI graph.
+
+```kotlin
+val dispatcher = Dispatcher()
+val featureStore = FeatureStore(featureController)
+
+val storeSubscriptions = Mini.link(dispatcher, listOf(featureStore))
+featureStore.initialize()
+```
+
+This is useful for reusable modules or self-contained appcomponents that are embedded in a host app without sharing the host runtime.
+
+### Registry naming
+By default, Mini derives a stable generated registry name from the packages that contain the annotated elements in the module. If you want an explicit name, provide the `mini.registryName` processor option.
+
+KAPT example:
+
+```kotlin
+kapt {
+    arguments {
+        arg("mini.registryName", "feature")
+    }
+}
+```
+
+KSP example:
+
+```kotlin
+ksp {
+    arg("mini.registryName", "feature")
+}
+```
+
+Use `mini.registryName` when you want a readable, predictable generated class name. Leave it unset when the stable fallback naming is sufficient.
 
 ## Advanced usages
 ### Kotlin Flow Utils
@@ -446,6 +512,19 @@ kapt.use.worker.api=true
 ## Enables Gradle build cache
 org.gradle.caching=true
 ```
+
+## How to verify this change
+The multi-registry implementation can be verified inside this repository without relying on an external host app:
+
+```bash
+./gradlew :mini-common:test
+./gradlew :mini-processor-test:test
+./gradlew :mini-processor-ksp-test:test
+./gradlew :mini-processor-reducer-only-test:test
+./gradlew :mini-processor-multiregistry-test:test
+```
+
+The `mini-processor-multiregistry-test` module is the smallest reviewer-facing example that demonstrates generated registries from different modules coexisting on the same classpath.
 
 ## Known issues
 ### KSP gotchas
