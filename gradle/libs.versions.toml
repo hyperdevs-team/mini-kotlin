@@ -103,7 +103,7 @@ convention-androidApp = { id = "mini.android.plugins.androidApp", version = "1.0
 convention-androidLib = { id = "mini.android.plugins.androidLib", version = "1.0.0" }
 convention-javaLib = { id = "mini.android.plugins.javaLib", version = "1.0.0" }
 
-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+versions = { id = "com.github.ben-manes.versions", version = "0.54.0" }
 
 [bundles]
 androidx-lifecycle = ["androidx-lifecycle-runtime", "androidx-lifecycle-viewmodel", "androidx-lifecycle-livedata", "androidx-lifecycle-viewmodel-savedstate"]
