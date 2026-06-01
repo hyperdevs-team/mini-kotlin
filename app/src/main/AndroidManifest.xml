@@ -46,6 +46,12 @@
             android:exported="false"
             android:label="@string/view_model_sample_label"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".MultiRegistrySampleActivity"
+            android:exported="false"
+            android:label="@string/multi_registry_sample_label"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

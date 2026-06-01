@@ -77,6 +77,9 @@
 .idea/deploymentTargetSelector.xml
 .idea/migrations.xml
 .idea/other.xml
+.idea/AndroidProjectSystem.xml
+.idea/deviceManager.xml
+.idea/markdown.xml
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

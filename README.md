@@ -260,8 +260,10 @@ Given the example `Store`s and `Action`s explained before, the workflow would be
 You can execute the sample in the `app` package. It contains two different samples executing two types of `StateContainer`s:
 - `StoreSampleActivity` class uses a `Store` as a `StateContainer`.
 - `ViewModelSampleActivity` class uses a `ViewModel` as a `StateContainer`.
+- `MultiRegistrySampleActivity` class uses two feature modules that generate separate registries and are linked by one host `Dispatcher`.
 
 For a reviewer-facing multi-registry example, see the JVM integration test module `mini-processor-multiregistry-test`, which loads generated registries from both KAPT and KSP modules on the same classpath.
+For a visual Android demonstration, run the sample app and open `MultiRegistrySampleActivity`.
 
 ## How to use
 ### Setting up Mini
@@ -525,6 +527,8 @@ The multi-registry implementation can be verified inside this repository without
 ```
 
 The `mini-processor-multiregistry-test` module is the smallest reviewer-facing example that demonstrates generated registries from different modules coexisting on the same classpath.
+
+If you want to inspect the same idea in a running Android sample, launch the `:app` module and open `MultiRegistrySampleActivity`, which links two feature modules backed by separate generated registries.
 
 ## Known issues
 ### KSP gotchas
