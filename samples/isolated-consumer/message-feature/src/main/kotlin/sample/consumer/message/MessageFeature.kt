@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package mini.android.sample.message
+package sample.consumer.message
 
-import kotlinx.coroutines.CoroutineScope
+import mini.Action
 import mini.Dispatcher
 import mini.Mini
-import mini.Action
 import mini.Reducer
 import mini.State
 import mini.Store
-import mini.codegen.message_feature.Mini_Generated
-import mini.flow
+import mini.codegen.external_message_feature.Mini_Generated
 import java.io.Closeable
 
 data class MessageState(
@@ -47,10 +45,7 @@ class MessageStore : Store<MessageState>() {
     @Reducer
     fun advanceMessage(state: MessageState, action: AdvanceMessageAction): MessageState {
         val nextVersion = state.version + 1
-        return state.copy(
-            text = "${action.prefix}-$nextVersion",
-            version = nextVersion
-        )
+        return state.copy(text = "${action.prefix}-$nextVersion", version = nextVersion)
     }
 }
 
@@ -60,18 +55,19 @@ class MessageFeatureRuntime : Closeable {
     private val store = MessageStore()
     private val subscriptions = Mini.link(registry, dispatcher, store)
 
+    val state: MessageState
+        get() = store.state
+
     init {
         store.initialize()
     }
 
-    fun flow() = store.flow()
-
-    fun advance(scope: CoroutineScope, prefix: String = "message") {
-        dispatcher.dispatchOn(AdvanceMessageAction(prefix), scope)
+    suspend fun advance(prefix: String = "message") {
+        dispatcher.dispatch(AdvanceMessageAction(prefix))
     }
 
-    fun setMessage(scope: CoroutineScope, value: String) {
-        dispatcher.dispatchOn(SetMessageAction(value), scope)
+    suspend fun setMessage(value: String) {
+        dispatcher.dispatch(SetMessageAction(value))
     }
 
     override fun close() {

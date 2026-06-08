@@ -48,9 +48,9 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".MultiRegistrySampleActivity"
+            android:name=".CounterFeatureSampleActivity"
             android:exported="false"
-            android:label="@string/multi_registry_sample_label"
+            android:label="@string/counter_feature_sample_label"
             android:theme="@style/AppTheme" />
     </application>
 

@@ -74,7 +74,6 @@ dependencies {
     implementation(project(":mini-android"))
     implementation(project(":mini-kodein-android"))
     implementation(project(":sample-counter-feature"))
-    implementation(project(":sample-message-feature"))
 
     // kapt(project(":mini-processor"))
     ksp(project(":mini-processor"))

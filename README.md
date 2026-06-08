@@ -260,10 +260,10 @@ Given the example `Store`s and `Action`s explained before, the workflow would be
 You can execute the sample in the `app` package. It contains two different samples executing two types of `StateContainer`s:
 - `StoreSampleActivity` class uses a `Store` as a `StateContainer`.
 - `ViewModelSampleActivity` class uses a `ViewModel` as a `StateContainer`.
-- `MultiRegistrySampleActivity` class shows two feature modules running with separate local Mini runtimes inside the same host app.
+- `CounterFeatureSampleActivity` class shows a feature module running with its own local Mini runtime inside the main sample app.
 
 The repository also includes `mini-processor-multiregistry-test`, a small JVM example that validates isolated coexistence for generated registries coming from different modules.
-To see the same module-local runtime model in the Android sample app, open `MultiRegistrySampleActivity`.
+For a separate consumer project example outside the main app build, see `samples/isolated-consumer/`, which contains its own `app` and `message-feature` modules.
 
 ## How to use
 ### Setting up Mini
@@ -520,7 +520,7 @@ You can verify the repository with these commands:
 
 These checks cover explicit local registry bootstrap, reducer-only modules, KAPT and KSP generation paths, isolated coexistence across generated registries, and the repository test suite.
 
-The Android sample app also includes `MultiRegistrySampleActivity`, which uses two feature modules that each own their own local Mini runtime.
+The Android sample app also includes `CounterFeatureSampleActivity`, which uses a feature module that owns its own local Mini runtime.
 
 ## Known issues
 ### KSP gotchas

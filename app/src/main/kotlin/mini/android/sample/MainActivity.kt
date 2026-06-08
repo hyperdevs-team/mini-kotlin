@@ -56,8 +56,8 @@ class MainActivity : AppCompatActivity() {
                             startActivity(this)
                         }
                     },
-                    onGoToMultiRegistrySampleClicked = {
-                        Intent(this, MultiRegistrySampleActivity::class.java).apply {
+                    onGoToFeatureRuntimeSampleClicked = {
+                        Intent(this, CounterFeatureSampleActivity::class.java).apply {
                             startActivity(this)
                         }
                     }
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 private fun MainScreen(modifier: Modifier = Modifier,
                        onGoToStoreSampleClicked: () -> Unit = {},
                        onGoToViewModelSampleClicked: () -> Unit = {},
-                       onGoToMultiRegistrySampleClicked: () -> Unit = {}) {
+                       onGoToFeatureRuntimeSampleClicked: () -> Unit = {}) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         MainContent(
             modifier = modifier
@@ -79,7 +79,7 @@ private fun MainScreen(modifier: Modifier = Modifier,
                 .padding(innerPadding),
             onGoToStoreSampleClicked = onGoToStoreSampleClicked,
             onGoToViewModelSampleClicked = onGoToViewModelSampleClicked,
-            onGoToMultiRegistrySampleClicked = onGoToMultiRegistrySampleClicked
+            onGoToFeatureRuntimeSampleClicked = onGoToFeatureRuntimeSampleClicked
         )
     }
 }
@@ -89,7 +89,7 @@ private fun MainContent(
     modifier: Modifier = Modifier,
     onGoToStoreSampleClicked: () -> Unit = {},
     onGoToViewModelSampleClicked: () -> Unit = {},
-    onGoToMultiRegistrySampleClicked: () -> Unit = {}
+    onGoToFeatureRuntimeSampleClicked: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -102,8 +102,8 @@ private fun MainContent(
         Button(onClick = onGoToViewModelSampleClicked) {
             Text("Go to ViewModel sample")
         }
-        Button(onClick = onGoToMultiRegistrySampleClicked) {
-            Text("Go to Multi-registry sample")
+        Button(onClick = onGoToFeatureRuntimeSampleClicked) {
+            Text("Go to Counter feature sample")
         }
     }
 }

@@ -22,9 +22,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -38,38 +36,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import mini.android.sample.counter.CounterState
 import mini.android.sample.counter.CounterFeatureRuntime
-import mini.android.sample.message.MessageState
-import mini.android.sample.message.MessageFeatureRuntime
 import mini.android.sample.ui.theme.AppTheme
 
-class MultiRegistrySampleActivity : AppCompatActivity() {
+class CounterFeatureSampleActivity : AppCompatActivity() {
 
     private val counterFeature = CounterFeatureRuntime()
-    private val messageFeature = MessageFeatureRuntime()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("MiniSample", "Counter and message features run with isolated local Mini runtimes")
+        Log.d("MiniSample", "Counter feature runs with its own local Mini runtime inside the main sample app")
 
         setContent {
             AppTheme {
-                MultiRegistrySampleScreen()
+                CounterFeatureSampleScreen()
             }
         }
     }
 
     override fun onDestroy() {
         counterFeature.close()
-        messageFeature.close()
         super.onDestroy()
     }
 
     @Composable
-    private fun MultiRegistrySampleScreen() {
+    private fun CounterFeatureSampleScreen() {
         val coroutineScope = rememberCoroutineScope()
         val counterState by counterFeature.flow().collectAsState(initial = CounterState())
-        val messageState by messageFeature.flow().collectAsState(initial = MessageState())
 
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(
@@ -81,28 +74,10 @@ class MultiRegistrySampleActivity : AppCompatActivity() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text("Counter feature state: ${counterState.count}")
-                Spacer(modifier = Modifier.height(12.dp))
                 Button(onClick = {
                     counterFeature.increment(coroutineScope)
                 }) {
                     Text("Run counter feature")
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                Text("Message feature state: ${messageState.text}")
-                Spacer(modifier = Modifier.height(12.dp))
-                Button(onClick = {
-                    messageFeature.advance(coroutineScope)
-                }) {
-                    Text("Advance message feature")
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-                Button(onClick = {
-                    messageFeature.setMessage(coroutineScope, "custom-message")
-                }) {
-                    Text("Set custom message")
                 }
             }
         }

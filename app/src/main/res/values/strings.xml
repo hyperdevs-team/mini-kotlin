@@ -20,5 +20,5 @@
     <string name="app_name">Mini Sample</string>
     <string name="store_sample_label">Store Sample</string>
     <string name="view_model_sample_label">View Model Sample</string>
-    <string name="multi_registry_sample_label">Multi-Registry Sample</string>
+    <string name="counter_feature_sample_label">Counter Feature Sample</string>
 </resources>

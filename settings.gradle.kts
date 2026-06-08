@@ -18,7 +18,6 @@
 
 include(":app")
 include(":sample-counter-feature")
-include(":sample-message-feature")
 include(":mini-processor")
 include(":mini-common")
 include(":mini-android")
