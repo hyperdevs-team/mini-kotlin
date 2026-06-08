@@ -1,12 +1,12 @@
 package mini.processor.ksp
 
 import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.ksp.writeTo
 import mini.Action
 import mini.Reducer
@@ -42,10 +42,11 @@ class MiniSymbolProcessor(
             .map { it.packageName.asString() }
             .distinct()
 
-        val (containerFile, container, className) = getContainerBuilders(registryName, packageNames)
+        val (containerFile, container, _) = getContainerBuilders(registryName, packageNames)
+        val referencedActionSymbols = reducerActionDeclarations(reducerSymbols)
 
         try {
-            ActionTypesGenerator(KspActionTypesGeneratorDelegate(actionSymbols.asSequence())).generate(container)
+            ActionTypesGenerator(KspActionTypesGeneratorDelegate((actionSymbols + referencedActionSymbols).asSequence())).generate(container)
             ReducersGenerator(KspReducersGeneratorDelegate(reducerSymbols.asSequence())).generate(container)
         } catch (e: Throwable) {
             if (e !is ProcessorException) {
@@ -64,14 +65,22 @@ class MiniSymbolProcessor(
                 aggregating = true,
                 originatingKSFiles = originatingKsFiles
             )
-        codeGenerator.createNewFileByPath(
-            Dependencies(aggregating = true, *originatingKsFiles.toTypedArray()),
-            "META-INF/services/mini.MiniRegistry",
-            ""
-        ).writer().use { writer ->
-            writer.write("${className.canonicalName}\n")
-        }
 
         return emptyList()
+    }
+
+    private fun reducerActionDeclarations(reducerSymbols: List<KSAnnotated>): List<KSClassDeclaration> {
+        return reducerSymbols
+            .filterIsInstance<KSFunctionDeclaration>()
+            .mapNotNull { reducer ->
+                val parameters = reducer.parameters
+                val actionIndex = when (parameters.size) {
+                    1 -> 0
+                    2 -> 1
+                    else -> return@mapNotNull null
+                }
+                parameters[actionIndex].type.resolve().declaration as? KSClassDeclaration
+            }
+            .distinctBy { it.qualifiedName?.asString() ?: it.simpleName.asString() }
     }
 }

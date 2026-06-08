@@ -17,74 +17,68 @@
 package mini
 
 import org.amshove.kluent.`should be equal to`
-import org.junit.After
 import org.junit.Test
 import java.io.Closeable
 import kotlin.reflect.KClass
 
 class MiniTest {
 
-    @After
-    fun tearDown() {
-        MiniRuntime.reset()
-    }
-
     @Test
-    fun `link initializes dispatcher action types from all registries`() {
+    fun `link initializes dispatcher action types from explicit registry`() {
         val dispatcher = Dispatcher()
         val store = SampleStore()
-        MiniRuntime.loadRegistries = {
-            listOf(
-                TestRegistry(
-                    actionTypes = mapOf(TestAction::class to listOf(TestAction::class, Any::class)),
-                    accepts = setOf(SampleStore::class)
-                ),
-                TestRegistry(
-                    actionTypes = mapOf(TestAction::class to listOf(TestAction::class, State::class)),
-                    accepts = emptySet()
-                )
-            )
-        }
-
-        Mini.link(dispatcher, store).close()
-
-        dispatcher.actionTypeMap[TestAction::class] `should be equal to` listOf(TestAction::class, Any::class, State::class)
-    }
-
-    @Test
-    fun `link delegates subscriptions to all registries`() {
-        val dispatcher = Dispatcher()
-        val store = SampleStore()
-        val appRegistry = TestRegistry(emptyMap(), accepts = setOf(SampleStore::class))
-        val unrelatedRegistry = TestRegistry(emptyMap(), accepts = emptySet())
-        MiniRuntime.loadRegistries = { listOf(appRegistry, unrelatedRegistry) }
-
-        Mini.link(dispatcher, store).close()
-
-        appRegistry.subscriptionCount `should be equal to` 1
-        unrelatedRegistry.subscriptionCount `should be equal to` 1
-    }
-
-    @Test
-    fun `link falls back to legacy registry when no new registries are present`() {
-        val dispatcher = Dispatcher()
-        val store = SampleStore()
-        val legacyRegistry = TestRegistry(
-            actionTypes = mapOf(TestAction::class to listOf(TestAction::class)),
-            accepts = setOf(SampleStore::class)
+        val registry = TestRegistry(
+            actionTypes = mapOf(TestAction::class to listOf(TestAction::class, Any::class))
         )
-        MiniRuntime.loadRegistries = { emptyList() }
-        MiniRuntime.loadLegacyRegistry = { legacyRegistry }
 
-        Mini.link(dispatcher, store).close()
+        Mini.link(registry, dispatcher, store).close()
 
-        dispatcher.actionTypeMap[TestAction::class] `should be equal to` listOf(TestAction::class)
-        legacyRegistry.subscriptionCount `should be equal to` 1
+        dispatcher.actionTypeMap[TestAction::class] `should be equal to` listOf(TestAction::class, Any::class)
+    }
+
+    @Test
+    fun `link delegates subscriptions only to explicit registry`() {
+        val dispatcher = Dispatcher()
+        val store = SampleStore()
+        val registry = TestRegistry(emptyMap())
+
+        Mini.link(registry, dispatcher, store).close()
+
+        registry.subscriptionCount `should be equal to` 1
+    }
+
+    @Test
+    fun `link supports multiple containers with one local registry`() {
+        val dispatcher = Dispatcher()
+        val firstStore = SampleStore()
+        val secondStore = SampleStore()
+        val registry = TestRegistry(emptyMap())
+
+        Mini.link(registry, dispatcher, listOf(firstStore, secondStore)).close()
+
+        registry.subscriptionCount `should be equal to` 2
+    }
+
+    @Test
+    fun `link does not override a dispatcher action map that is already initialized`() {
+        val existingActionMap: Map<KClass<*>, List<KClass<*>>> = mapOf(
+            TestAction::class to listOf(State::class)
+        )
+        val dispatcher = Dispatcher().apply {
+            actionTypeMap = existingActionMap
+        }
+        val store = SampleStore()
+        val registry = TestRegistry(
+            actionTypes = mapOf(TestAction::class to listOf(TestAction::class, Any::class))
+        )
+
+        Mini.link(registry, dispatcher, store).close()
+
+        dispatcher.actionTypeMap `should be equal to` existingActionMap
     }
 
     private class TestRegistry(
-        override val actionTypes: Map<KClass<*>, List<KClass<*>>>,
-        private val accepts: Set<KClass<*>>
+        override val actionTypes: Map<KClass<*>, List<KClass<*>>>
     ) : MiniRegistry {
         var subscriptionCount = 0
 

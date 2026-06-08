@@ -19,6 +19,10 @@ plugins {
     alias(libs.plugins.kotlin.ksp)
 }
 
+ksp {
+    arg("mini.registryName", "processor_ksp_test")
+}
+
 dependencies {
     implementation(project(":mini-common"))
     ksp(project(":mini-processor"))

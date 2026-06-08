@@ -19,6 +19,7 @@ package mini.ksptest
 import kotlinx.coroutines.runBlocking
 import mini.Dispatcher
 import mini.Mini
+import mini.codegen.Mini_Generated_processor_ksp_test
 import org.amshove.kluent.`should be equal to`
 import org.junit.Test
 
@@ -26,7 +27,7 @@ internal class KspReducersStoreTest {
 
     private val store = KspReducersStore()
     private val dispatcher = Dispatcher().apply {
-        Mini.link(this, listOf(store))
+        Mini.link(Mini_Generated_processor_ksp_test(), this, listOf(store))
     }
 
     @Test

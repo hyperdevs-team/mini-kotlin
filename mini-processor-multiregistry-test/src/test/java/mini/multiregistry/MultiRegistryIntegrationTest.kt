@@ -19,11 +19,14 @@ package mini.multiregistry
 import kotlinx.coroutines.runBlocking
 import mini.Dispatcher
 import mini.Mini
+import mini.codegen.Mini_Generated_processor_ksp_test
+import mini.codegen.Mini_Generated_processor_test
 import mini.ksptest.KspAnyAction
 import mini.ksptest.KspReducersStore
 import mini.test.AnyAction
 import mini.test.ReducersStore
 import org.amshove.kluent.`should be equal to`
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -31,21 +34,26 @@ internal class MultiRegistryIntegrationTest {
 
     private val kaptStore = ReducersStore()
     private val kspStore = KspReducersStore()
-    private val dispatcher = Dispatcher().apply {
-        Mini.link(this, listOf(kaptStore, kspStore))
+    private val kaptDispatcher = Dispatcher().apply {
+        Mini.link(Mini_Generated_processor_test(), this, listOf(kaptStore))
+    }
+    private val kspDispatcher = Dispatcher().apply {
+        Mini.link(Mini_Generated_processor_ksp_test(), this, listOf(kspStore))
     }
 
     @Test
-    fun `action type map merges registries from different modules`() {
-        assertTrue(dispatcher.actionTypeMap.containsKey(AnyAction::class))
-        assertTrue(dispatcher.actionTypeMap.containsKey(KspAnyAction::class))
+    fun `explicit local registries keep action maps isolated across modules`() {
+        assertTrue(kaptDispatcher.actionTypeMap.containsKey(AnyAction::class))
+        assertFalse(kaptDispatcher.actionTypeMap.containsKey(KspAnyAction::class))
+        assertTrue(kspDispatcher.actionTypeMap.containsKey(KspAnyAction::class))
+        assertFalse(kspDispatcher.actionTypeMap.containsKey(AnyAction::class))
     }
 
     @Test
-    fun `reducers from multiple generated registries are invoked on one dispatcher`() {
+    fun `generated registries from different modules coexist without collisions`() {
         runBlocking {
-            dispatcher.dispatch(AnyAction("kapt-changed"))
-            dispatcher.dispatch(KspAnyAction("ksp-changed"))
+            kaptDispatcher.dispatch(AnyAction("kapt-changed"))
+            kspDispatcher.dispatch(KspAnyAction("ksp-changed"))
 
             kaptStore.state.value `should be equal to` "kapt-changed"
             kspStore.state.value `should be equal to` "ksp-changed"

@@ -19,6 +19,12 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
 }
 
+kapt {
+    arguments {
+        arg("mini.registryName", "reducer_only_test")
+    }
+}
+
 dependencies {
     implementation(project(":mini-common"))
     implementation(project(":mini-processor-test"))
