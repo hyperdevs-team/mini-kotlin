@@ -17,14 +17,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.convention.androidLib)
 }
 
-kapt {
-    arguments {
-        arg("mini.registryName", "counter_feature")
-    }
+ksp {
+    arg("mini.registryName", "counter_feature")
 }
 
 android {
@@ -49,7 +47,7 @@ android {
 
 dependencies {
     implementation(project(":mini-common"))
-    kapt(project(":mini-processor"))
+    ksp(project(":mini-processor"))
 
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.coroutines.core)
