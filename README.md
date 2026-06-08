@@ -262,8 +262,8 @@ You can execute the sample in the `app` package. It contains two different sampl
 - `ViewModelSampleActivity` class uses a `ViewModel` as a `StateContainer`.
 - `MultiRegistrySampleActivity` class shows two feature modules running with separate local Mini runtimes inside the same host app.
 
-For a JVM example of isolated coexistence, see `mini-processor-multiregistry-test`, which validates that KAPT and KSP generated registries can coexist on the same classpath without sharing runtime state.
-For a visual Android demonstration, run the sample app and open `MultiRegistrySampleActivity`.
+The repository also includes `mini-processor-multiregistry-test`, a small JVM example that validates isolated coexistence for generated registries coming from different modules.
+To see the same module-local runtime model in the Android sample app, open `MultiRegistrySampleActivity`.
 
 ## How to use
 ### Setting up Mini
@@ -507,7 +507,7 @@ org.gradle.caching=true
 ```
 
 ## Verification
-The isolated local-registry model can be verified inside this repository without relying on an external host app:
+You can verify the repository with these commands:
 
 ```bash
 ./gradlew :mini-common:test
@@ -515,11 +515,12 @@ The isolated local-registry model can be verified inside this repository without
 ./gradlew :mini-processor-ksp-test:test
 ./gradlew :mini-processor-reducer-only-test:test
 ./gradlew :mini-processor-multiregistry-test:test
+./gradlew test
 ```
 
-The `mini-processor-multiregistry-test` module is the smallest in-repo example that demonstrates generated registries from different modules coexisting on the same classpath with isolated runtime state.
+These checks cover explicit local registry bootstrap, reducer-only modules, KAPT and KSP generation paths, isolated coexistence across generated registries, and the repository test suite.
 
-If you want to inspect the same idea in a running Android sample, launch the `:app` module and open `MultiRegistrySampleActivity`, which uses two feature modules that each own their own local Mini runtime.
+The Android sample app also includes `MultiRegistrySampleActivity`, which uses two feature modules that each own their own local Mini runtime.
 
 ## Known issues
 ### KSP gotchas
