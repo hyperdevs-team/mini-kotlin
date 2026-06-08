@@ -32,7 +32,6 @@ incap = "1.0.0"
 
 espresso = "3.6.1"
 kluent = "1.72"
-timber = "5.0.1"
 
 androidGradlePlugin = "8.5.0"
 
@@ -90,7 +89,6 @@ espresso = { group = "androidx.test.espresso", name = "espresso-core", version.r
 
 junit = { group = "junit", name = "junit", version = "4.13.2" }
 kluent = { group = "org.amshove.kluent", name = "kluent", version.ref = "kluent" }
-timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

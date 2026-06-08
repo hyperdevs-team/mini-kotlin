@@ -16,6 +16,7 @@
 
 package mini.android.sample
 
+import android.util.Log
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -40,7 +41,6 @@ import mini.android.sample.counter.CounterFeatureRuntime
 import mini.android.sample.message.MessageState
 import mini.android.sample.message.MessageFeatureRuntime
 import mini.android.sample.ui.theme.AppTheme
-import timber.log.Timber
 
 class MultiRegistrySampleActivity : AppCompatActivity() {
 
@@ -50,7 +50,7 @@ class MultiRegistrySampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Timber.tag("MiniSample").d("Counter and message features run with isolated local Mini runtimes")
+        Log.d("MiniSample", "Counter and message features run with isolated local Mini runtimes")
 
         setContent {
             AppTheme {
