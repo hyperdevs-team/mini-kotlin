@@ -21,6 +21,10 @@ plugins {
     alias(libs.plugins.convention.androidLib)
 }
 
+ksp {
+    arg("mini.registryName", "message_feature")
+}
+
 android {
     namespace = "mini.android.sample.message"
 
@@ -46,4 +50,5 @@ dependencies {
     ksp(project(":mini-processor"))
 
     implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.coroutines.core)
 }

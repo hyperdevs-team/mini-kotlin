@@ -35,39 +35,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import mini.Dispatcher
-import mini.LoggerMiddleware
-import mini.Mini
-import mini.flow
 import mini.android.sample.counter.CounterState
-import mini.android.sample.counter.CounterStore
-import mini.android.sample.counter.IncrementCounterAction
-import mini.android.sample.message.AdvanceMessageAction
+import mini.android.sample.counter.CounterFeatureRuntime
 import mini.android.sample.message.MessageState
-import mini.android.sample.message.MessageStore
-import mini.android.sample.message.SetMessageAction
+import mini.android.sample.message.MessageFeatureRuntime
 import mini.android.sample.ui.theme.AppTheme
 import timber.log.Timber
-import java.io.Closeable
 
 class MultiRegistrySampleActivity : AppCompatActivity() {
 
-    private val dispatcher = Dispatcher()
-    private val counterStore = CounterStore()
-    private val messageStore = MessageStore()
-    private lateinit var storeSubscriptions: Closeable
+    private val counterFeature = CounterFeatureRuntime()
+    private val messageFeature = MessageFeatureRuntime()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        storeSubscriptions = Mini.link(dispatcher, listOf(counterStore, messageStore))
-        dispatcher.addMiddleware(
-            LoggerMiddleware(listOf(counterStore, messageStore), logger = { _, tag, msg ->
-                Timber.tag(tag).d(msg)
-            })
-        )
-        counterStore.initialize()
-        messageStore.initialize()
+        Timber.tag("MiniSample").d("Counter and message features run with isolated local Mini runtimes")
 
         setContent {
             AppTheme {
@@ -77,19 +60,16 @@ class MultiRegistrySampleActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if (this::storeSubscriptions.isInitialized) {
-            storeSubscriptions.close()
-        }
-        counterStore.close()
-        messageStore.close()
+        counterFeature.close()
+        messageFeature.close()
         super.onDestroy()
     }
 
     @Composable
     private fun MultiRegistrySampleScreen() {
         val coroutineScope = rememberCoroutineScope()
-        val counterState by counterStore.flow().collectAsState(initial = CounterState())
-        val messageState by messageStore.flow().collectAsState(initial = MessageState())
+        val counterState by counterFeature.flow().collectAsState(initial = CounterState())
+        val messageState by messageFeature.flow().collectAsState(initial = MessageState())
 
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(
@@ -103,9 +83,9 @@ class MultiRegistrySampleActivity : AppCompatActivity() {
                 Text("Counter feature state: ${counterState.count}")
                 Spacer(modifier = Modifier.height(12.dp))
                 Button(onClick = {
-                    dispatcher.dispatchOn(IncrementCounterAction(), coroutineScope)
+                    counterFeature.increment(coroutineScope)
                 }) {
-                    Text("Dispatch action to counter module")
+                    Text("Run counter feature")
                 }
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -113,16 +93,16 @@ class MultiRegistrySampleActivity : AppCompatActivity() {
                 Text("Message feature state: ${messageState.text}")
                 Spacer(modifier = Modifier.height(12.dp))
                 Button(onClick = {
-                    dispatcher.dispatchOn(AdvanceMessageAction(), coroutineScope)
+                    messageFeature.advance(coroutineScope)
                 }) {
-                    Text("Dispatch action to message module")
+                    Text("Advance message feature")
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
                 Button(onClick = {
-                    dispatcher.dispatchOn(SetMessageAction("custom-message"), coroutineScope)
+                    messageFeature.setMessage(coroutineScope, "custom-message")
                 }) {
-                    Text("Dispatch custom message action")
+                    Text("Set custom message")
                 }
             }
         }

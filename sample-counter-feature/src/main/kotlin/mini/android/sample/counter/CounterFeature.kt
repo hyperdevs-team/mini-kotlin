@@ -16,10 +16,16 @@
 
 package mini.android.sample.counter
 
+import kotlinx.coroutines.CoroutineScope
+import mini.Dispatcher
+import mini.Mini
 import mini.Action
 import mini.Reducer
 import mini.State
 import mini.Store
+import mini.codegen.Mini_Generated_counter_feature
+import mini.flow
+import java.io.Closeable
 
 data class CounterState(val count: Int = 0) : State
 
@@ -30,5 +36,27 @@ class CounterStore : Store<CounterState>() {
     @Reducer
     fun increment(state: CounterState, action: IncrementCounterAction): CounterState {
         return state.copy(count = state.count + action.amount)
+    }
+}
+
+class CounterFeatureRuntime : Closeable {
+    private val registry = Mini_Generated_counter_feature()
+    private val dispatcher = Dispatcher()
+    private val store = CounterStore()
+    private val subscriptions = Mini.link(registry, dispatcher, store)
+
+    init {
+        store.initialize()
+    }
+
+    fun flow() = store.flow()
+
+    fun increment(scope: CoroutineScope, amount: Int = 1) {
+        dispatcher.dispatchOn(IncrementCounterAction(amount), scope)
+    }
+
+    override fun close() {
+        subscriptions.close()
+        store.close()
     }
 }

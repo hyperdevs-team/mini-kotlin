@@ -21,6 +21,12 @@ plugins {
     alias(libs.plugins.convention.androidLib)
 }
 
+kapt {
+    arguments {
+        arg("mini.registryName", "counter_feature")
+    }
+}
+
 android {
     namespace = "mini.android.sample.counter"
 
@@ -46,4 +52,5 @@ dependencies {
     kapt(project(":mini-processor"))
 
     implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlinx.coroutines.core)
 }

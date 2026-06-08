@@ -39,13 +39,15 @@ import kotlinx.coroutines.launch
 import mini.*
 import mini.android.FluxActivity
 import mini.android.sample.ui.theme.AppTheme
+import mini.codegen.Mini_Generated_app_sample
 
 private val dispatcher = Dispatcher()
+private val appRegistry = Mini_Generated_app_sample()
 
 class MainStore : Store<MainState>() {
 
     init {
-        Mini.link(dispatcher, this).track()
+        Mini.link(appRegistry, dispatcher, this).track()
     }
 
     @Reducer

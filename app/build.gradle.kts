@@ -22,6 +22,10 @@ plugins {
     alias(libs.plugins.convention.androidApp)
 }
 
+ksp {
+    arg("mini.registryName", "app_sample")
+}
+
 android {
     namespace = "mini.android.sample"
 

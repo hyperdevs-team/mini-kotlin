@@ -39,8 +39,10 @@ import mini.*
 import mini.android.FluxActivity
 import mini.android.FluxStoreViewModel
 import mini.android.sample.ui.theme.AppTheme
+import mini.codegen.Mini_Generated_app_sample
 
 private val dispatcher = Dispatcher()
+private val appRegistry = Mini_Generated_app_sample()
 
 class MainViewModelReducer : NestedStateContainer<MainState>() {
 
@@ -60,7 +62,7 @@ class MainStoreViewModel(savedStateHandle: SavedStateHandle) :
     private val reducerSlice = MainViewModelReducer().apply { parent = this@MainStoreViewModel }
 
     init {
-        Mini.link(dispatcher, listOf(this, reducerSlice)).track()
+        Mini.link(appRegistry, dispatcher, listOf(this, reducerSlice)).track()
     }
 
     override fun saveState(state: MainState, handle: SavedStateHandle) {

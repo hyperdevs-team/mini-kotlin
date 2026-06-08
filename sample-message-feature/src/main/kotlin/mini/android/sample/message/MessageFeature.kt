@@ -16,10 +16,16 @@
 
 package mini.android.sample.message
 
+import kotlinx.coroutines.CoroutineScope
+import mini.Dispatcher
+import mini.Mini
 import mini.Action
 import mini.Reducer
 import mini.State
 import mini.Store
+import mini.codegen.Mini_Generated_message_feature
+import mini.flow
+import java.io.Closeable
 
 data class MessageState(
     val text: String = "idle",
@@ -45,5 +51,31 @@ class MessageStore : Store<MessageState>() {
             text = "${action.prefix}-$nextVersion",
             version = nextVersion
         )
+    }
+}
+
+class MessageFeatureRuntime : Closeable {
+    private val registry = Mini_Generated_message_feature()
+    private val dispatcher = Dispatcher()
+    private val store = MessageStore()
+    private val subscriptions = Mini.link(registry, dispatcher, store)
+
+    init {
+        store.initialize()
+    }
+
+    fun flow() = store.flow()
+
+    fun advance(scope: CoroutineScope, prefix: String = "message") {
+        dispatcher.dispatchOn(AdvanceMessageAction(prefix), scope)
+    }
+
+    fun setMessage(scope: CoroutineScope, value: String) {
+        dispatcher.dispatchOn(SetMessageAction(value), scope)
+    }
+
+    override fun close() {
+        subscriptions.close()
+        store.close()
     }
 }

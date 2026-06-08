@@ -260,9 +260,9 @@ Given the example `Store`s and `Action`s explained before, the workflow would be
 You can execute the sample in the `app` package. It contains two different samples executing two types of `StateContainer`s:
 - `StoreSampleActivity` class uses a `Store` as a `StateContainer`.
 - `ViewModelSampleActivity` class uses a `ViewModel` as a `StateContainer`.
-- `MultiRegistrySampleActivity` class uses two feature modules that generate separate registries and are linked by one host `Dispatcher`.
+- `MultiRegistrySampleActivity` class shows two feature modules running with separate local Mini runtimes inside the same host app.
 
-For a reviewer-facing multi-registry example, see the JVM integration test module `mini-processor-multiregistry-test`, which loads generated registries from both KAPT and KSP modules on the same classpath.
+For a JVM example of isolated coexistence, see `mini-processor-multiregistry-test`, which validates that KAPT and KSP generated registries can coexist on the same classpath without sharing runtime state.
 For a visual Android demonstration, run the sample app and open `MultiRegistrySampleActivity`.
 
 ## How to use
@@ -272,9 +272,10 @@ You'll need to add the following snippet to the class that initializes your appl
 ```kotlin
 val stores = listOf<Store<*>>() // Here you'll set-up you store list, you can retrieve it using your preferred DI framework
 val dispatcher = Dispatcher() // Create a new dispatcher
+val registry = Mini_Generated_app() // Generated MiniRegistry for this module
 
 // Initialize Mini
-storeSubscriptions = Mini.link(dispatcher, stores)
+storeSubscriptions = Mini.link(registry, dispatcher, stores)
 stores.forEach { store ->
     store.initialize()
 }
@@ -293,40 +294,30 @@ As soon as you do this, you'll have Mini up and running. You'll then need to dec
 Mini now generates one registry per consumer module instead of relying on a single global generated class.
 
 - Modules with Mini reducers generate their own `MiniRegistry` implementation.
-- Registries are discovered automatically at runtime when you call `Mini.link(...)`.
+- Registries are used explicitly by the module that owns them.
 - Reducer-only modules still generate registries even when they do not declare local `@Action` classes.
-- If no new registries are found, Mini falls back to the legacy single generated registry for backward compatibility.
+- Registries are not discovered or merged automatically across modules.
 
 This allows multiple consumer modules to coexist on the same classpath without generated class collisions.
 
 ### Bootstrap patterns
-There are two valid ways to bootstrap Mini in an app that uses multiple modules:
-
-#### Host-global bootstrap
-Use this when a host app owns the shared `Dispatcher` and the set of stores.
-
-```kotlin
-val dispatcher = Dispatcher()
-val stores = listOf(featureStoreA, featureStoreB)
-
-val storeSubscriptions = Mini.link(dispatcher, stores)
-stores.forEach { it.initialize() }
-```
-
-This is the most common choice when all modules participate in one shared runtime.
+Mini bootstrap is module-local. Each module that uses Mini creates its own `Dispatcher`, its own stores, and links them with its own generated registry.
 
 #### Module-local bootstrap
-Use this when a feature module is intentionally isolated and owns its own `Dispatcher`, stores, and DI graph.
+Use this inside the module that owns the Mini runtime.
 
 ```kotlin
 val dispatcher = Dispatcher()
 val featureStore = FeatureStore(featureController)
+val registry = Mini_Generated_feature()
 
-val storeSubscriptions = Mini.link(dispatcher, listOf(featureStore))
+val storeSubscriptions = Mini.link(registry, dispatcher, listOf(featureStore))
 featureStore.initialize()
 ```
 
-This is useful for reusable modules or self-contained appcomponents that are embedded in a host app without sharing the host runtime.
+This is useful for reusable modules or self-contained appcomponents embedded in a host app without exposing Mini as part of their public API.
+
+If two modules use Mini in the same app, they should own separate registries and separate runtime state. Integration between those modules should happen through normal module APIs, not through a shared Mini bootstrap.
 
 ### Registry naming
 By default, Mini derives a stable generated registry name from the packages that contain the annotated elements in the module. If you want an explicit name, provide the `mini.registryName` processor option.
@@ -349,7 +340,7 @@ ksp {
 }
 ```
 
-Use `mini.registryName` when you want a readable, predictable generated class name. Leave it unset when the stable fallback naming is sufficient.
+Use `mini.registryName` when you want a readable, predictable generated class name that you can import explicitly in module bootstrap code. Leave it unset when the stable fallback naming is sufficient.
 
 ## Advanced usages
 ### Kotlin Flow Utils
@@ -515,8 +506,8 @@ kapt.use.worker.api=true
 org.gradle.caching=true
 ```
 
-## How to verify this change
-The multi-registry implementation can be verified inside this repository without relying on an external host app:
+## Verification
+The isolated local-registry model can be verified inside this repository without relying on an external host app:
 
 ```bash
 ./gradlew :mini-common:test
@@ -526,9 +517,9 @@ The multi-registry implementation can be verified inside this repository without
 ./gradlew :mini-processor-multiregistry-test:test
 ```
 
-The `mini-processor-multiregistry-test` module is the smallest reviewer-facing example that demonstrates generated registries from different modules coexisting on the same classpath.
+The `mini-processor-multiregistry-test` module is the smallest in-repo example that demonstrates generated registries from different modules coexisting on the same classpath with isolated runtime state.
 
-If you want to inspect the same idea in a running Android sample, launch the `:app` module and open `MultiRegistrySampleActivity`, which links two feature modules backed by separate generated registries.
+If you want to inspect the same idea in a running Android sample, launch the `:app` module and open `MultiRegistrySampleActivity`, which uses two feature modules that each own their own local Mini runtime.
 
 ## Known issues
 ### KSP gotchas
