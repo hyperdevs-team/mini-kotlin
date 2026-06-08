@@ -23,7 +23,7 @@ import mini.Action
 import mini.Reducer
 import mini.State
 import mini.Store
-import mini.codegen.Mini_Generated_message_feature
+import mini.codegen.message_feature.Mini_Generated
 import mini.flow
 import java.io.Closeable
 
@@ -55,7 +55,7 @@ class MessageStore : Store<MessageState>() {
 }
 
 class MessageFeatureRuntime : Closeable {
-    private val registry = Mini_Generated_message_feature()
+    private val registry = Mini_Generated()
     private val dispatcher = Dispatcher()
     private val store = MessageStore()
     private val subscriptions = Mini.link(registry, dispatcher, store)

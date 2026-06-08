@@ -39,10 +39,10 @@ import kotlinx.coroutines.launch
 import mini.*
 import mini.android.FluxActivity
 import mini.android.sample.ui.theme.AppTheme
-import mini.codegen.Mini_Generated_app_sample
+import mini.codegen.app_sample.Mini_Generated
 
 private val dispatcher = Dispatcher()
-private val appRegistry = Mini_Generated_app_sample()
+private val appRegistry = Mini_Generated()
 
 class MainStore : Store<MainState>() {
 

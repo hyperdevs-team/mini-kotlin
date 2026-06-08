@@ -19,8 +19,8 @@ package mini.multiregistry
 import kotlinx.coroutines.runBlocking
 import mini.Dispatcher
 import mini.Mini
-import mini.codegen.Mini_Generated_processor_ksp_test
-import mini.codegen.Mini_Generated_processor_test
+import mini.codegen.processor_ksp_test.Mini_Generated as KspMiniGenerated
+import mini.codegen.processor_test.Mini_Generated as KaptMiniGenerated
 import mini.ksptest.KspAnyAction
 import mini.ksptest.KspReducersStore
 import mini.test.AnyAction
@@ -35,10 +35,10 @@ internal class MultiRegistryIntegrationTest {
     private val kaptStore = ReducersStore()
     private val kspStore = KspReducersStore()
     private val kaptDispatcher = Dispatcher().apply {
-        Mini.link(Mini_Generated_processor_test(), this, listOf(kaptStore))
+        Mini.link(KaptMiniGenerated(), this, listOf(kaptStore))
     }
     private val kspDispatcher = Dispatcher().apply {
-        Mini.link(Mini_Generated_processor_ksp_test(), this, listOf(kspStore))
+        Mini.link(KspMiniGenerated(), this, listOf(kspStore))
     }
 
     @Test

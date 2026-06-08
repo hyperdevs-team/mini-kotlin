@@ -19,7 +19,7 @@ package mini.test
 import kotlinx.coroutines.runBlocking
 import mini.Dispatcher
 import mini.Mini
-import mini.codegen.Mini_Generated_processor_test
+import mini.codegen.processor_test.Mini_Generated
 import org.amshove.kluent.`should equal`
 import org.junit.Test
 
@@ -27,7 +27,7 @@ internal class ReducersStoreTest {
 
     private val store = ReducersStore()
     private val dispatcher = Dispatcher().apply {
-        Mini.link(Mini_Generated_processor_test(), this, listOf(store))
+        Mini.link(Mini_Generated(), this, listOf(store))
     }
 
     @Test

@@ -19,7 +19,7 @@ package mini.reduceronly
 import kotlinx.coroutines.runBlocking
 import mini.Dispatcher
 import mini.Mini
-import mini.codegen.Mini_Generated_reducer_only_test
+import mini.codegen.reducer_only_test.Mini_Generated
 import mini.test.AnyAction
 import org.amshove.kluent.`should be equal to`
 import org.junit.Test
@@ -28,7 +28,7 @@ internal class ReducerOnlyStoreTest {
 
     private val store = ReducerOnlyStore()
     private val dispatcher = Dispatcher().apply {
-        Mini.link(Mini_Generated_reducer_only_test(), this, listOf(store))
+        Mini.link(Mini_Generated(), this, listOf(store))
     }
 
     @Test

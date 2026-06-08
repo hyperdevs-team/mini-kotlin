@@ -24,7 +24,7 @@ import mini.Mini
 const val MINI_REGISTRY_NAME_OPTION = "mini.registryName"
 const val MINI_REGISTRY_PACKAGE_NAME = "mini.codegen"
 
-private const val GENERATED_REGISTRY_PREFIX = "Mini_Generated_"
+private const val GENERATED_REGISTRY_SIMPLE_NAME = "Mini_Generated"
 
 data class ContainerBuilders(
     val fileSpecBuilder: FileSpec.Builder,
@@ -43,7 +43,7 @@ fun getContainerBuilders(registryName: String?, packageNames: Iterable<String>):
 }
 
 fun generatedRegistryClassName(registryName: String?, packageNames: Iterable<String>): ClassName {
-    val suffix = registryName
+    val registryPackageSegment = registryName
         ?.trim()
         ?.takeIf { it.isNotEmpty() }
         ?.let(::sanitizeRegistryName)
@@ -55,7 +55,10 @@ fun generatedRegistryClassName(registryName: String?, packageNames: Iterable<Str
             .takeIf { it.isNotEmpty() }
             ?.let(::shortHash)
             ?: "default"
-    return ClassName(MINI_REGISTRY_PACKAGE_NAME, "$GENERATED_REGISTRY_PREFIX$suffix")
+
+    // Keep the generated class name stable and move uniqueness into a module-specific
+    // package segment so each module owns its own generated namespace.
+    return ClassName("$MINI_REGISTRY_PACKAGE_NAME.$registryPackageSegment", GENERATED_REGISTRY_SIMPLE_NAME)
 }
 
 private fun sanitizeRegistryName(name: String): String {

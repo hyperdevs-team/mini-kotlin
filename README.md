@@ -272,7 +272,7 @@ You'll need to add the following snippet to the class that initializes your appl
 ```kotlin
 val stores = listOf<Store<*>>() // Here you'll set-up you store list, you can retrieve it using your preferred DI framework
 val dispatcher = Dispatcher() // Create a new dispatcher
-val registry = Mini_Generated_app() // Generated MiniRegistry for this module
+val registry = mini.codegen.app.Mini_Generated() // Generated MiniRegistry for this module
 
 // Initialize Mini
 storeSubscriptions = Mini.link(registry, dispatcher, stores)
@@ -309,7 +309,7 @@ Use this inside the module that owns the Mini runtime.
 ```kotlin
 val dispatcher = Dispatcher()
 val featureStore = FeatureStore(featureController)
-val registry = Mini_Generated_feature()
+val registry = mini.codegen.feature.Mini_Generated()
 
 val storeSubscriptions = Mini.link(registry, dispatcher, listOf(featureStore))
 featureStore.initialize()
@@ -340,7 +340,7 @@ ksp {
 }
 ```
 
-Use `mini.registryName` when you want a readable, predictable generated class name that you can import explicitly in module bootstrap code. Leave it unset when the stable fallback naming is sufficient.
+Use `mini.registryName` when you want a readable, predictable generated package segment that you can import explicitly in module bootstrap code. Leave it unset when the stable fallback naming is sufficient.
 
 ## Advanced usages
 ### Kotlin Flow Utils

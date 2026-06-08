@@ -23,7 +23,7 @@ import mini.Action
 import mini.Reducer
 import mini.State
 import mini.Store
-import mini.codegen.Mini_Generated_counter_feature
+import mini.codegen.counter_feature.Mini_Generated
 import mini.flow
 import java.io.Closeable
 
@@ -40,7 +40,7 @@ class CounterStore : Store<CounterState>() {
 }
 
 class CounterFeatureRuntime : Closeable {
-    private val registry = Mini_Generated_counter_feature()
+    private val registry = Mini_Generated()
     private val dispatcher = Dispatcher()
     private val store = CounterStore()
     private val subscriptions = Mini.link(registry, dispatcher, store)
