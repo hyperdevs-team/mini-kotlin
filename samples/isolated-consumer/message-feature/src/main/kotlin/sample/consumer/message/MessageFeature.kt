@@ -23,6 +23,7 @@ import mini.Reducer
 import mini.State
 import mini.Store
 import mini.codegen.external_message_feature.Mini_Generated
+import mini.flow
 import java.io.Closeable
 
 data class MessageState(
@@ -57,6 +58,8 @@ class MessageFeatureRuntime : Closeable {
 
     val state: MessageState
         get() = store.state
+
+    fun flow() = store.flow()
 
     init {
         store.initialize()

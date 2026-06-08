@@ -34,18 +34,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import mini.android.sample.counter.CounterState
 import mini.android.sample.counter.CounterFeatureRuntime
 import mini.android.sample.ui.theme.AppTheme
+import sample.consumer.message.MessageFeatureRuntime
 
 class CounterFeatureSampleActivity : AppCompatActivity() {
 
     private val counterFeature = CounterFeatureRuntime()
+    private val messageFeature = MessageFeatureRuntime()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("MiniSample", "Counter feature runs with its own local Mini runtime inside the main sample app")
+        Log.d("MiniSample", "Counter feature and external message feature run with separate local Mini runtimes")
 
         setContent {
             AppTheme {
@@ -56,6 +59,7 @@ class CounterFeatureSampleActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         counterFeature.close()
+        messageFeature.close()
         super.onDestroy()
     }
 
@@ -63,6 +67,7 @@ class CounterFeatureSampleActivity : AppCompatActivity() {
     private fun CounterFeatureSampleScreen() {
         val coroutineScope = rememberCoroutineScope()
         val counterState by counterFeature.flow().collectAsState(initial = CounterState())
+        val messageState by messageFeature.flow().collectAsState(initial = messageFeature.state)
 
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(
@@ -78,6 +83,23 @@ class CounterFeatureSampleActivity : AppCompatActivity() {
                     counterFeature.increment(coroutineScope)
                 }) {
                     Text("Run counter feature")
+                }
+
+                Text("External message feature state: ${messageState.text}")
+                Button(onClick = {
+                    coroutineScope.launch {
+                        messageFeature.advance()
+                    }
+                }) {
+                    Text("Advance external message feature")
+                }
+
+                Button(onClick = {
+                    coroutineScope.launch {
+                        messageFeature.setMessage("from-main-app")
+                    }
+                }) {
+                    Text("Set external message")
                 }
             }
         }
