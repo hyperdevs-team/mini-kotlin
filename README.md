@@ -320,7 +320,9 @@ This is useful for reusable modules or self-contained appcomponents embedded in 
 If two modules use Mini in the same app, they should own separate registries and separate runtime state. Integration between those modules should happen through normal module APIs, not through a shared Mini bootstrap.
 
 ### Registry naming
-By default, Mini derives a stable generated registry name from the packages that contain the annotated elements in the module. If you want an explicit name, provide the `mini.registryName` processor option.
+Without extra configuration, Mini generates `mini.codegen.Mini_Generated` for the module.
+
+That default is stable and works well when only one Mini-enabled module is present on the classpath. If your app or library setup includes more than one Mini-enabled module, configure `mini.registryName` in each one so every generated registry gets its own package.
 
 KAPT example:
 
@@ -340,7 +342,9 @@ ksp {
 }
 ```
 
-Use `mini.registryName` when you want a readable, predictable generated package segment that you can import explicitly in module bootstrap code. Leave it unset when the stable fallback naming is sufficient.
+Use `mini.registryName` when you want a readable, predictable generated package segment that you can import explicitly in module bootstrap code.
+
+If multiple modules generate the default `mini.codegen.Mini_Generated`, your build will fail with a duplicate class error. In that case, assign a distinct `mini.registryName` to each Mini-enabled module.
 
 ## Advanced usages
 ### Kotlin Flow Utils

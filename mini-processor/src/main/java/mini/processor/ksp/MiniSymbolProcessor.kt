@@ -37,12 +37,7 @@ class MiniSymbolProcessor(
 
         if (actionSymbols.isEmpty() && reducerSymbols.isEmpty()) return emptyList()
 
-        val packageNames = (actionSymbols + reducerSymbols)
-            .filterIsInstance<KSDeclaration>()
-            .map { it.packageName.asString() }
-            .distinct()
-
-        val (containerFile, container, _) = getContainerBuilders(registryName, packageNames)
+        val (containerFile, container, _) = getContainerBuilders(registryName)
         val referencedActionSymbols = reducerActionDeclarations(reducerSymbols)
 
         try {

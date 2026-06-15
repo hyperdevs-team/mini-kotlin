@@ -56,11 +56,7 @@ class Processor {
         if (roundActions.isEmpty() && roundReducers.isEmpty()) return false
 
         val registryName = env.options[MINI_REGISTRY_NAME_OPTION]
-        val packageNames = (roundActions + roundReducers)
-            .map { elementUtils.getPackageOf(it).qualifiedName.toString() }
-            .distinct()
-
-        val (containerFile, container, _) = getContainerBuilders(registryName, packageNames)
+        val (containerFile, container, _) = getContainerBuilders(registryName)
         val referencedActionElements = reducerActionElements(roundReducers)
 
         try {

@@ -32,8 +32,8 @@ data class ContainerBuilders(
     val className: ClassName
 )
 
-fun getContainerBuilders(registryName: String?, packageNames: Iterable<String>): ContainerBuilders {
-    val containerClassName = generatedRegistryClassName(registryName, packageNames)
+fun getContainerBuilders(registryName: String?): ContainerBuilders {
+    val containerClassName = generatedRegistryClassName(registryName)
     val containerFile =
         FileSpec.builder(containerClassName.packageName, containerClassName.simpleName)
     val container = TypeSpec.classBuilder(containerClassName)
@@ -42,35 +42,22 @@ fun getContainerBuilders(registryName: String?, packageNames: Iterable<String>):
     return ContainerBuilders(containerFile, container, containerClassName)
 }
 
-fun generatedRegistryClassName(registryName: String?, packageNames: Iterable<String>): ClassName {
+fun generatedRegistryClassName(registryName: String?): ClassName {
     val registryPackageSegment = registryName
         ?.trim()
         ?.takeIf { it.isNotEmpty() }
         ?.let(::sanitizeRegistryName)
-        ?: packageNames
-            .map(::sanitizePackageName)
-            .filter { it.isNotEmpty() }
-            .sorted()
-            .joinToString("_")
-            .takeIf { it.isNotEmpty() }
-            ?.let(::shortHash)
-            ?: "default"
+        ?: ""
 
-    // Keep the generated class name stable and move uniqueness into a module-specific
-    // package segment so each module owns its own generated namespace.
-    return ClassName("$MINI_REGISTRY_PACKAGE_NAME.$registryPackageSegment", GENERATED_REGISTRY_SIMPLE_NAME)
+    val packageName = if (registryPackageSegment.isEmpty()) {
+        MINI_REGISTRY_PACKAGE_NAME
+    } else {
+        "$MINI_REGISTRY_PACKAGE_NAME.$registryPackageSegment"
+    }
+
+    return ClassName(packageName, GENERATED_REGISTRY_SIMPLE_NAME)
 }
 
 private fun sanitizeRegistryName(name: String): String {
     return name.replace(Regex("[^A-Za-z0-9_]"), "_")
-}
-
-private fun sanitizePackageName(packageName: String): String {
-    return packageName.replace('.', '_')
-}
-
-private fun shortHash(value: String): String {
-    return value.encodeToByteArray().fold(0x811c9dc5.toInt()) { acc, byte ->
-        (acc xor byte.toInt()) * 16777619
-    }.toUInt().toString(16)
 }
