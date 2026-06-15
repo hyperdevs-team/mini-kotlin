@@ -91,6 +91,7 @@ class Processor {
                 }
                 typeUtils.asElement(parameters[actionIndex].asType())
             }
+            .distinctBy { it.toString() }
             .toSet()
     }
 }
