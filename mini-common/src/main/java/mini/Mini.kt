@@ -46,10 +46,15 @@ abstract class Mini : MiniRegistry {
                  containers: Iterable<StateContainer<*>>): Closeable {
             ensureDispatcherInitialized(registry, dispatcher)
             val c = CompositeCloseable()
-            containers.forEach { container ->
-                c.add(registry.subscribe(dispatcher, container))
+            try {
+                containers.forEach { container ->
+                    c.add(registry.subscribe(dispatcher, container))
+                }
+                return c
+            } catch (e: Throwable) {
+                c.close()
+                throw e
             }
-            return c
         }
 
         private fun ensureDispatcherInitialized(registry: MiniRegistry, dispatcher: Dispatcher) {
