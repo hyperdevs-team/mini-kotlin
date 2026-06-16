@@ -59,6 +59,6 @@ fun generatedRegistryClassName(registryName: String?): ClassName {
 }
 
 private fun sanitizeRegistryName(name: String): String {
-    val sanitized = name.replace(Regex("[^A-Za-z0-9_]"), "_")
+    val sanitized = name.lowercase().replace(Regex("[^a-z0-9_]"), "_")
     return if (sanitized.first().isDigit()) "_$sanitized" else sanitized
 }
