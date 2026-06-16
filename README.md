@@ -272,7 +272,7 @@ You'll need to add the following snippet to the class that initializes your appl
 ```kotlin
 val stores = listOf<Store<*>>() // Here you'll set-up you store list, you can retrieve it using your preferred DI framework
 val dispatcher = Dispatcher() // Create a new dispatcher
-val registry = mini.codegen.app.Mini_Generated() // Generated MiniRegistry for this module
+val registry = mini.codegen.Mini_Generated() // Generated MiniRegistry for this module
 
 // Initialize Mini
 storeSubscriptions = Mini.link(registry, dispatcher, stores)
