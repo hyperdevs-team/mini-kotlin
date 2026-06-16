@@ -290,42 +290,14 @@ dispatcher.addMiddleware(
 
 As soon as you do this, you'll have Mini up and running. You'll then need to declare your `Action`s, `Store`s and `State` as mentioned previously. The sample [app](app) contains examples regarding app configuration.
 
-### Multi-module registry model
-Mini now generates one registry per consumer module instead of relying on a single global generated class.
+## Advanced usages
 
-- Modules with Mini reducers generate their own `MiniRegistry` implementation.
-- Registries are used explicitly by the module that owns them.
-- Reducer-only modules still generate registries even when they do not declare local `@Action` classes.
-- Registries are not discovered or merged automatically across modules.
+### Multi-module support
+Mini supports multi-module and multi-library setups. Each Mini-enabled module generates its own registry, so modules coexist on the classpath without class collisions. Each module bootstraps its own `Dispatcher`, stores, and registry independently.
 
-This allows multiple consumer modules to coexist on the same classpath without generated class collisions.
+If more than one module uses Mini, assign a distinct `mini.registryName` to each to avoid duplicate class errors:
 
-### Bootstrap patterns
-Mini bootstrap is module-local. Each module that uses Mini creates its own `Dispatcher`, its own stores, and links them with its own generated registry.
-
-#### Module-local bootstrap
-Use this inside the module that owns the Mini runtime.
-
-```kotlin
-val dispatcher = Dispatcher()
-val featureStore = FeatureStore(featureController)
-val registry = mini.codegen.feature.Mini_Generated()
-
-val storeSubscriptions = Mini.link(registry, dispatcher, listOf(featureStore))
-featureStore.initialize()
-```
-
-This is useful for reusable modules or self-contained appcomponents embedded in a host app without exposing Mini as part of their public API.
-
-If two modules use Mini in the same app, they should own separate registries and separate runtime state. Integration between those modules should happen through normal module APIs, not through a shared Mini bootstrap.
-
-### Registry naming
-Without extra configuration, Mini generates `mini.codegen.Mini_Generated` for the module.
-
-That default is stable and works well when only one Mini-enabled module is present on the classpath. If your app or library setup includes more than one Mini-enabled module, configure `mini.registryName` in each one so every generated registry gets its own package.
-
-KAPT example:
-
+KAPT:
 ```kotlin
 kapt {
     arguments {
@@ -334,19 +306,14 @@ kapt {
 }
 ```
 
-KSP example:
-
+KSP:
 ```kotlin
 ksp {
     arg("mini.registryName", "feature")
 }
 ```
 
-Use `mini.registryName` when you want a readable, predictable generated package segment that you can import explicitly in module bootstrap code.
-
-If multiple modules generate the default `mini.codegen.Mini_Generated`, your build will fail with a duplicate class error. In that case, assign a distinct `mini.registryName` to each Mini-enabled module.
-
-## Advanced usages
+The generated registry will be placed under `mini.codegen.<name>.Mini_Generated` (e.g. `mini.codegen.feature.Mini_Generated`).
 ### Kotlin Flow Utils
 Mini includes some utility extensions over Kotlin `Flow` to make easier listen state changes over the `StateContainer`s.
 
