@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [5.0.0] - 2026-06-17
+### Added
+- BREAKING CHANGE: Add support to using Mini in multi-module/library projects. _Thanks to [@finxo](https://github.com/finxo) for the contribution!_
+
 ## [4.1.0] - 2024-06-27
 ### Added
 - KSP support is now stable and no longer experimental. You can now use KSP by following the instructions in the [README](README.md).
@@ -204,7 +208,8 @@ state (`success` or `failure`)
 ### Added
 - Initial architecture release.
 
-[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/4.1.0...HEAD
+[Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/5.0.0...HEAD
+[5.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/4.1.0...5.0.0
 [4.1.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.1.0...4.0.0
 [3.1.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.0.0...3.1.0
