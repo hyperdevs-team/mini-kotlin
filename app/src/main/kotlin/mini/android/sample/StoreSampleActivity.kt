@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HyperDevs
+ * Copyright 2026 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,13 +39,15 @@ import kotlinx.coroutines.launch
 import mini.*
 import mini.android.FluxActivity
 import mini.android.sample.ui.theme.AppTheme
+import mini.codegen.app_sample.Mini_Generated
 
 private val dispatcher = Dispatcher()
+private val appRegistry = Mini_Generated()
 
 class MainStore : Store<MainState>() {
 
     init {
-        Mini.link(dispatcher, this).track()
+        Mini.link(appRegistry, dispatcher, this).track()
     }
 
     @Reducer

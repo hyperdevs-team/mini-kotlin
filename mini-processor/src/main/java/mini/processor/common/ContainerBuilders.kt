@@ -19,20 +19,46 @@ package mini.processor.common
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.TypeSpec
-import mini.DISPATCHER_FACTORY_CLASS_NAME
 import mini.Mini
+
+const val MINI_REGISTRY_NAME_OPTION = "mini.registryName"
+const val MINI_REGISTRY_PACKAGE_NAME = "mini.codegen"
+
+private const val GENERATED_REGISTRY_SIMPLE_NAME = "Mini_Generated"
 
 data class ContainerBuilders(
     val fileSpecBuilder: FileSpec.Builder,
-    val typeSpecBuilder: TypeSpec.Builder
+    val typeSpecBuilder: TypeSpec.Builder,
+    val className: ClassName
 )
 
-fun getContainerBuilders(): ContainerBuilders {
-    val containerClassName = ClassName.bestGuess(DISPATCHER_FACTORY_CLASS_NAME)
+fun getContainerBuilders(registryName: String?): ContainerBuilders {
+    val containerClassName = generatedRegistryClassName(registryName)
     val containerFile =
         FileSpec.builder(containerClassName.packageName, containerClassName.simpleName)
-    val container = TypeSpec.objectBuilder(containerClassName)
+    val container = TypeSpec.classBuilder(containerClassName)
         .addKdoc("Automatically generated, do not edit.\n")
         .superclass(Mini::class)
-    return ContainerBuilders(containerFile, container)
+    return ContainerBuilders(containerFile, container, containerClassName)
+}
+
+fun generatedRegistryClassName(registryName: String?): ClassName {
+    val registryPackageSegment = registryName
+        ?.trim()
+        ?.takeIf { it.isNotEmpty() }
+        ?.let(::sanitizeRegistryName)
+        ?: ""
+
+    val packageName = if (registryPackageSegment.isEmpty()) {
+        MINI_REGISTRY_PACKAGE_NAME
+    } else {
+        "$MINI_REGISTRY_PACKAGE_NAME.$registryPackageSegment"
+    }
+
+    return ClassName(packageName, GENERATED_REGISTRY_SIMPLE_NAME)
+}
+
+private fun sanitizeRegistryName(name: String): String {
+    val sanitized = name.lowercase().replace(Regex("[^a-z0-9_]"), "_")
+    return if (sanitized.first().isDigit()) "_$sanitized" else sanitized
 }

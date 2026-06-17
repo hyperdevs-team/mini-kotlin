@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HyperDevs
+ * Copyright 2026 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,12 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.kapt)
+}
+
+kapt {
+    arguments {
+        arg("mini.registryName", "processor_test")
+    }
 }
 
 dependencies {

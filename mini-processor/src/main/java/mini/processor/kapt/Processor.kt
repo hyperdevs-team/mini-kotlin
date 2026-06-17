@@ -21,13 +21,17 @@ package mini.processor.kapt
 import mini.Action
 import mini.Reducer
 import mini.processor.common.ProcessorException
+import mini.processor.common.MINI_REGISTRY_NAME_OPTION
 import mini.processor.common.actions.ActionTypesGenerator
 import mini.processor.common.getContainerBuilders
 import mini.processor.common.reducers.ReducersGenerator
+import mini.processor.kapt.isSuspending
 import mini.processor.kapt.actions.KaptActionTypesGeneratorDelegate
 import mini.processor.kapt.reducers.KaptReducersGeneratorDelegate
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import javax.lang.model.element.Element
+import javax.lang.model.element.ExecutableElement
 import javax.lang.model.SourceVersion
 
 class Processor {
@@ -49,12 +53,14 @@ class Processor {
         val roundActions = roundEnv.getElementsAnnotatedWith(Action::class.java)
         val roundReducers = roundEnv.getElementsAnnotatedWith(Reducer::class.java)
 
-        if (roundActions.isEmpty()) return false
+        if (roundActions.isEmpty() && roundReducers.isEmpty()) return false
 
-        val (containerFile, container) = getContainerBuilders()
+        val registryName = env.options[MINI_REGISTRY_NAME_OPTION]
+        val (containerFile, container, _) = getContainerBuilders(registryName)
+        val referencedActionElements = reducerActionElements(roundReducers)
 
         try {
-            ActionTypesGenerator(KaptActionTypesGeneratorDelegate(roundActions)).generate(container)
+            ActionTypesGenerator(KaptActionTypesGeneratorDelegate(roundActions + referencedActionElements)).generate(container)
             ReducersGenerator(KaptReducersGeneratorDelegate(roundReducers)).generate(container)
         } catch (e: Throwable) {
             if (e !is ProcessorException) {
@@ -71,5 +77,21 @@ class Processor {
             .writeToFile(sourceElements = ((roundActions + roundReducers).toTypedArray()))
 
         return true
+    }
+
+    private fun reducerActionElements(reducers: Set<Element>): Set<Element> {
+        return reducers
+            .filterIsInstance<ExecutableElement>()
+            .mapNotNull { reducer ->
+                val parameters = if (reducer.isSuspending()) reducer.parameters.dropLast(1) else reducer.parameters
+                val actionIndex = when (parameters.size) {
+                    1 -> 0
+                    2 -> 1
+                    else -> return@mapNotNull null
+                }
+                typeUtils.asElement(parameters[actionIndex].asType())
+            }
+            .distinctBy { it.toString() }
+            .toSet()
     }
 }

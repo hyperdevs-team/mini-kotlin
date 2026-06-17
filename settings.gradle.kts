@@ -17,14 +17,21 @@
 @file:Suppress("UnstableApiUsage")
 
 include(":app")
+include(":sample-counter-feature")
+include(":isolated-consumer-message-feature")
 include(":mini-processor")
 include(":mini-common")
 include(":mini-android")
 include(":mini-processor-test")
+include(":mini-processor-ksp-test")
+include(":mini-processor-multiregistry-test")
+include(":mini-processor-reducer-only-test")
 include(":mini-kodein")
 include(":mini-kodein-android")
 include(":mini-kodein-android-compose")
 include(":mini-testing")
+
+project(":isolated-consumer-message-feature").projectDir = file("samples/isolated-consumer/message-feature")
 
 // Modules to add as composite builds
 includeBuild("convention-plugins")

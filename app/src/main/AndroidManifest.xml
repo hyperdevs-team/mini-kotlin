@@ -46,6 +46,12 @@
             android:exported="false"
             android:label="@string/view_model_sample_label"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".CounterFeatureSampleActivity"
+            android:exported="false"
+            android:label="@string/counter_feature_sample_label"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

@@ -257,9 +257,13 @@ Given the example `Store`s and `Action`s explained before, the workflow would be
 - The Store changes its state to the given values from `LoginCompletedAction`.
 - The view will react (for example, redirecting to another home view) if the task was success or shows an error if not.
 
-You can execute another sample in the `app` package. It contains two different samples executing two types of `StateContainer`s:
+You can execute the sample in the `app` package. It contains two different samples executing two types of `StateContainer`s:
 - `StoreSampleActivity` class uses a `Store` as a `StateContainer`.
 - `ViewModelSampleActivity` class uses a `ViewModel` as a `StateContainer`.
+- `CounterFeatureSampleActivity` class shows a feature module running with its own local Mini runtime inside the main sample app.
+
+The repository also includes `mini-processor-multiregistry-test`, a small JVM example that validates isolated coexistence for generated registries coming from different modules.
+For a separate consumer project example outside the main app build, see `samples/isolated-consumer/`, which contains its own `app` and `message-feature` modules.
 
 ## How to use
 ### Setting up Mini
@@ -267,23 +271,49 @@ You'll need to add the following snippet to the class that initializes your appl
 
 ```kotlin
 val stores = listOf<Store<*>>() // Here you'll set-up you store list, you can retrieve it using your preferred DI framework
-val dispatcher = MiniGen.newDispatcher() // Create a new dispatcher
+val dispatcher = Dispatcher() // Create a new dispatcher
+val registry = mini.codegen.Mini_Generated() // Generated MiniRegistry for this module
 
 // Initialize Mini
-storeSubscriptions = MiniGen.subscribe(dispatcher, stores)
+storeSubscriptions = Mini.link(registry, dispatcher, stores)
 stores.forEach { store ->
     store.initialize()
 }
 
 // Optional: add logging middleware to log action events
-dispatcher.addMiddleware(LoggerMiddleware(stores)) { tag, msg ->
-    Log.d(tag, msg)
-}
+dispatcher.addMiddleware(
+    LoggerMiddleware(stores, logger = { _, tag, msg ->
+        Log.d(tag, msg)
+    })
+)
 ```
 
 As soon as you do this, you'll have Mini up and running. You'll then need to declare your `Action`s, `Store`s and `State` as mentioned previously. The sample [app](app) contains examples regarding app configuration.
 
 ## Advanced usages
+
+### Multi-module support
+Mini supports multi-module and multi-library setups. Each Mini-enabled module generates its own registry, so modules coexist on the classpath without class collisions. Each module bootstraps its own `Dispatcher`, stores, and registry independently.
+
+If more than one module uses Mini, assign a distinct `mini.registryName` to each to avoid duplicate class errors:
+
+KAPT:
+```kotlin
+kapt {
+    arguments {
+        arg("mini.registryName", "feature")
+    }
+}
+```
+
+KSP:
+```kotlin
+ksp {
+    arg("mini.registryName", "feature")
+}
+```
+
+The generated registry will be placed under `mini.codegen.<name>.Mini_Generated` (e.g. `mini.codegen.feature.Mini_Generated`).
 ### Kotlin Flow Utils
 Mini includes some utility extensions over Kotlin `Flow` to make easier listen state changes over the `StateContainer`s.
 
@@ -446,6 +476,22 @@ kapt.use.worker.api=true
 ## Enables Gradle build cache
 org.gradle.caching=true
 ```
+
+## Verification
+You can verify the repository with these commands:
+
+```bash
+./gradlew :mini-common:test
+./gradlew :mini-processor-test:test
+./gradlew :mini-processor-ksp-test:test
+./gradlew :mini-processor-reducer-only-test:test
+./gradlew :mini-processor-multiregistry-test:test
+./gradlew test
+```
+
+These checks cover explicit local registry bootstrap, reducer-only modules, KAPT and KSP generation paths, isolated coexistence across generated registries, and the repository test suite.
+
+The Android sample app also includes `CounterFeatureSampleActivity`, which uses a feature module that owns its own local Mini runtime.
 
 ## Known issues
 ### KSP gotchas

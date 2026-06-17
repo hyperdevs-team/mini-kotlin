@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HyperDevs
+ * Copyright 2026 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +17,20 @@
 package mini.android.sample
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import mini.android.sample.ui.theme.AppTheme
@@ -64,6 +55,11 @@ class MainActivity : AppCompatActivity() {
                         Intent(this, ViewModelSampleActivity::class.java).apply {
                             startActivity(this)
                         }
+                    },
+                    onGoToFeatureRuntimeSampleClicked = {
+                        Intent(this, CounterFeatureSampleActivity::class.java).apply {
+                            startActivity(this)
+                        }
                     }
                 )
             }
@@ -74,14 +70,16 @@ class MainActivity : AppCompatActivity() {
 @Composable
 private fun MainScreen(modifier: Modifier = Modifier,
                        onGoToStoreSampleClicked: () -> Unit = {},
-                       onGoToViewModelSampleClicked: () -> Unit = {}) {
+                       onGoToViewModelSampleClicked: () -> Unit = {},
+                       onGoToFeatureRuntimeSampleClicked: () -> Unit = {}) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         MainContent(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding),
             onGoToStoreSampleClicked = onGoToStoreSampleClicked,
-            onGoToViewModelSampleClicked = onGoToViewModelSampleClicked
+            onGoToViewModelSampleClicked = onGoToViewModelSampleClicked,
+            onGoToFeatureRuntimeSampleClicked = onGoToFeatureRuntimeSampleClicked
         )
     }
 }
@@ -90,7 +88,8 @@ private fun MainScreen(modifier: Modifier = Modifier,
 private fun MainContent(
     modifier: Modifier = Modifier,
     onGoToStoreSampleClicked: () -> Unit = {},
-    onGoToViewModelSampleClicked: () -> Unit = {}
+    onGoToViewModelSampleClicked: () -> Unit = {},
+    onGoToFeatureRuntimeSampleClicked: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -102,6 +101,9 @@ private fun MainContent(
         }
         Button(onClick = onGoToViewModelSampleClicked) {
             Text("Go to ViewModel sample")
+        }
+        Button(onClick = onGoToFeatureRuntimeSampleClicked) {
+            Text("Go to Counter feature sample")
         }
     }
 }

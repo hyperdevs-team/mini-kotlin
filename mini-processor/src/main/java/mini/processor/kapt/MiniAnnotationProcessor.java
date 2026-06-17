@@ -32,7 +32,7 @@ import javax.lang.model.element.TypeElement;
  * Dummy Java wrapper that delegates to Kotlin one
  */
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.AGGREGATING)
-@SupportedOptions("kapt.kotlin.generated")
+@SupportedOptions({"kapt.kotlin.generated", "mini.registryName"})
 public class MiniAnnotationProcessor extends AbstractProcessor {
 
     private final Processor processor = new Processor();

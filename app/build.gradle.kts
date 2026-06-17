@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HyperDevs
+ * Copyright 2026 HyperDevs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,10 @@ plugins {
     // alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.convention.androidApp)
+}
+
+ksp {
+    arg("mini.registryName", "app_sample")
 }
 
 android {
@@ -69,6 +73,8 @@ android {
 dependencies {
     implementation(project(":mini-android"))
     implementation(project(":mini-kodein-android"))
+    implementation(project(":sample-counter-feature"))
+    implementation(project(":isolated-consumer-message-feature"))
 
     // kapt(project(":mini-processor"))
     ksp(project(":mini-processor"))

@@ -19,59 +19,57 @@
 package mini
 
 import java.io.Closeable
-import kotlin.reflect.KClass
 
-const val DISPATCHER_FACTORY_CLASS_NAME = "mini.codegen.Mini_Generated"
-
-abstract class Mini {
+abstract class Mini : MiniRegistry {
 
     companion object {
 
-        private val miniInstance: Mini by lazy {
+        /**
+         * Generate all subscriptions from @[Reducer] annotated methods and bundle
+         * into a single Closeable.
+         */
+        fun link(registry: MiniRegistry,
+                 dispatcher: Dispatcher,
+                 container: StateContainer<*>): Closeable {
+            ensureDispatcherInitialized(registry, dispatcher)
+            val c = CompositeCloseable()
+            c.add(registry.subscribe(dispatcher, container))
+            return c
+        }
+
+        /**
+         * Generate all subscriptions from @[Reducer] annotated methods and bundle
+         * into a single Closeable.
+         */
+        fun link(registry: MiniRegistry,
+                 dispatcher: Dispatcher,
+                 containers: Iterable<StateContainer<*>>): Closeable {
+            ensureDispatcherInitialized(registry, dispatcher)
+            val c = CompositeCloseable()
             try {
-                Class.forName(DISPATCHER_FACTORY_CLASS_NAME).getField("INSTANCE").get(null) as Mini
-            } catch (ex: Throwable) {
-                throw ClassNotFoundException("Failed to load generated class $DISPATCHER_FACTORY_CLASS_NAME, " +
-                                             "most likely the annotation processor did not run, add it as dependency to the project", ex)
+                containers.forEach { container ->
+                    c.add(registry.subscribe(dispatcher, container))
+                }
+                return c
+            } catch (e: Throwable) {
+                c.close()
+                throw e
             }
         }
 
-        /**
-         * Generate all subscriptions from @[Reducer] annotated methods and bundle
-         * into a single Closeable.
-         */
-        fun link(dispatcher: Dispatcher, container: StateContainer<*>): Closeable {
-            ensureDispatcherInitialized(dispatcher)
-            return miniInstance.subscribe(dispatcher, container)
-        }
-
-        /**
-         * Generate all subscriptions from @[Reducer] annotated methods and bundle
-         * into a single Closeable.
-         */
-        fun link(dispatcher: Dispatcher, containers: Iterable<StateContainer<*>>): Closeable {
-            ensureDispatcherInitialized(dispatcher)
-            return miniInstance.subscribe(dispatcher, containers)
-        }
-
-        private fun ensureDispatcherInitialized(dispatcher: Dispatcher) {
+        private fun ensureDispatcherInitialized(registry: MiniRegistry, dispatcher: Dispatcher) {
             if (dispatcher.actionTypeMap.isEmpty()) {
-                dispatcher.actionTypeMap = miniInstance.actionTypes
+                dispatcher.actionTypeMap = registry.actionTypes
             }
         }
 
     }
 
     /**
-     * All the types an action can be subscribed as.
-     */
-    abstract val actionTypes: Map<KClass<*>, List<KClass<*>>>
-
-    /**
      * Link all [Reducer] functions present in the store to the dispatcher.
      */
-    protected abstract fun <S: State> subscribe(dispatcher: Dispatcher,
-                                                container: StateContainer<S>): Closeable
+    abstract override fun <S: State> subscribe(dispatcher: Dispatcher,
+                                               container: StateContainer<S>): Closeable
 
     /**
      * Link all [Reducer] functions present in the store to the dispatcher.
