@@ -23,7 +23,7 @@ compose-compiler = "1.5.14"
 compose-foundation = "1.6.8"
 compose-material = "1.6.8"
 compose-runtime = "1.6.8"
-compose-ui = "1.6.8"
+compose-ui = "1.11.3"
 compose-material3 = "1.2.1"
 compose-navigation = "2.7.7"
 
