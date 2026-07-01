@@ -30,7 +30,7 @@ compose-navigation = "2.7.7"
 kotlinpoet = "1.17.0"
 incap = "1.0.0"
 
-espresso = "3.6.1"
+espresso = "3.7.0"
 kluent = "1.72"
 
 androidGradlePlugin = "8.5.0"
