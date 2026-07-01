@@ -21,7 +21,7 @@ androidx-lifecycle = "2.8.2"
 
 compose-compiler = "1.5.14"
 compose-foundation = "1.6.8"
-compose-material = "1.6.8"
+compose-material = "1.7.8"
 compose-runtime = "1.6.8"
 compose-ui = "1.6.8"
 compose-material3 = "1.2.1"
