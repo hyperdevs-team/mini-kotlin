@@ -25,7 +25,7 @@ compose-material = "1.6.8"
 compose-runtime = "1.6.8"
 compose-ui = "1.6.8"
 compose-material3 = "1.2.1"
-compose-navigation = "2.7.7"
+compose-navigation = "2.9.8"
 
 kotlinpoet = "1.17.0"
 incap = "1.0.0"
