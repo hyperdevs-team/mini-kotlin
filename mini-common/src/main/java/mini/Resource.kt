@@ -34,7 +34,8 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
     val isTerminal: Boolean get() = isSuccess || isFailure
     val isIdle: Boolean get() = isEmpty
 
-    internal class Empty {
+    @PublishedApi
+    internal data object Empty {
         override fun toString(): String = "Empty()"
     }
 
@@ -71,7 +72,7 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
         fun <T> success(value: T? = null): Resource<T> = Resource(value)
         fun <T> failure(exception: Throwable? = null): Resource<T> = Resource(Failure(exception))
         fun <T> loading(value: T? = null): Resource<T> = Resource(Loading(value))
-        fun <T> empty(): Resource<T> = Resource(Empty())
+        fun <T> empty(): Resource<T> = Resource(Empty)
         fun <T> idle(): Resource<T> = empty()
     }
 
@@ -90,11 +91,11 @@ open class Resource<out T> @PublishedApi internal constructor(val value: Any?) {
         return true
     }
 
-    override fun hashCode(): Int = value?.hashCode() ?: 0
+    override fun hashCode(): Int = value.hashCode()
 }
 
 /**
- * An alias for a empty resource.
+ * An alias for an empty resource.
  */
 typealias Task = Resource<Nothing?>
 
