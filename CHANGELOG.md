@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - No security issues fixed!
 
+## [5.0.1] - 2026-11-17
+### Fixed
+- Fix `Empty` resources equality functions by making it a `data object`.
+
 ## [5.0.0] - 2026-06-17
 ### Added
 - BREAKING CHANGE: Add support to using Mini in multi-module/library projects. _Thanks to [@finxo](https://github.com/finxo) for the contribution!_
@@ -209,6 +213,7 @@ state (`success` or `failure`)
 - Initial architecture release.
 
 [Unreleased]: https://github.com/hyperdevs-team/mini-kotlin/compare/5.0.0...HEAD
+[5.0.1]: https://github.com/hyperdevs-team/mini-kotlin/compare/5.0.0...5.0.1
 [5.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/4.1.0...5.0.0
 [4.1.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/hyperdevs-team/mini-kotlin/compare/3.1.0...4.0.0
